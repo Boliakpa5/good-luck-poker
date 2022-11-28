@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'table_hands/start'
   get 'player_hands/call_hand'
   get 'player_hands/raise_hand'
   get 'player_hands/fold_hand'
