@@ -19,9 +19,9 @@ class PlayersController < ApplicationController
     redirect_to root_path
   end
 
-  private
+  # private
 
-  def player_params
-    params.require(:player).permit(:stack)
-  end
+  # def player_params
+  #   params.require(:player).permit(:stack)
+  # end
 end

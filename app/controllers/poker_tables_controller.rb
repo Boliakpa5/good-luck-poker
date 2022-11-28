@@ -3,9 +3,11 @@ class PokerTablesController < ApplicationController
 
   def index
     @poker_tables = PokerTable.all
+    @poker_table = PokerTable.new
   end
 
   def show
     @poker_table = PokerTable.find(params[:id])
+    @players = Player.where(poker_table_id: @poker_table)
   end
 end
