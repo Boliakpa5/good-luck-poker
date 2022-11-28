@@ -1,0 +1,6 @@
+<% @players.each do |player| %>
+<li><%= player.user.nickname  %></li>
+<% end %>
+
+
+<%= link_to "Join the table", poker_table_players_path(@poker_table), data: { turbo_method: :post} %>

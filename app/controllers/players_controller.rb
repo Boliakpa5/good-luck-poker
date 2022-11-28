@@ -1,10 +1,11 @@
 class PlayersController < ApplicationController
   def create
-    @poker_table = PokerTable.find(:table_id)
-    @player = Player.new(player_params)
+    @poker_table = PokerTable.find(params[:poker_table_id])
+    @player = Player.new
+    @player.stack = 100 * @poker_table.small_blind
     @player.user = current_user
     @player.poker_table = @poker_table
-    # @player.position = ?????????
+    @player.position = 1
     if @player.save
       redirect_to poker_table_path(@poker_table)
     else
@@ -19,9 +20,4 @@ class PlayersController < ApplicationController
     redirect_to root_path
   end
 
-  private
-
-  def player_params
-    params.require(:player).permit(:stack)
-  end
 end
