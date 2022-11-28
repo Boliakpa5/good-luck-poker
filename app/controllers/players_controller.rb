@@ -4,7 +4,7 @@ class PlayersController < ApplicationController
     @player = Player.new(player_params)
     @player.user = current_user
     @player.poker_table = @poker_table
-    # @player.position = ???
+    # @player.position = ?????????
     if @player.save
       redirect_to poker_table_path(@poker_table)
     else
