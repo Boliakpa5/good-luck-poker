@@ -7,5 +7,6 @@ class PokerTablesController < ApplicationController
 
   def show
     @poker_table = PokerTable.find(params[:id])
+    @players = Player.where(poker_table: @poker_table)
   end
 end
