@@ -8,12 +8,12 @@ class PlayerHandsController < ApplicationController
   end
 
   def fold_hand
-    raise
+    @player_hand.update(folded: true)
   end
 
   private
 
   def set_player_hand
-    @player_hand = PlayerHand.find(params[:id])
+    @player_hand = current_user.player_hands.last
   end
 end

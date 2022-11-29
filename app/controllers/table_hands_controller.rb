@@ -3,6 +3,7 @@ class TableHandsController < ApplicationController
   before_action :set_poker_table, only: [:create]
 
   def create
+    # .dup pour copier la constante sans la modifier
     @cards = TableHand::CARDS.dup
     @tablehand = TableHand.new
     @tablehand.poker_table = @poker_table
@@ -34,11 +35,3 @@ class TableHandsController < ApplicationController
     @cards.delete(@card)
   end
 end
-
-
-# t.integer "first_player_position"
-# t.integer "current_player_position"
-# t.string "status"
-# t.datetime "created_at", null: false
-# t.datetime "updated_at", null: false
-# t.integer "current_call_amount
