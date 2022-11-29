@@ -8,9 +8,10 @@ class TableHandsController < ApplicationController
     @tablehand.poker_table = @poker_table
     @tablehand.current_call_amount = 2 * @tablehand.poker_table.small_blind
     tablehands = TableHand.where(poker_table: @poker_table)
-    @tablehand.first_player_position = tablehands.empty? ? 1 : tablehands.last.first_player_position + 1
-    @tablehand.current_player_position = (@tablehand.first_player_position + 2) % @poker_table.players.active.count
+    @tablehand.first_player_position = tablehands.empty? ? 1 : ((tablehands.last.first_player_position + 1 ) % (@poker_table.players.active.count )) + 1
+    @tablehand.current_player_position = ((@tablehand.first_player_position + 2) % @poker_table.players.active.count) + 1
     @tablehand.status = TableHand::STATUSES[0]
+    @tablehand.save
     @poker_table.players.active.each do |player|
       player_hand = PlayerHand.new
       player_hand.player = player
@@ -19,7 +20,6 @@ class TableHandsController < ApplicationController
       player_hand.table_hand = @tablehand
       player_hand.save
     end
-    @tablehand.save
     redirect_to poker_table_path(@poker_table)
   end
 
@@ -34,11 +34,3 @@ class TableHandsController < ApplicationController
     @cards.delete(@card)
   end
 end
-
-
-# t.integer "first_player_position"
-# t.integer "current_player_position"
-# t.string "status"
-# t.datetime "created_at", null: false
-# t.datetime "updated_at", null: false
-# t.integer "current_call_amount
