@@ -6,4 +6,7 @@ class User < ApplicationRecord
   validates :nickname, presence: true, uniqueness: true
   validates :balance, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   has_one_attached :photo
+  has_many :players
+  has_many :poker_tables, through: :players
+  has_many :player_hands, through: :players
 end
