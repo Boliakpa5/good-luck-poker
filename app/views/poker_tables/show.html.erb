@@ -27,23 +27,13 @@
 <% else %>
   <% if current_user.balance >= @poker_table.small_blind * 100 %>
   <%# I'm not a player with enough cash %>
-    <% if Player.where(poker_table: @poker_table, active: true, position: 1).empty? %>
-    <li> <%= link_to "Join the seat 1", poker_table_players_path(@poker_table, position: 1), data: { turbo_method: :post } %> </li>
+    <% @poker_table.max_players.times do |index| %>
+      <% if Player.where(poker_table: @poker_table, active: true, position: (index + 1)).empty? %>
+        <li><%= link_to "Join the seat #{index + 1}", poker_table_players_path(@poker_table, position: (index + 1)), data: { turbo_method: :post } %></li>
+      <% end %>
     <% end %>
-    <% if Player.where(poker_table: @poker_table, active: true, position: 2).empty? %>
-      <li> <%= link_to "Join the seat 2", poker_table_players_path(@poker_table, position: 2), data: { turbo_method: :post } %> </li>
-    <% end %>
-    <% if Player.where(poker_table: @poker_table, active: true, position: 3).empty? %>
-      <li> <%= link_to "Join the seat 3", poker_table_players_path(@poker_table, position: 3), data: { turbo_method: :post } %> </li>
-    <% end %>
-    <% if Player.where(poker_table: @poker_table, active: true, position: 4).empty? %>
-      <li> <%= link_to "Join the seat 4", poker_table_players_path(@poker_table, position: 4), data: { turbo_method: :post } %> </li>
-    <% end %>
-    <% if Player.where(poker_table: @poker_table, active: true, position: 5).empty? %>
-      <li> <%= link_to "Join the seat 5", poker_table_players_path(@poker_table, position: 5), data: { turbo_method: :post } %> </li>
-    <% end %>
-    <% else %>
-      <span>You don't have the balance to join this table</span>
-    <% end %>
-    <%= link_to "Go back to list", poker_tables_path %>
+  <% else %>
+    <span>You don't have the balance to join this table</span>
+  <% end %>
+  <%= link_to "Go back to list", poker_tables_path %>
 <% end %>
