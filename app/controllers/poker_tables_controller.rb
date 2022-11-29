@@ -3,6 +3,7 @@ class PokerTablesController < ApplicationController
 
   def index
     @poker_tables = PokerTable.all
+    @poker_table = PokerTable.new
   end
 
   def show
