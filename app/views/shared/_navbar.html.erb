@@ -8,6 +8,10 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
+    <% if user_signed_in? %>
+      <%= current_user.balance  %>
+    <% end %>
+
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto">
         <% if user_signed_in? %>

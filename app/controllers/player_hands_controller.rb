@@ -1,5 +1,6 @@
 class PlayerHandsController < ApplicationController
   before_action :set_player_hand
+
   def call_hand
   end
 
