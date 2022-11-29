@@ -3,15 +3,15 @@ class TableHandsController < ApplicationController
   before_action :set_poker_table, only: [:create]
 
   def create
-    @cards = TableHand::CARDS
+    @cards = TableHand::CARDS.dup
     @tablehand = TableHand.new
     @tablehand.poker_table = @poker_table
     @tablehand.current_call_amount = 2 * @tablehand.poker_table.small_blind
-    thislasttablehand = TableHand.where(poker_table: @poker_table).last
-    @tablehand.first_player_position = thislasttablehand.empty? ? 1 : thislasttablehand.first_player_position + 1
-    @tablehand.current_player_position = (@tablehand.first_player_position + 2) % @poker_table.max_players
+    tablehands = TableHand.where(poker_table: @poker_table)
+    @tablehand.first_player_position = tablehands.empty? ? 1 : tablehands.last.first_player_position + 1
+    @tablehand.current_player_position = (@tablehand.first_player_position + 2) % @poker_table.players.active.count
     @tablehand.status = TableHand::STATUSES[0]
-    @poker_table.players.where(active: true).each do |player|
+    @poker_table.players.active.each do |player|
       player_hand = PlayerHand.new
       player_hand.player = player
       player_hand.player_card1 = pick_a_card
@@ -20,8 +20,8 @@ class TableHandsController < ApplicationController
       player_hand.save
     end
     @tablehand.save
+    redirect_to poker_table_path(@poker_table)
   end
-
 
   private
 

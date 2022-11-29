@@ -8,6 +8,7 @@ class PlayerHandsController < ApplicationController
   end
 
   def fold_hand
+    raise
   end
 
   private
