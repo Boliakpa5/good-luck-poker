@@ -1,17 +1,24 @@
 <%# Players list %>
-<% @players.each do |player| %>
-<li><%= player.user.nickname  %>
-    <%= player.stack  %>
-    <%= player.position  %>
-</li>
-<% end %>
+
 
 <%# I'm a player%>
 <% if @players.include?(current_user.players.last) %>
-<%= link_to "Start game",  %>
+
+<% if @poker_table.table_hands.empty? ||  @poker_table.table_hands.last.status = "end"  %>
+  <%= link_to "Start game", table_hands_path(poker_table_id: @poker_table.id), data: { turbo_method: :post } %>
+<% elsif @poker_table.table_hands.last.status = "bet" %>
+  <% @players.each do |player| %>
+    <li><%= player.user.nickname  %>
+        <%= player.stack  %>
+        <%= player.position  %>
+        <%= player.player_hands.last.player_card1  %>
+        <%= player.player_hands.last.player_card2  %>
+    </li>
+    <% end %>
+<% end %>
 
 
-  <%= link_to "Exit the table", poker_table_leave_path(@poker_table, current_user), data: { turbo_method: :patch } %>
+  <%= link_to "Exit the table", leave_player_path(current_user.players.last), data: { turbo_method: :patch, turbo_confirm: "Sure?" } %>
 <%# I'm not a player %>
 <% else %>
   <% if current_user.balance >= @poker_table.small_blind * 100 %>
