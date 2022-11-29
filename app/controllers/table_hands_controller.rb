@@ -12,6 +12,7 @@ class TableHandsController < ApplicationController
     @tablehand.first_player_position = tablehands.empty? ? 1 : tablehands.last.first_player_position + 1
     @tablehand.current_player_position = (@tablehand.first_player_position + 2) % @poker_table.players.active.count
     @tablehand.status = TableHand::STATUSES[0]
+    @tablehand.save
     @poker_table.players.active.each do |player|
       player_hand = PlayerHand.new
       player_hand.player = player
@@ -20,7 +21,6 @@ class TableHandsController < ApplicationController
       player_hand.table_hand = @tablehand
       player_hand.save
     end
-    @tablehand.save
     redirect_to poker_table_path(@poker_table)
   end
 
