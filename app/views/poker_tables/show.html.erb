@@ -1,22 +1,26 @@
+<%= @poker_table.table_hands.empty? ? '' : @poker_table.table_hands.last.status %>
 <%# Players list %>
+<% @players.each do |player| %>
+  <li><%= player.user.nickname  %>
+      <%= player.stack  %>
+      <%= player.position  %>
+  </li>
+<% end %>
 
 
 <%# I'm a player%>
 <% if @players.include?(current_user.players.last) %>
+  <% if @poker_table.table_hands.empty? || @poker_table.table_hands.last.status == "end"  %>
+    <%= link_to "Start game", table_hands_path(poker_table_id: @poker_table.id), data: { turbo_method: :post } %>
+  <% elsif @poker_table.table_hands.last.status = "bet" && !current_user.players.last.player_hands.empty? %>
+    <%= current_user.player_hands.last.player_card1 %>
+    <%= current_user.player_hands.last.player_card2 %>
+  <% end %>
 
-<% if @poker_table.table_hands.empty? ||  @poker_table.table_hands.last.status = "end"  %>
-  <%= link_to "Start game", table_hands_path(poker_table_id: @poker_table.id), data: { turbo_method: :post } %>
-<% elsif @poker_table.table_hands.last.status = "bet" %>
-  <% @players.each do |player| %>
-    <li><%= player.user.nickname  %>
-        <%= player.stack  %>
-        <%= player.position  %>
-        <%= player.player_hands.last.player_card1  %>
-        <%= player.player_hands.last.player_card2  %>
-    </li>
-    <% end %>
-<% end %>
-
+<%# I'm a player and it's my turn %>
+<%# if @poker_table.table_hands.last.current_player_position == current_user.players.last.position %>
+  <%#= link_to "fold", fold_hand_player_hand(current_user.player_hands.last) %>
+<%# end %>
 
   <%= link_to "Exit the table", leave_player_path(current_user.players.last), data: { turbo_method: :patch, turbo_confirm: "Sure?" } %>
 <%# I'm not a player %>
