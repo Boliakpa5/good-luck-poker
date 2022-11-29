@@ -18,7 +18,7 @@ Rails.application.routes.draw do
       patch :fold_hand
     end
   end
-  resources :table_hands, only: [] do
-    patch :start, on: :member
+  resources :table_hands, only: [:create] do
+    patch :reinitialize, on: :member, as: "reinitialize"
   end
 end
