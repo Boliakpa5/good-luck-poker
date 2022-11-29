@@ -8,19 +8,36 @@
 <% end %>
 
 
-<%# I'm a player%>
+<%# I'm a player %>
 <% if @players.include?(current_user.players.last) %>
-  <% if @poker_table.table_hands.empty? || @poker_table.table_hands.last.status == "end"  %>
+  <%# i'm the player 1 and the game hasn't started %>
+  <% if @poker_table.table_hands.empty? || @poker_table.table_hands.last.status == "end" && current_user.players.last.position == @poker_table.table_hands.last.current_player_position %>
     <%= link_to "Start game", table_hands_path(poker_table_id: @poker_table.id), data: { turbo_method: :post } %>
+  <%# I'm a player and game has started %>
   <% elsif @poker_table.table_hands.last.status = "bet" && !current_user.players.last.player_hands.empty? %>
-    <%= current_user.player_hands.last.player_card1 %>
-    <%= current_user.player_hands.last.player_card2 %>
+  <%= "Position to play: #{@poker_table.table_hands.last.current_player_position}"  %>
+  <%= "Amount bet: #{current_user.players.last.player_hands.last.bet_amount}"  %>
+  <% pot = 0 %>
+  <% @poker_table.players.active.each { |i| pot += i.player_hands.last.bet_amount } %>
+  <%= "Pot: #{pot}"  %>
+    <%# I'm a player and it's my turn and i'm not folded %>
+    <% if @poker_table.table_hands.last.current_player_position == current_user.players.last.position && current_user.players.last.player_hands.last.folded == false %>
+      <%= current_user.player_hands.last.player_card1 %>
+      <%= current_user.player_hands.last.player_card2 %>
+      <%= link_to "fold", fold_hand_player_hand_path(current_user.player_hands.last.id), data: { turbo_method: :patch } %>
+      <%= link_to "call", call_hand_player_hand_path(current_user.player_hands.last.id), data: { turbo_method: :patch } %>
+    <% else %>
+    <%# I'm a player but not my turn or folded %>
+      <%= current_user.player_hands.last.player_card1 %>
+      <%= current_user.player_hands.last.player_card2 %>
+      <%= "Wait for end of turn" %>
+    <% end %>
+  <%# I'm a player but folded or not in this round %>
+  <% else %>
+    <%= "Wait for start of turn" %>
   <% end %>
 
-<%# I'm a player and it's my turn %>
-<%# if @poker_table.table_hands.last.current_player_position == current_user.players.last.position %>
-  <%#= link_to "fold", fold_hand_player_hand(current_user.player_hands.last) %>
-<%# end %>
+  <%# I'm an active player and it's my turn %>
 
   <%= link_to "Exit the table", leave_player_path(current_user.players.last), data: { turbo_method: :patch, turbo_confirm: "Sure?" } %>
 <%# I'm not a player %>
