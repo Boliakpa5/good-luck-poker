@@ -1,6 +1,8 @@
 <% @poker_tables.each do |poker_table| %>
- <li><%= link_to "#{poker_table.name}", poker_table_path(poker_table)  %>
-    <%= "#{poker_table.max_players} players"  %>
-    <%= "#{poker_table.small_blind} small blind" %>
- </li>
+  <li>
+    <%= link_to "#{poker_table.name}", poker_table_path(poker_table) %><br>
+    <p class="m-0"><%= "capacity: #{poker_table.max_players} players" %></p>
+    <p class="m-0"><%= "available seats: #{poker_table.max_players - poker_table.players.active.count}" %></p>
+    <p class="mb-3"><%= "small blind: #{poker_table.small_blind}" %></p>
+  </li>
 <% end %>
