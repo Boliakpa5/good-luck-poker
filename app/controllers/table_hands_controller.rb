@@ -8,7 +8,7 @@ class TableHandsController < ApplicationController
     @tablehand.poker_table = @poker_table
     @tablehand.current_call_amount = 2 * @tablehand.poker_table.small_blind
     thislasttablehand = TableHand.where(poker_table: @poker_table).last
-    @tablehand.first_player_position = thislasttablehand.first_player_position.empty? ? 1 : thislasttablehand.first_player_position + 1
+    @tablehand.first_player_position = thislasttablehand.empty? ? 1 : thislasttablehand.first_player_position + 1
     @tablehand.current_player_position = (@tablehand.first_player_position + 2) % @poker_table.max_players
     @tablehand.status = TableHand::STATUSES[0]
     @poker_table.players.where(active: true).each do |player|
