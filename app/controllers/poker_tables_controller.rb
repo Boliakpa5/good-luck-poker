@@ -8,7 +8,8 @@ class PokerTablesController < ApplicationController
 
   def show
     @poker_table = PokerTable.find(params[:id])
-    @players = Player.where(poker_table: @poker_table, active: true)
+    @players = @poker_table.players.active
+    @positions = @players.map(&:position).sort
   end
 
   # def leave
