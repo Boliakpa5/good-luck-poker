@@ -12,7 +12,7 @@ class TableHandsController < ApplicationController
     @table_hand.current_call_amount = 2 * @table_hand.poker_table.small_blind
     # Créer l'array de positions
     @table_hand.positions = @players.map(&:position).sort
-    @table_hand.first_player_position = @poker_table.table_hands.count == 1 ? @table_hand.positions[0] : @table_hand.positions[(@poker_table.table_hands[-2].positions.index(@poker_table.table_hands[-2].first_player_position) + 1) % @table_hand.positions.count]
+    @table_hand.first_player_position = @poker_table.table_hands.empty? ? @table_hand.positions.first : @table_hand.positions[(@poker_table.table_hands.last.positions.index(@poker_table.table_hands.last.first_player_position) + 1) % @table_hand.positions.count]
     @table_hand.current_player_position = @table_hand.positions[(@table_hand.positions.index(@table_hand.first_player_position) + 2) % @table_hand.positions.count]
     @table_hand.status = TableHand::STATUSES[0]
     @table_hand.save
