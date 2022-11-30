@@ -10,50 +10,10 @@
 
 <%# I'm a player %>
 <% if @players.include?(current_user.players.last) %>
-<<<<<<< HEAD
-  <%# i'm the player 1 and the game hasn't started %>
-  <% if @poker_table.table_hands.empty? || @poker_table.table_hands.last.status == "end" && current_user.players.last.position == @poker_table.table_hands.last.current_player_position %>
-    <%# Not enough players to start %>
-    <% if @poker_table.players.active.count < 2 %>
-      <span>Can't start the game, 2 players minimum</span>
-      <%# Enough players to start %>
-    <% else %>
-      <%= link_to "Start game", table_hands_path(poker_table_id: @poker_table.id), data: { turbo_method: :post } %>
-    <% end %>
-  <%# I'm a player and game has started %>
-  <% elsif @poker_table.table_hands.last.status = "bet" && !current_user.players.last.player_hands.empty? %>
-  <%= "Position to play: #{@poker_table.table_hands.last.current_player_position}"  %>
-  <%= "Amount bet: #{current_user.players.last.player_hands.last.bet_amount}"  %>
-  <%= "Amount to call: #{@poker_table.table_hands.last.current_call_amount}"  %>
-  <% pot = 0 %>
-  <% @poker_table.players.active.each { |i| pot += i.player_hands.last.bet_amount } %>
-  <%= "Pot: #{pot}"  %>
-    <%# I'm a player and it's my turn and i'm not folded %>
-    <% if @poker_table.table_hands.last.current_player_position == current_user.players.last.position && current_user.players.last.player_hands.last.folded == false %>
-      <%= current_user.player_hands.last.player_card1 %>
-      <%= current_user.player_hands.last.player_card2 %>
-      <li><%= link_to "fold", fold_hand_player_hand_path(current_user.player_hands.last.id), data: { turbo_method: :patch } %>
-      </li>
-      <li><%= link_to "call", call_hand_player_hand_path(current_user.player_hands.last.id), data: { turbo_method: :patch } %>
-      </li>
-      <li><%= render "raise", min: (@poker_table.table_hands.last.current_call_amount + (@poker_table.small_blind * 2)), max: current_user.players.last.stack %>
-      </li>
-
-
-
-    <% else %>
-    <%# I'm a player but not my turn or folded %>
-      <%= current_user.player_hands.last.player_card1 %>
-      <%= current_user.player_hands.last.player_card2 %>
-      <span>"Wait for end of turn"</span>
-    <% end %>
-  <%# I'm a player but folded or not in this round %>
-=======
   <%# The game hasn't started but not enough players to start %>
   <% if @players.count < 2 %>
     <span>Can't start the game, 2 players minimum</span>
   <%# The game hasn't started and there are enough players %>
->>>>>>> 9b9fd1ab51ebb0e0bef6180fe0bdbabd5d043c1b
   <% else %>
     <%# The game hasn't started, it'll be the first game ever and I'm player 1 %>
     <% if @poker_table.table_hands.empty? && current_user.players.active.last == @players.first %>
