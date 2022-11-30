@@ -44,11 +44,11 @@
     <%# I'm a player but not my turn or folded %>
       <%= current_user.player_hands.last.player_card1 %>
       <%= current_user.player_hands.last.player_card2 %>
-      <%= "Wait for end of turn" %>
+      <span>"Wait for end of turn"</span>
     <% end %>
   <%# I'm a player but folded or not in this round %>
   <% else %>
-    <%= "Wait for start of turn" %>
+    <span>"Wait for start of turn"</span>
   <% end %>
 
   <%# I'm an active player and it's my turn %>
