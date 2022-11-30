@@ -1,0 +1,18 @@
+<div class="raisecontainer">
+  <div class="range-slider" data-controller="raise">
+     <%= link_to "raise", raise_hand_player_hand_path(current_user.player_hands.last.id), raise_amount: "", data: { target: "raise.sender", turbo_method: :patch } %>
+
+    <label for="customRange">Amount</label>
+    <input type="range"
+          name="customRange"
+          class="raise__range"
+          data-target="raise.range"
+          data-action="input->raise#updateValue"
+          value="6"
+          min="0"
+          max="10"
+          step="1">
+    <output class="raise__value"
+            data-target="raise.value">0</output>
+  </div>
+</div>
