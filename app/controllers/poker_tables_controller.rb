@@ -11,11 +11,4 @@ class PokerTablesController < ApplicationController
     @players = @poker_table.players.active
     @positions = @players.map(&:position).sort
   end
-
-  # def leave
-  #   @player = current_user.players.last
-  #   @player.active = false
-  #   @player.save
-  #   redirect_to root_path
-  # end
 end
