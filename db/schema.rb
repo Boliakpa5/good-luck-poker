@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_28_133554) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_30_104230) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,56 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_28_133554) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "player_hands", force: :cascade do |t|
+    t.string "player_card1"
+    t.string "player_card2"
+    t.bigint "player_id", null: false
+    t.bigint "table_hand_id", null: false
+    t.integer "bet_amount", default: 0
+    t.boolean "folded", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_player_hands_on_player_id"
+    t.index ["table_hand_id"], name: "index_player_hands_on_table_hand_id"
+  end
+
+  create_table "players", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "poker_table_id", null: false
+    t.integer "stack"
+    t.integer "position"
+    t.boolean "active", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["poker_table_id"], name: "index_players_on_poker_table_id"
+    t.index ["user_id"], name: "index_players_on_user_id"
+  end
+
+  create_table "poker_tables", force: :cascade do |t|
+    t.string "name"
+    t.integer "max_players"
+    t.integer "small_blind"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "table_hands", force: :cascade do |t|
+    t.bigint "poker_table_id", null: false
+    t.string "table_card1"
+    t.string "table_card2"
+    t.string "table_card3"
+    t.string "table_card4"
+    t.string "table_card5"
+    t.integer "first_player_position"
+    t.integer "current_player_position"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "current_call_amount"
+    t.integer "positions", array: true
+    t.index ["poker_table_id"], name: "index_table_hands_on_poker_table_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -50,10 +100,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_28_133554) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "nickname"
+    t.integer "balance", default: 500
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "player_hands", "players"
+  add_foreign_key "player_hands", "table_hands"
+  add_foreign_key "players", "poker_tables"
+  add_foreign_key "players", "users"
+  add_foreign_key "table_hands", "poker_tables"
 end
