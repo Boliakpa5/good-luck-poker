@@ -34,8 +34,8 @@
         <%= "Pot: #{pot} - Counter: #{@poker_table.table_hands.last.counter}"  %>
           <%# I'm a player and it's my turn and i'm not folded %>
           <% if @poker_table.table_hands.last.current_player_position == current_user.players.last.position && current_user.players.last.player_hands.last.folded == false %>
-            <%= current_user.player_hands.last.player_card1 %>
-            <%= current_user.player_hands.last.player_card2 %>
+            <%= image_tag "cards/#{current_user.player_hands.last.player_card1}.svg" %>
+            <%= image_tag "cards/#{current_user.player_hands.last.player_card2}.svg" %>
             <li><%= link_to "fold", fold_hand_player_hand_path(current_user.player_hands.last.id), data: { turbo_method: :patch } %>
             </li>
             <li><%= link_to "call", call_hand_player_hand_path(current_user.player_hands.last.id), data: { turbo_method: :patch } %>
@@ -44,13 +44,13 @@
             </li>
 
           <% unless @poker_table.table_hands.last.table_card1.nil? %>
-            <%= @poker_table.table_hands.last.table_card1 %>
+            <%= image_tag "cards/#{@poker_table.table_hands.last.table_card1}.svg" %>
           <% end %>
 
           <%# I'm a player but not my turn or folded %>
           <% else %>
-            <%= current_user.player_hands.last.player_card1 %>
-            <%= current_user.player_hands.last.player_card2 %>
+            <%= image_tag "cards/#{current_user.player_hands.last.player_card1}.svg" %>
+            <%= image_tag "cards/#{current_user.player_hands.last.player_card2}.svg" %>
             <span>"Wait for end of turn"</span>
           <% end %>
       <%# I'm a player but folded or not in this round %>
