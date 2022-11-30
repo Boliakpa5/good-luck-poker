@@ -20,5 +20,8 @@ Rails.application.routes.draw do
   end
   resources :table_hands, only: [:create] do
     patch :reinitialize, on: :member, as: "reinitialize"
+    patch :flop
+    patch :turn
+    patch :river
   end
 end
