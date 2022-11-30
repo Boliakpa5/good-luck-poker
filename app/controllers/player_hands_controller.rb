@@ -12,6 +12,15 @@ class PlayerHandsController < ApplicationController
   end
 
   def raise_hand
+    raise_amount = params[:raise_amount].to_i
+    @player.stack -= raise_amount
+    @player.save
+    @hand.bet_amount += raise_amount
+    @hand.save
+    @table_hand.current_call_amount += raise_amount
+    @table_hand.save
+    next_player
+    redirect_to poker_table_path(@poker_table)
   end
 
   def fold_hand

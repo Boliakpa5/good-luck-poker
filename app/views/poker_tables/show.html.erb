@@ -23,6 +23,7 @@
   <% elsif @poker_table.table_hands.last.status = "bet" && !current_user.players.last.player_hands.empty? %>
   <%= "Position to play: #{@poker_table.table_hands.last.current_player_position}"  %>
   <%= "Amount bet: #{current_user.players.last.player_hands.last.bet_amount}"  %>
+  <%= "Amount to call: #{@poker_table.table_hands.last.current_call_amount}"  %>
   <% pot = 0 %>
   <% @poker_table.players.active.each { |i| pot += i.player_hands.last.bet_amount } %>
   <%= "Pot: #{pot}"  %>
@@ -30,21 +31,13 @@
     <% if @poker_table.table_hands.last.current_player_position == current_user.players.last.position && current_user.players.last.player_hands.last.folded == false %>
       <%= current_user.player_hands.last.player_card1 %>
       <%= current_user.player_hands.last.player_card2 %>
-      <%= link_to "fold", fold_hand_player_hand_path(current_user.player_hands.last.id), data: { turbo_method: :patch } %>
-      <%= link_to "call", call_hand_player_hand_path(current_user.player_hands.last.id), data: { turbo_method: :patch } %>
+      <li><%= link_to "fold", fold_hand_player_hand_path(current_user.player_hands.last.id), data: { turbo_method: :patch } %>
+      </li>
+      <li><%= link_to "call", call_hand_player_hand_path(current_user.player_hands.last.id), data: { turbo_method: :patch } %>
+      </li>
+      <li><%= render "raise"  %>
+      </li>
 
-
-      <%= simple_form_for PlayerHand.new do |f| %>
-
-
-        <div class="form-inputs">
-          <%= f.input :bet_amount, placeholder: 'Montant de raise' %>
-        </div>
-
-        <div class="form-actions text-end">
-          <%= f.button :submit, "Raise", class:"btn btn-success" %>
-        </div>
-      <% end %>
 
 
     <% else %>
