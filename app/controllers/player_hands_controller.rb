@@ -31,8 +31,9 @@ class PlayerHandsController < ApplicationController
   end
 
   def next_player
-    @table_hand.current_player_position = ((@table_hand.current_player_position + 1) % @poker_table.players.active.count )
-    (@table_hand.current_player_position = @poker_table.players.active.count) if @table_hand.current_player_position == 0
+    positions = @table_hand.positions
+    @table_hand.current_player_position = positions[(positions.index(@table_hand.current_player_position) + 1) % positions.count]
+    # (@table_hand.current_player_position = @poker_table.players.active.count) if @table_hand.current_player_position == 0
     @table_hand.save
   end
 end

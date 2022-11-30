@@ -18,7 +18,7 @@ class PlayersController < ApplicationController
 
   def leave
     current_table_hand = current_user.players.last.poker_table.table_hands.last
-    if current_user.players.last.poker_table.players.active.count == 1
+    if current_user.players.last.poker_table.players.active.count == 1 && !current_table_hand.nil?
       current_table_hand.status = "end"
       current_table_hand.save
     end
