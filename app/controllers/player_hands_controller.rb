@@ -47,14 +47,53 @@ class PlayerHandsController < ApplicationController
       next_player
     end
     if @table_hand.counter >= positions.count
+      prepare_cards
       case @table_hand.status
-      when 'bet' then redirect_to table_hand_flop_path(@table_hand)
-      when 'flop' then redirect_to table_hand_turn_path(@table_hand)
-      when 'turn' then redirect_to table_hand_river_path(@table_hand)
-      # when 'river' then redirect_to table_hand_end_path(@table_hand)
+      when 'bet' then flop
+      when 'flop' then turn
+      when 'turn' then river
+      # when 'river' then end
       end
     else
       redirect_to poker_table_path(@poker_table)
     end
+  end
+
+  def flop
+    @table_hand.table_card1 = pick_a_card
+    @table_hand.table_card2 = pick_a_card
+    @table_hand.table_card3 = pick_a_card
+    @table_hand.status = TableHand::STATUSES[1]
+    @table_hand.counter = 0
+    @table_hand.save
+    redirect_to poker_table_path(@poker_table)
+  end
+
+  def turn
+    @table_hand.table_card4 = pick_a_card
+    @table_hand.status = TableHand::STATUSES[2]
+    @table_hand.counter = 0
+    @table_hand.save
+    redirect_to poker_table_path(@poker_table)
+  end
+
+  def river
+    @table_hand.table_card5 = pick_a_card
+    @table_hand.status = TableHand::STATUSES[3]
+    @table_hand.counter = 0
+    @table_hand.save
+    redirect_to poker_table_path(@poker_table)
+  end
+
+  def prepare_cards
+    @cards = TableHand::CARDS.dup
+    @table_hand.player_hands.each do |player_hand|
+      @cards.delete(player_hand.player_card1)
+      @cards.delete(player_hand.player_card2)
+    end
+    @cards.delete(@table_hand.table_card1)
+    @cards.delete(@table_hand.table_card2)
+    @cards.delete(@table_hand.table_card3)
+    @cards.delete(@table_hand.table_card4)
   end
 end

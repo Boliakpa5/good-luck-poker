@@ -62,9 +62,4 @@ class TableHandsController < ApplicationController
   def set_table_hand
     @table_hand = current_user.players.last.poker_table.table_hand.last
   end
-
-  def pick_a_card
-    @card = @cards.sample
-    @cards.delete(@card)
-  end
 end

@@ -43,9 +43,6 @@
             <li><%= render "raise"  %>
             </li>
 
-          <% unless @poker_table.table_hands.last.table_card1.nil? %>
-            <%= image_tag "cards/#{@poker_table.table_hands.last.table_card1}.svg" %>
-          <% end %>
 
           <%# I'm a player but not my turn or folded %>
           <% else %>
@@ -53,6 +50,11 @@
             <%= image_tag "cards/#{current_user.player_hands.last.player_card2}.svg" %>
             <span>"Wait for end of turn"</span>
           <% end %>
+        <% if @table_hand.status != 'bet' %>
+          <%= image_tag "cards/#{@poker_table.table_hands.last.table_card1}.svg" %>
+          <%= image_tag "cards/#{@poker_table.table_hands.last.table_card2}.svg" %>
+          <%= image_tag "cards/#{@poker_table.table_hands.last.table_card3}.svg" %>
+        <% end %>
       <%# I'm a player but folded or not in this round %>
       <% else %>
         <span>"Wait for start of turn"</span>

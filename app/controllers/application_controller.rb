@@ -11,4 +11,9 @@ class ApplicationController < ActionController::Base
     # For additional in app/views/devise/registrations/edit.html.erb
     devise_parameter_sanitizer.permit(:account_update, keys: [:nickname])
   end
+
+  def pick_a_card
+    @card = @cards.sample
+    @cards.delete(@card)
+  end
 end
