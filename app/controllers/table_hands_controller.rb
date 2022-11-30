@@ -7,46 +7,49 @@ class TableHandsController < ApplicationController
     # .dup pour copier la constante sans la modifier
     @cards = TableHand::CARDS.dup
     @players = @poker_table.players.active
-    @tablehand = TableHand.new
-    @tablehand.poker_table = @poker_table
-    @tablehand.current_call_amount = 2 * @tablehand.poker_table.small_blind
+    @table_hand = TableHand.new
+    @table_hand.poker_table = @poker_table
+    @table_hand.current_call_amount = 2 * @table_hand.poker_table.small_blind
     # Créer l'array de positions
-    @tablehand.positions = @players.map(&:position).sort
-    @tablehand.first_player_position = @poker_table.table_hands.empty? ? @tablehand.positions[0] : @tablehand.positions[(@tablehand.positions.index(@poker_table.table_hands.last.first_player_position) + 1) % @tablehand.positions.count]
-    @tablehand.current_player_position = @tablehand.positions[(@tablehand.positions.index(@tablehand.first_player_position) + 2) % @tablehand.positions.count]
-    @tablehand.status = TableHand::STATUSES[0]
-    @tablehand.save
+    @table_hand.positions = @players.map(&:position).sort
+    @table_hand.first_player_position = @poker_table.table_hands.count == 1 ? @table_hand.positions[0] : @table_hand.positions[(@poker_table.table_hands[-2].positions.index(@poker_table.table_hands[-2].first_player_position) + 1) % @table_hand.positions.count]
+    @table_hand.current_player_position = @table_hand.positions[(@table_hand.positions.index(@table_hand.first_player_position) + 2) % @table_hand.positions.count]
+    @table_hand.status = TableHand::STATUSES[0]
+    @table_hand.save
     @players.each do |player|
       player_hand = PlayerHand.new
       player_hand.player = player
       player_hand.player_card1 = pick_a_card
       player_hand.player_card2 = pick_a_card
-      player_hand.table_hand = @tablehand
+      player_hand.table_hand = @table_hand
       player_hand.save
     end
     redirect_to poker_table_path(@poker_table)
   end
 
   def flop
-    @poker_table.table_card1 = pick_a_card
-    @poker_table.table_card2 = pick_a_card
-    @poker_table.table_card3 = pick_a_card
-    @tablehand.status = TableHand::STATUSES[1]
-    @poker_table.save
+    @table_hand.table_card1 = pick_a_card
+    @table_hand.table_card2 = pick_a_card
+    @table_hand.table_card3 = pick_a_card
+    @table_hand.status = TableHand::STATUSES[1]
+    @table_hand.counter = 0
+    @table_hand.save
     redirect_to poker_table_path(@poker_table)
   end
 
   def turn
-    @poker_table.table_card4 = pick_a_card
-    @tablehand.status = TableHand::STATUSES[2]
-    @poker_table.save
+    @table_hand.table_card4 = pick_a_card
+    @table_hand.status = TableHand::STATUSES[2]
+    @table_hand.counter = 0
+    @table_hand.save
     redirect_to poker_table_path(@poker_table)
   end
 
   def river
-    @poker_table.table_card5 = pick_a_card
-    @tablehand.status = TableHand::STATUSES[3]
-    @poker_table.save
+    @table_hand.table_card5 = pick_a_card
+    @table_hand.status = TableHand::STATUSES[3]
+    @table_hand.counter = 0
+    @table_hand.save
     redirect_to poker_table_path(@poker_table)
   end
 
@@ -57,7 +60,7 @@ class TableHandsController < ApplicationController
   end
 
   def set_table_hand
-    @tablehand = current_user.players.last.poker_table.table_hand.last
+    @table_hand = current_user.players.last.poker_table.table_hand.last
   end
 
   def pick_a_card
