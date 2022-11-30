@@ -35,7 +35,7 @@
       </li>
       <li><%= link_to "call", call_hand_player_hand_path(current_user.player_hands.last.id), data: { turbo_method: :patch } %>
       </li>
-      <li><%= render "raise"  %>
+      <li><%= render "raise", min: (@poker_table.table_hands.last.current_call_amount + (@poker_table.small_blind * 2)), max: current_user.players.last.stack %>
       </li>
 
 
