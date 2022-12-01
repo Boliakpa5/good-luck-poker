@@ -1,11 +1,16 @@
-<% case winnerhand.combination.first %>
-<% when 0 then combo = "High Card"%>
-<% when 1 then combo = "Pair"%>
-<% when 2 then combo = "Double Pair"%>
-<% when 3 then combo = "High Card"%>
-<% when 4 then combo = "High Card"%>
-<% when 5 then combo = "High Card"%>
-<% when 6 then combo = "High Card"%>
+<% unless winnerhand.combination.nil? %>
+  <% case winnerhand.combination.first %>
+  <% when 0 then combo = "High Card"%>
+  <% when 1 then combo = "Pair"%>
+  <% when 2 then combo = "Double Pair"%>
+  <% when 3 then combo = "High Card"%>
+  <% when 4 then combo = "High Card"%>
+  <% when 5 then combo = "High Card"%>
+  <% when 6 then combo = "High Card"%>
+  <% end %>
+
+<% else %>
+  <% combo = "folded opponents" %>
 <% end %>
 
 
