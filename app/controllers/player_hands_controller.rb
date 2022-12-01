@@ -90,7 +90,7 @@ class PlayerHandsController < ApplicationController
     @table_hand.table_card1 = pick_a_card
     @table_hand.table_card2 = pick_a_card
     @table_hand.table_card3 = pick_a_card
-    @table_hand.status = TableHand::STATUSES[1]
+    @table_hand.status = TableHand::STATUSES[2]
     # @table_hand.current_call_amount = 0
     @table_hand.counter = 0
     @table_hand.current_player_position = @table_hand.first_player_position
@@ -104,7 +104,7 @@ class PlayerHandsController < ApplicationController
   def turn
     set_pot
     @table_hand.table_card4 = pick_a_card
-    @table_hand.status = TableHand::STATUSES[2]
+    @table_hand.status = TableHand::STATUSES[3]
     # @table_hand.current_call_amount = 0
     @table_hand.counter = 0
     if @poker_table.players.active.find_by(position: @table_hand.first_player_position).player_hands.last.folded == true
@@ -120,7 +120,7 @@ class PlayerHandsController < ApplicationController
   def river
     set_pot
     @table_hand.table_card5 = pick_a_card
-    @table_hand.status = TableHand::STATUSES[3]
+    @table_hand.status = TableHand::STATUSES[4]
     # @table_hand.current_call_amount = 0
     @table_hand.counter = 0
     if @poker_table.players.active.find_by(position: @table_hand.first_player_position).player_hands.last.folded == true
@@ -240,7 +240,7 @@ class PlayerHandsController < ApplicationController
   end
 
   def endgame(winner)
-    @table_hand.status = TableHand::STATUSES[4]
+    @table_hand.status = TableHand::STATUSES[0]
     @table_hand.save
     winnerhand = winner.player_hands.last
     winnerhand.winner = true

@@ -43,32 +43,6 @@ class TableHandsController < ApplicationController
     redirect_to poker_table_path(@poker_table)
   end
 
-  def flop
-    @table_hand.table_card1 = pick_a_card
-    @table_hand.table_card2 = pick_a_card
-    @table_hand.table_card3 = pick_a_card
-    @table_hand.status = TableHand::STATUSES[2]
-    @table_hand.counter = 0
-    @table_hand.save
-    redirect_to poker_table_path(@poker_table)
-  end
-
-  def turn
-    @table_hand.table_card4 = pick_a_card
-    @table_hand.status = TableHand::STATUSES[3]
-    @table_hand.counter = 0
-    @table_hand.save
-    redirect_to poker_table_path(@poker_table)
-  end
-
-  def river
-    @table_hand.table_card5 = pick_a_card
-    @table_hand.status = TableHand::STATUSES[4]
-    @table_hand.counter = 0
-    @table_hand.save
-    redirect_to poker_table_path(@poker_table)
-  end
-
   private
 
   def set_poker_table
