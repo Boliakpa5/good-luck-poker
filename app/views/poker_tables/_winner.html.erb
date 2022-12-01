@@ -1,0 +1,2 @@
+<h1>Bravo <%= winnerhand.player.user.nickname  %>!</h1>
+<%= link_to "Restart", table_hands_path(poker_table_id: @poker_table.id), data: { turbo_method: :post } %>
