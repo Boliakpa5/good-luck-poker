@@ -24,6 +24,22 @@ class TableHandsController < ApplicationController
       player_hand.table_hand = @table_hand
       player_hand.save
     end
+    # Putting the small blind
+    first_player = @players.find_by(position: @table_hand.first_player_position)
+    first_player.stack -= @poker_table.small_blind
+    first_player.save
+    first_player_hand = first_player.player_hands.last
+    first_player_hand.bet_amount += @poker_table.small_blind
+    first_player_hand.save
+    # Putting the big blind
+    second_player_position = @table_hand.positions[(@table_hand.positions.index(@table_hand.first_player_position) + 1) % @table_hand.positions.count]
+    second_player = @players.find_by(position: second_player_position)
+    second_player.stack -= (@poker_table.small_blind * 2)
+    second_player.save
+    second_player_hand = second_player.player_hands.last
+    second_player_hand.bet_amount += (@poker_table.small_blind * 2)
+    second_player_hand.save
+    # redering the table
     redirect_to poker_table_path(@poker_table)
   end
 
