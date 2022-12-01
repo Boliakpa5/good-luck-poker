@@ -49,19 +49,19 @@
             <span>"Wait for end of turn"</span>
           <% end %>
           <%# I'm a player and flop %>
-          <% if TableHand::STATUSES.index(@table_hand.status) == 4 %>
+          <% if TableHand::STATUSES.index(@table_hand.status) == 0 %>
           <%# <% raise %>
             <%= render "winner", winnerhand: @poker_table.table_hands.last.player_hands.find_by(winner: true) %>
           <% else %>
-            <% if TableHand::STATUSES.index(@table_hand.status) >= 1 %>
+            <% if TableHand::STATUSES.index(@table_hand.status) >= 2 %>
               <%= image_tag "cards/#{@poker_table.table_hands.last.table_card1}.svg" %>
               <%= image_tag "cards/#{@poker_table.table_hands.last.table_card2}.svg" %>
               <%= image_tag "cards/#{@poker_table.table_hands.last.table_card3}.svg" %>
             <% end %>
-            <% if TableHand::STATUSES.index(@table_hand.status) >= 2 %>
+            <% if TableHand::STATUSES.index(@table_hand.status) >= 3 %>
               <%= image_tag "cards/#{@poker_table.table_hands.last.table_card4}.svg" %>
             <% end %>
-            <% if TableHand::STATUSES.index(@table_hand.status) >= 3 %>
+            <% if TableHand::STATUSES.index(@table_hand.status) >= 4 %>
               <%= image_tag "cards/#{@poker_table.table_hands.last.table_card5}.svg" %>
             <% end %>
           <% end %>
