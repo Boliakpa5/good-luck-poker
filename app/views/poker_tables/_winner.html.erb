@@ -1,4 +1,16 @@
-<h1>Bravo <%= winnerhand.player.user.nickname  %>!</h1>
+<% case winnerhand.combination.first %>
+<% when 0 then combo = "High Card"%>
+<% when 1 then combo = "Pair"%>
+<% when 2 then combo = "Double Pair"%>
+<% when 3 then combo = "High Card"%>
+<% when 4 then combo = "High Card"%>
+<% when 5 then combo = "High Card"%>
+<% when 6 then combo = "High Card"%>
+<% end %>
+
+
+<h1>Congratulations <%= winnerhand.player.user.nickname  %>!</h1>
+<h2>You won with: <%= combo %></h2>
 
 <% if current_user.players.last == winnerhand.player%>
   <%= link_to "Restart", table_hands_path(poker_table_id: @poker_table.id), data: { turbo_method: :post } %>

@@ -12,7 +12,6 @@ class PlayerHandsController < ApplicationController
 
   def raise_hand
     raise_amount = params[:raise_amount].to_i
-    # true_raise_amount = raise_amount - @hand.bet_amount
     @player.stack -= raise_amount
     @player.save
     @hand.bet_amount += raise_amount
@@ -61,7 +60,7 @@ class PlayerHandsController < ApplicationController
       when 'preflop' then flop
       when 'flop' then turn
       when 'turn' then river
-      when 'river' then endgame
+      when 'river' then calculatewinner
       end
     else
       index_of_next_player = (positions.index(@table_hand.current_player_position) + 1) % positions.count
@@ -144,6 +143,100 @@ class PlayerHandsController < ApplicationController
     @cards.delete(@table_hand.table_card2)
     @cards.delete(@table_hand.table_card3)
     @cards.delete(@table_hand.table_card4)
+  end
+
+  def calculatewinner
+    @players.each do |player|
+      playerhand = player.player_hands.last
+      card_array = []
+      card_array << playerhand.player_card1
+      card_array << playerhand.player_card2
+      card_array << @table_hand.table_card1
+      card_array << @table_hand.table_card2
+      card_array << @table_hand.table_card3
+      card_array << @table_hand.table_card4
+      card_array << @table_hand.table_card5
+      card_array.map! do |card|
+        case card.first
+        when "T" then card.gsub("T", "10")
+        when "J" then card.gsub("J", "11")
+        when "Q" then card.gsub("Q", "12")
+        when "K" then card.gsub("K", "13")
+        when "A" then card.gsub("A", "14")
+        else card
+        end
+      end
+      numbers_array = []
+      color_array = []
+      card_array.each do |card|
+        numbers_array << card.chop.to_i
+        color_array << card.last
+      end
+      numbers_array.sort!
+      # Needed for double pairs
+      hash = numbers_array.tally
+      # Royal Flush
+      if color_array.tally.max.last >= 5 && suited(numbers_array) == 14
+        playerhand.combination = [9]
+      # Straight Flush
+      elsif color_array.tally.max.last >= 5 && suited(numbers_array)
+        playerhand.combination = [8, suited(numbers_array)]
+      # Four of a Kind
+      elsif numbers_array.tally.max.last == 4
+        playerhand.combination = [7, numbers_array.tally.max.first]
+      # Full House
+      elsif numbers_array.tally.max.last == 3 && numbers_array.tally.value?(2)
+        playerhand.combination = [6, numbers_array.tally.max.first]
+      # Flush
+      elsif color_array.tally.max.last >= 5
+        playerhand.combination = [5, numbers_array.max]
+        # !!!!!! Prend la plus haute, indépendemment de la couleur!!!!!!
+      # Straight
+      elsif suited(numbers_array)
+        playerhand.combination = [4, suited(numbers_array)]
+      # Three of a kind
+      elsif numbers_array.tally.max.last == 3
+        playerhand.combination = [3, numbers_array.tally.max.first]
+      # Double Pair
+      elsif !hash.values.tally[2].nil? && hash.values.tally[2] >= 2
+        playerhand.combination = [2, hash.keys[hash.values.rindex(2)]]
+        # !!!!!!Ne fais pas la différence sur la derniere carte!!!!!!
+      # Pair
+      elsif hash.values.tally[2] == 1
+        playerhand.combination = [1, hash.keys[hash.values.rindex(2)]]
+        # !!!!!!Ne fais pas la différence sur les trois dernieres carte!!!!!!
+      # High Card
+      else
+        playerhand.combination = [0, numbers_array.reverse.first(5).join(" ")]
+      end
+      player.save
+      playerhand.save
+    end
+    winner = getwinner
+    endgame(winner)
+  end
+
+  def getwinner
+    comparative_array = []
+    @players.each do |player|
+      comparative_array << player.player_hands.last.combination
+    end
+    winningcombination = comparative_array.max
+    @players.each do |player|
+      return player if player.player_hands.last.combination == winningcombination
+    end
+  end
+
+  def suited(sorted_number_array)
+    array_of_ones = []
+    sorted_number_array.each_cons(2) do |pair|
+      array_of_ones << (pair.last - pair.first)
+    end
+    if array_of_ones.tally[1] >= 5
+      index = array_of_ones.rindex(1)
+      return sorted_number_array[index + 1]
+    end
+    return nil
   end
 
   def endgame(winner)
