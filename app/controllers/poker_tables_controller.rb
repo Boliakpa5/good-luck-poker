@@ -10,5 +10,6 @@ class PokerTablesController < ApplicationController
     @poker_table = PokerTable.find(params[:id])
     @players = @poker_table.players.active
     @positions = @players.map(&:position).sort
+    @table_hand = @poker_table.table_hands.last
   end
 end

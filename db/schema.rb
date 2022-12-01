@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_30_143121) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_01_135724) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -51,6 +51,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_30_143121) do
     t.boolean "folded", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "winner", default: false
+    t.integer "combination", array: true
     t.index ["player_id"], name: "index_player_hands_on_player_id"
     t.index ["table_hand_id"], name: "index_player_hands_on_table_hand_id"
   end
@@ -90,6 +92,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_30_143121) do
     t.integer "current_call_amount"
     t.integer "positions", array: true
     t.integer "counter", default: 0
+    t.integer "pot", default: 0
     t.index ["poker_table_id"], name: "index_table_hands_on_poker_table_id"
   end
 

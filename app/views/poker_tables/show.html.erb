@@ -25,33 +25,45 @@
       <%= link_to "Start game", table_hands_path(poker_table_id: @poker_table.id), data: { turbo_method: :post } %>
     <% else %>
       <%# I'm a player and game has started %>
-      <% if @poker_table.table_hands.last.status = "bet" && !current_user.players.last.player_hands.empty? %>
+      <% if @poker_table.table_hands.last.status = "preflop" && !current_user.players.last.player_hands.empty? %>
         <%= "Position to play: #{@poker_table.table_hands.last.current_player_position}"  %>
         <%= "Amount bet: #{current_user.players.last.player_hands.last.bet_amount}"  %>
-        <%= "Amount to call: #{@poker_table.table_hands.last.current_call_amount}"  %>
-        <% pot = 0 %>
-        <% @poker_table.players.active.each { |i| pot += i.player_hands.last.bet_amount } %>
-        <%= "Pot: #{pot} - Counter: #{@poker_table.table_hands.last.counter}"  %>
+        <%= "Amount to call: #{@poker_table.table_hands.last.current_call_amount - current_user.players.last.player_hands.last.bet_amount}"  %>
+        <%= "Pot: #{@poker_table.table_hands.last.pot} - Counter: #{@poker_table.table_hands.last.counter}"  %>
           <%# I'm a player and it's my turn and i'm not folded %>
           <% if @poker_table.table_hands.last.current_player_position == current_user.players.last.position && current_user.players.last.player_hands.last.folded == false %>
-            <%= current_user.player_hands.last.player_card1 %>
-            <%= current_user.player_hands.last.player_card2 %>
+            <%= image_tag "cards/#{current_user.player_hands.last.player_card1}.svg" %>
+            <%= image_tag "cards/#{current_user.player_hands.last.player_card2}.svg" %>
             <li><%= link_to "fold", fold_hand_player_hand_path(current_user.player_hands.last.id), data: { turbo_method: :patch } %>
             </li>
             <li><%= link_to "call", call_hand_player_hand_path(current_user.player_hands.last.id), data: { turbo_method: :patch } %>
             </li>
-            <li><%= render "raise"  %>
+            <li><%= render "raise", min:@poker_table.table_hands.last.current_call_amount, max:current_user.players.last.stack  %>
             </li>
 
-          <% unless @poker_table.table_hands.last.table_card1.nil? %>
-            <%= @poker_table.table_hands.last.table_card1 %>
-          <% end %>
 
           <%# I'm a player but not my turn or folded %>
           <% else %>
-            <%= current_user.player_hands.last.player_card1 %>
-            <%= current_user.player_hands.last.player_card2 %>
+            <%= image_tag "cards/#{current_user.player_hands.last.player_card1}.svg" %>
+            <%= image_tag "cards/#{current_user.player_hands.last.player_card2}.svg" %>
             <span>"Wait for end of turn"</span>
+          <% end %>
+          <%# I'm a player and flop %>
+          <% if TableHand::STATUSES.index(@table_hand.status) == 0 %>
+          <%# <% raise %>
+            <%= render "winner", winnerhand: @poker_table.table_hands.last.player_hands.find_by(winner: true) %>
+          <% else %>
+            <% if TableHand::STATUSES.index(@table_hand.status) >= 2 %>
+              <%= image_tag "cards/#{@poker_table.table_hands.last.table_card1}.svg" %>
+              <%= image_tag "cards/#{@poker_table.table_hands.last.table_card2}.svg" %>
+              <%= image_tag "cards/#{@poker_table.table_hands.last.table_card3}.svg" %>
+            <% end %>
+            <% if TableHand::STATUSES.index(@table_hand.status) >= 3 %>
+              <%= image_tag "cards/#{@poker_table.table_hands.last.table_card4}.svg" %>
+            <% end %>
+            <% if TableHand::STATUSES.index(@table_hand.status) >= 4 %>
+              <%= image_tag "cards/#{@poker_table.table_hands.last.table_card5}.svg" %>
+            <% end %>
           <% end %>
       <%# I'm a player but folded or not in this round %>
       <% else %>

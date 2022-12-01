@@ -23,10 +23,15 @@ class PlayersController < ApplicationController
       current_table_hand.save
     end
     @player = current_user.players.last
+    player_hand = @player.player_hands.last
+    unless player_hand.nil?
+      player_hand.folded = true
+      player_hand.save
+    end
     @player.active = false
     current_user.balance += @player.stack
-    @player.save
     current_user.save
+    @player.save
     redirect_to root_path
   end
 end
