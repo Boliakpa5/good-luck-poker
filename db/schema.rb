@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_01_112552) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_01_123512) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -91,6 +91,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_01_112552) do
     t.integer "current_call_amount"
     t.integer "positions", array: true
     t.integer "counter", default: 0
+    t.integer "pot", default: 0
     t.index ["poker_table_id"], name: "index_table_hands_on_poker_table_id"
   end
 

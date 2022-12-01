@@ -2,7 +2,7 @@ class PlayerHandsController < ApplicationController
   before_action :set_current_things
 
   def call_hand
-    call_amount = @table_hand.current_call_amount
+    call_amount = @table_hand.current_call_amount - @hand.bet_amount
     @player.stack -= call_amount
     @player.save
     @hand.bet_amount += call_amount
@@ -12,6 +12,7 @@ class PlayerHandsController < ApplicationController
 
   def raise_hand
     raise_amount = params[:raise_amount].to_i
+    # true_raise_amount = raise_amount - @hand.bet_amount
     @player.stack -= raise_amount
     @player.save
     @hand.bet_amount += raise_amount
@@ -34,8 +35,17 @@ class PlayerHandsController < ApplicationController
     @hand = current_user.player_hands.find(params[:id])
     @poker_table = @hand.table_hand.poker_table
     @player = @hand.player
+    @players = @poker_table.players.active
     @table_hand = @hand.table_hand
     @unfolded_hands = @table_hand.player_hands.where(folded: false)
+  end
+
+  def set_pot
+    @players.each do |player|
+      @table_hand.pot += player.player_hands.last.bet_amount
+      player.player_hands.last.update(bet_amount: 0)
+    end
+    @table_hand.update(current_call_amount: 0)
   end
 
   def next_player
@@ -77,11 +87,12 @@ class PlayerHandsController < ApplicationController
   end
 
   def flop
+    set_pot
     @table_hand.table_card1 = pick_a_card
     @table_hand.table_card2 = pick_a_card
     @table_hand.table_card3 = pick_a_card
     @table_hand.status = TableHand::STATUSES[2]
-    @table_hand.current_call_amount = 0
+    # @table_hand.current_call_amount = 0
     @table_hand.counter = 0
     @table_hand.current_player_position = @table_hand.first_player_position
     if @poker_table.players.active.find_by(position: @table_hand.current_player_position).player_hands.last.folded == true
@@ -92,9 +103,10 @@ class PlayerHandsController < ApplicationController
   end
 
   def turn
+    set_pot
     @table_hand.table_card4 = pick_a_card
     @table_hand.status = TableHand::STATUSES[3]
-    @table_hand.current_call_amount = 0
+    # @table_hand.current_call_amount = 0
     @table_hand.counter = 0
     if @poker_table.players.active.find_by(position: @table_hand.first_player_position).player_hands.last.folded == true
       @table_hand.current_player_position = @table_hand.first_player_position
@@ -107,9 +119,10 @@ class PlayerHandsController < ApplicationController
   end
 
   def river
+    set_pot
     @table_hand.table_card5 = pick_a_card
     @table_hand.status = TableHand::STATUSES[4]
-    @table_hand.current_call_amount = 0
+    # @table_hand.current_call_amount = 0
     @table_hand.counter = 0
     if @poker_table.players.active.find_by(position: @table_hand.first_player_position).player_hands.last.folded == true
       @table_hand.current_player_position = @table_hand.first_player_position
