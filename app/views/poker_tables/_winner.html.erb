@@ -1,12 +1,15 @@
 <% unless winnerhand.combination.nil? %>
   <% case winnerhand.combination.first %>
   <% when 0 then combo = "High Card"%>
-  <% when 1 then combo = "Pair"%>
-  <% when 2 then combo = "Double Pair"%>
-  <% when 3 then combo = "High Card"%>
-  <% when 4 then combo = "High Card"%>
-  <% when 5 then combo = "High Card"%>
-  <% when 6 then combo = "High Card"%>
+  <% when 1 then combo = "Pair of #{winnerhand.combination.last}"%>
+  <% when 2 then combo = "Double Pair with highest pair of #{winnerhand.combination.last}"%>
+  <% when 3 then combo = "Three of a kind of #{winnerhand.combination.last}"%>
+  <% when 4 then combo = "Straight with highest card of #{winnerhand.combination.last}"%>
+  <% when 5 then combo = "Flush with hightest card of #{winnerhand.combination.last}"%>
+  <% when 6 then combo = "Full House of #{winnerhand.combination.last}"%>
+  <% when 7 then combo = "Four of a kind of #{winnerhand.combination.last}"%>
+  <% when 8 then combo = "Straight Flush with highest card of #{winnerhand.combination.last}" %>
+  <% when 9 then combo = "Royal Emperor Straight Legendary Flush" %>
   <% end %>
 
 <% else %>
