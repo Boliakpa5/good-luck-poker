@@ -90,7 +90,7 @@ class PlayerHandsController < ApplicationController
     @table_hand.table_card1 = pick_a_card
     @table_hand.table_card2 = pick_a_card
     @table_hand.table_card3 = pick_a_card
-    @table_hand.status = TableHand::STATUSES[2]
+    @table_hand.status = TableHand::STATUSES[1]
     # @table_hand.current_call_amount = 0
     @table_hand.counter = 0
     @table_hand.current_player_position = @table_hand.first_player_position
@@ -104,7 +104,7 @@ class PlayerHandsController < ApplicationController
   def turn
     set_pot
     @table_hand.table_card4 = pick_a_card
-    @table_hand.status = TableHand::STATUSES[3]
+    @table_hand.status = TableHand::STATUSES[2]
     # @table_hand.current_call_amount = 0
     @table_hand.counter = 0
     if @poker_table.players.active.find_by(position: @table_hand.first_player_position).player_hands.last.folded == true
@@ -120,7 +120,7 @@ class PlayerHandsController < ApplicationController
   def river
     set_pot
     @table_hand.table_card5 = pick_a_card
-    @table_hand.status = TableHand::STATUSES[4]
+    @table_hand.status = TableHand::STATUSES[3]
     # @table_hand.current_call_amount = 0
     @table_hand.counter = 0
     if @poker_table.players.active.find_by(position: @table_hand.first_player_position).player_hands.last.folded == true
@@ -232,7 +232,7 @@ class PlayerHandsController < ApplicationController
     sorted_number_array.each_cons(2) do |pair|
       array_of_ones << (pair.last - pair.first)
     end
-    if array_of_ones.tally[1] >= 5
+    if !array_of_ones.tally[1].nil? && array_of_ones.tally[1] >= 5
       index = array_of_ones.rindex(1)
       return sorted_number_array[index + 1]
     end
@@ -240,14 +240,12 @@ class PlayerHandsController < ApplicationController
   end
 
   def endgame(winner)
-    @table_hand.status = TableHand::STATUSES[0]
+    @table_hand.status = TableHand::STATUSES[4]
     @table_hand.save
     winnerhand = winner.player_hands.last
     winnerhand.winner = true
     winnerhand.save
-    pot = 0
-    @poker_table.players.active.each { |i| pot += i.player_hands.last.bet_amount }
-    winner.stack += pot
+    winner.stack += @table_hand.pot
     winner.save
     redirect_to poker_table_path(@poker_table)
   end
