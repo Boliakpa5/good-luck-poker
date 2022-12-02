@@ -12,22 +12,21 @@
       <ul class="navbar-nav me-auto">
         <% if user_signed_in? %>
           <li class="nav-item active">
-            <%= link_to "Mes commandes", orders_path(user_id: current_user), class: "nav-link" %>
           </li>
           <li class="nav-item dropdown">
             <% if current_user.photo.attached? %>
               <%= cl_image_tag current_user.photo.key, alt: "Picture of #{current_user.first_name} #{current_user.last_name}", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
             <% else %>
-              <%= image_tag 'default-avatar.jpg', class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+              <%# <%= image_tag 'default-avatar.jpg', class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %> %>
             <% end %>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <%= link_to "Ma page", products_path(user_id: current_user), class: "dropdown-item" %>
+              <%# <%= link_to "Ma page", products_path(user_id: current_user), class: "dropdown-item" %> %>
               <%= link_to "Déconnexion", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item text-danger" %>
             </div>
           </li>
         <% else %>
           <li class="nav-item">
-            <%= link_to "Players Online", new_user_session_path, class: "btn btn-goodluck" %>
+            <%# <%= link_to "Players Online", new_user_session_path, class: "btn btn-goodluck" %> %>
           </li>
           <li class="nav-item">
             <%= link_to "Login", new_user_session_path, class: "btn btn-goodluck" %>
