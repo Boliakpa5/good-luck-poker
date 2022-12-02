@@ -29,51 +29,64 @@ FACE_VALUES = {
 DECK = ["2c", "2d", "2h", "2s", "3c", "3d", "3h", "3s", "4c", "4d", "4h", "4s", "5c", "5d", "5h", "5s", "6c", "6d", "6h", "6s", "7c", "7d", "7h", "7s", "8c", "8d", "8h", "8s", "9c", "9d", "9h", "9s", "Tc", "Td", "Th", "Ts", "Jc", "Jd", "Jh", "Js", "Qc", "Qd", "Qh", "Qs", "Kc", "Kd", "Kh", "Ks", "Ac", "Ad", "Ah", "As"
 ]
 
-# main en début de tour
-hand = []
-# je pioche
-hand << ["7h", "8d"]
-# j'ajoute les cartes de la table
-hand << ["9h", "3h", "5c", "8h", "Ks"]
-# je check que tout est bon
-# p hand.flatten!
-# puts hand.size
-hand = ["7h", "8d", "9h", "3h", "5c", "8h", "Ks"]
-
-
 
 require 'rubygems'
 require 'ruby-poker'
 
-hand2 = PokerHand.new(["7h", "8d", "9h", "kh", "ks", "ks", "Ks"])
-hand1 = PokerHand.new(["7h", "8d", "9h", "3h", "5c", "8h", "Ks"])
-hand3 = PokerHand.new(["7h", "8d", "TC", "JC", "QC", "KC", "AC"])
-hand4 = PokerHand.new(["7h", "8d", "9h", "3h", "5c", "2h", "Ks"])
-hand5 = PokerHand.new(["7h", "8d", "9h", "3h", "5c", "8h", "Ks"])
-hand6 = PokerHand.new(["7h", "8d", "9h", "3h", "5c", "8h", "Ks"])
-# puts hand1.rank
-# puts hand1.by_suit
-# puts hand1.face_values
-# puts hand1.hand_rating
-# puts hand2.hand_rating
-# puts hand1.sort_using_rank
-# puts hand1 > hand2
-# p hand1.score
-# p hand2.score
-# p hand3.score
+
+# combinaisons
+# hand1 = PokerHand.new(["Ah", "Kh", "Qh", "Th", "Jh"])
+# hand2 = PokerHand.new(["2h", "3h", "4h", "5h", "6h"])
+# hand3 = PokerHand.new(["2h", "2d", "2c", "2s", "3h"])
+# hand4 = PokerHand.new(["2h", "2h", "2c", "3s", "3h"])
+# hand5 = PokerHand.new(["2h", "3h", "4h", "5h", "7h"])
+# hand6 = PokerHand.new(["2h", "3s", "4h", "5c", "6h"])
+# hand7 = PokerHand.new(["2h", "2d", "2h", "3h", "4c"])
+# hand8 = PokerHand.new(["2h", "2d", "3h", "3h", "4c"])
+# hand9 = PokerHand.new(["2h", "2d", "3h", "4h", "6c"])
+
+hand1 = PokerHand.new(["2h", "3d", "3h", "4h", "6c"])
+hand2 = PokerHand.new(["2h", "3d", "3h", "4h", "6c"])
+hand3 = PokerHand.new(["2h", "3d", "3h", "4h", "6c"])
+hand4 = PokerHand.new(["2h", "2h", "2c", "3s", "3h"])
+hand5 = PokerHand.new(["2h", "3h", "4h", "5h", "7h"])
+hand6 = PokerHand.new(["2h", "3s", "4h", "5c", "6h"])
+hand7 = PokerHand.new(["2h", "2d", "2h", "3h", "4c"])
+hand8 = PokerHand.new(["2h", "2d", "3h", "3h", "4c"])
+hand9 = PokerHand.new(["2h", "2d", "3h", "4h", "6c"])
+
+handp = PokerHand.new(["Ah"])
+
+
+p hand1.score[0]
+p hand2.score[0]
+p hand3.score[0]
 p hand4.score[0]
-hand = hand4.score[0].map { |i| i.to_s }
-hand = hand.map do |num|
-  if num.to_i < 10
-    "0" + num
-  else
-    num
-  end
-end
-hand[0] = hand[0] + "."
-hand = hand.join()
-hand = hand.to_f
-p hand
+p hand5.score[0]
+p hand6.score[0]
+p hand7.score[0]
+p hand8.score[0]
+p hand9.score[0]
+
+
+
+score = handp.score[0]
+    score = score.map { |i| i.to_s }
+    score = score.map do |num|
+      if num.to_i < 10
+        "0" + num
+      else
+        num
+      end
+    end
+    score[0] = score[0] + "."
+    score = score.join()
+    score = score.to_f
+    p score
+    p
+
+
+
 
 
 

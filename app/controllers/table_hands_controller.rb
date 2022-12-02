@@ -58,7 +58,6 @@ class TableHandsController < ApplicationController
     hand.hand_rating
   end
 
-
   private
 
   def set_poker_table
