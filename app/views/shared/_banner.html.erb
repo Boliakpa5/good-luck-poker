@@ -1,0 +1,10 @@
+<div class="banner mb-5" style="background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url(<%= asset_path 'poker_background.jpg' %>);">
+  <div class="container">
+    <div class="d-flex align-items-end justify-content-center">
+      <h1 class="text-end"><strong>Welcome to </strong></h1>
+      <%= image_tag "GL_logo_white_on_black.png", id: 'logo-banner' %>
+    </div>
+    <p>Trust your skills not your luck</p>
+    <%= link_to "Find a table", poker_tables_path, class: "btn btn-flat" %>
+  </div>
+</div>
