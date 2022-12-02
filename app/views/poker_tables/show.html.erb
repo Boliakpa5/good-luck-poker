@@ -1,3 +1,21 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col text-center">
+      <div class="poker-table">
+        <%= image_tag "table.svg" %>
+      </div>
+        <%= render 'join' %>
+        <% @poker_table.max_players.times do |index| %>
+          <% if @players.where(position: (index + 1)).empty? %>
+            <div class="join-seat">
+              <%= link_to "Join seat", poker_table_players_path(@poker_table, position: (index + 1)), data: { turbo_method: :post }, class: 'stretched-link' %>
+            </div>
+          <% end %>
+        <% end %>
+    </div>
+  </div>
+</div>
+
 <%= @poker_table.table_hands.empty? ? '' : @poker_table.table_hands.last.status %>
 <%# Players list %>
 <% @players.each do |player| %>

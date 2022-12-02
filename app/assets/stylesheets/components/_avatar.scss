@@ -1,20 +1,27 @@
 .avatar {
+  height: 40px;
   width: 40px;
+  object-fit: cover;
   border-radius: 50%;
+  border: white 2px solid;
 }
 .avatar-large {
-  width: 56px;
+  height: 110px;
+  width: 110px;
+  object-fit: cover;
   border-radius: 50%;
-}
-.avatar-bordered {
-  width: 40px;
+  border: double 6px transparent;
   border-radius: 50%;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-  border: white 1px solid;
+  background-image: linear-gradient(white, white), linear-gradient(#256337, #153D22);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  display: inline-block;
+  box-shadow: 0px 9px 7px rgba(0, 0, 0, 0.25);
 }
-.avatar-square {
-  width: 40px;
-  border-radius: 0px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-  border: white 1px solid;
+
+.avatar-select {
+  border: 4px dashed #09DB6A;
+  box-shadow: 0px 0px 6px #09DB6A;
+  padding: 16px;
+  border-radius: 50%;
 }
