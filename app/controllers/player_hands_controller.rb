@@ -229,13 +229,29 @@ class PlayerHandsController < ApplicationController
 
   def suited(sorted_number_array)
     array_of_ones = []
-    sorted_number_array.each_cons(2) do |pair|
-      array_of_ones << (pair.last - pair.first)
+    sorted_number_array.each_cons(5) do |pack|
+      pack.each_cons(2) do |pair|
+        array_of_ones << (pair.last - pair.first)
+      end
     end
-    if !array_of_ones.tally[1].nil? && array_of_ones.tally[1] >= 5
-      index = array_of_ones.rindex(1)
+    first_array_of_ones = []
+    second_array_of_ones = []
+    third_array_of_ones = []
+    first_array_of_ones << array_of_ones.first(4)
+    second_array_of_ones << array_of_ones.first(5).last(4)
+    third_array_of_ones << array_of_ones.last(4)
+    first_array_of_ones = first_array_of_ones.reduce
+    second_array_of_ones = second_array_of_ones.reduce
+    third_array_of_ones = third_array_of_ones.reduce
+    if !first_array_of_ones.tally[1].nil? && first_array_of_ones.tally[1] >= 4
+      index = first_array_of_ones.rindex(1)
       return sorted_number_array[index + 1]
-      # !!!!! acutellement true if not consecutive!!!!!!!
+    elsif !second_array_of_ones.tally[1].nil? && second_array_of_ones.tally[1] >= 4
+      index = second_array_of_ones.rindex(1)
+      return sorted_number_array[index + 2]
+    elsif !third_array_of_ones.tally[1].nil? && third_array_of_ones.tally[1] >= 4
+      index = third_array_of_ones.rindex(1)
+      return sorted_number_array[index + 3]
     end
     return nil
   end
