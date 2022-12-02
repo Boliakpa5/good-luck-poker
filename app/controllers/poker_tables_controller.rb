@@ -1,5 +1,5 @@
 class PokerTablesController < ApplicationController
-  skip_before_action :authenticate_user!
+  skip_before_action :authenticate_user!, only: [:index]
 
   def index
     @poker_tables = PokerTable.all
@@ -8,13 +8,8 @@ class PokerTablesController < ApplicationController
 
   def show
     @poker_table = PokerTable.find(params[:id])
-    @players = Player.where(poker_table: @poker_table, active: true)
+    @players = @poker_table.players.active
+    @positions = @players.map(&:position).sort
+    @table_hand = @poker_table.table_hands.last
   end
-
-  # def leave
-  #   @player = current_user.players.last
-  #   @player.active = false
-  #   @player.save
-  #   redirect_to root_path
-  # end
 end
