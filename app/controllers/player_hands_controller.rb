@@ -179,7 +179,7 @@ class PlayerHandsController < ApplicationController
       if color_array.tally.values.max >= 5 && suited(numbers_array) == 14
         playerhand.combination = [9]
       # Straight Flush
-      elsif color_array.tally.max.last >= 5 && suited(numbers_array)
+      elsif color_array.tally.values.max >= 5 && suited(numbers_array)
         playerhand.combination = [8, suited(numbers_array)]
       # Four of a Kind
       elsif numbers_array.tally.max.last == 4
