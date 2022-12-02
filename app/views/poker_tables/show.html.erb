@@ -1,91 +1,103 @@
-<%= @poker_table.table_hands.empty? ? '' : @poker_table.table_hands.last.status %>
-<%# Players list %>
-<% @players.each do |player| %>
-  <li><%= player.user.nickname  %>
-      <%= player.stack  %>
-      <%= player.position  %>
-  </li>
-<% end %>
+<div class="container p-3 text-center">
+  <h1 class="h4"><%= @poker_table.name %></h1>
+
+  <%= @poker_table.table_hands.empty? ? '' : @poker_table.table_hands.last.status %>
+  <%# Players list %>
+  <ul class="list-inline mb-3">
+    <% @players.each do |player| %>
+      <li class="list-inline-item border-right"><strong><%= player.position  %>. <%= player.user.nickname  %></strong> - <span class="text-muted">stack: <%= player.stack %></span>
+      </li>
+    <% end %>
+  </ul>
 
 
-<%# I'm a player %>
-<% if @players.include?(current_user.players.last) %>
-  <%# The game hasn't started but not enough players to start %>
-  <% if @players.count < 2 %>
-    <span>Can't start the game, 2 players minimum</span>
-  <%# The game hasn't started and there are enough players %>
-  <% else %>
-    <%# The game hasn't started, it'll be the first game ever and I'm player 1 %>
-    <% if @poker_table.table_hands.empty? && current_user.players.active.last == @players.first %>
-      <%= link_to "Start game", table_hands_path(poker_table_id: @poker_table.id), data: { turbo_method: :post } %>
-    <%# The game hasn't started but some games already took place %>
-    <% elsif @poker_table.table_hands.empty? %>
-      <span>"Wait for start of turn"</span>
-    <% elsif @poker_table.table_hands.last.status == "end" && @positions.index(current_user.players.active.last.position) == (@poker_table.table_hands.last.positions.index(@poker_table.table_hands.last.first_player_position) + 1) % @positions.count %>
-      <%= link_to "Start game", table_hands_path(poker_table_id: @poker_table.id), data: { turbo_method: :post } %>
+  <%# I'm a player %>
+  <% if @players.include?(current_user.players.last) %>
+    <%# The game hasn't started but not enough players to start %>
+    <% if @players.count < 2 %>
+      <span class="h4">Can't start the game, 2 players minimum</span>
+    <%# The game hasn't started and there are enough players %>
     <% else %>
-      <%# I'm a player and game has started %>
-      <% if @poker_table.table_hands.last.status = "preflop" && !current_user.players.last.player_hands.empty? %>
-        <%= "Position to play: #{@poker_table.table_hands.last.current_player_position}"  %>
-        <%= "Amount bet: #{current_user.players.last.player_hands.last.bet_amount}"  %>
-        <%= "Amount to call: #{@poker_table.table_hands.last.current_call_amount - current_user.players.last.player_hands.last.bet_amount}"  %>
-        <%= "Pot: #{@poker_table.table_hands.last.pot} - Counter: #{@poker_table.table_hands.last.counter}"  %>
-          <%# I'm a player and it's my turn and i'm not folded %>
-          <% if @poker_table.table_hands.last.current_player_position == current_user.players.last.position && current_user.players.last.player_hands.last.folded == false %>
-            <%= image_tag "cards/#{current_user.player_hands.last.player_card1}.svg" %>
-            <%= image_tag "cards/#{current_user.player_hands.last.player_card2}.svg" %>
-            <li><%= link_to "fold", fold_hand_player_hand_path(current_user.player_hands.last.id), data: { turbo_method: :patch } %>
-            </li>
-            <li><%= link_to "call", call_hand_player_hand_path(current_user.player_hands.last.id), data: { turbo_method: :patch } %>
-            </li>
-            <li><%= render "raise", min:@poker_table.table_hands.last.current_call_amount, max:current_user.players.last.stack  %>
-            </li>
-
-
-          <%# I'm a player but not my turn or folded %>
-          <% else %>
-            <%= image_tag "cards/#{current_user.player_hands.last.player_card1}.svg" %>
-            <%= image_tag "cards/#{current_user.player_hands.last.player_card2}.svg" %>
-            <span>"Wait for end of turn"</span>
-          <% end %>
-          <%# I'm a player and flop %>
-          <% if TableHand::STATUSES.index(@table_hand.status) == 0 %>
-          <%# <% raise %>
-            <%= render "winner", winnerhand: @poker_table.table_hands.last.player_hands.find_by(winner: true) %>
-          <% else %>
-            <% if TableHand::STATUSES.index(@table_hand.status) >= 2 %>
-              <%= image_tag "cards/#{@poker_table.table_hands.last.table_card1}.svg" %>
-              <%= image_tag "cards/#{@poker_table.table_hands.last.table_card2}.svg" %>
-              <%= image_tag "cards/#{@poker_table.table_hands.last.table_card3}.svg" %>
-            <% end %>
-            <% if TableHand::STATUSES.index(@table_hand.status) >= 3 %>
-              <%= image_tag "cards/#{@poker_table.table_hands.last.table_card4}.svg" %>
-            <% end %>
-            <% if TableHand::STATUSES.index(@table_hand.status) >= 4 %>
-              <%= image_tag "cards/#{@poker_table.table_hands.last.table_card5}.svg" %>
-            <% end %>
-          <% end %>
-      <%# I'm a player but folded or not in this round %>
+      <%# The game hasn't started, it'll be the first game ever and I'm player 1 %>
+      <% if @poker_table.table_hands.empty? && current_user.players.active.last == @players.first %>
+        <%= link_to "Start game", table_hands_path(poker_table_id: @poker_table.id), data: { turbo_method: :post }, class: 'btn btn-success' %>
+      <%# The game hasn't started but some games already took place %>
+      <% elsif @poker_table.table_hands.empty? %>
+        <span class="h4">Wait for start of turn</span>
+      <% elsif @poker_table.table_hands.last.status == "end" && @positions.index(current_user.players.active.last.position) == (@poker_table.table_hands.last.positions.index(@poker_table.table_hands.last.first_player_position) + 1) % @positions.count %>
+        <%= link_to "Start game", table_hands_path(poker_table_id: @poker_table.id), data: { turbo_method: :post } %>
       <% else %>
-        <span>"Wait for start of turn"</span>
-      <% end %>
+        <%# I'm a player and game has started %>
+        <% if @poker_table.table_hands.last.status = "preflop" && !current_user.players.last.player_hands.empty? %>
+          <%= "Position to play: #{@poker_table.table_hands.last.current_player_position}" %>
+          <%= "Amount bet: #{current_user.players.last.player_hands.last.bet_amount}" %>
+          <%= "Amount to call: #{@poker_table.table_hands.last.current_call_amount - current_user.players.last.player_hands.last.bet_amount}"  %>
+          <%= "Pot: #{@poker_table.table_hands.last.pot}" %>
+            <%# I'm a player and it's my turn and i'm not folded %>
+            <% if @poker_table.table_hands.last.current_player_position == current_user.players.last.position && current_user.players.last.player_hands.last.folded == false %>
+              <div class="d-flex" style="height: 200px; right: 1rem; bottom: 1rem; position: absolute;">
+                <%= image_tag "cards/#{current_user.player_hands.last.player_card1}.svg", class: "me-n5" %>
+                <%= image_tag "cards/#{current_user.player_hands.last.player_card2}.svg", class: "ms-n2"  %>
+              </div>
+              <div class="d-flex justify-content-center mb-3">
+                <%= link_to "fold", fold_hand_player_hand_path(current_user.player_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-success ms-2' %>
+                <%= link_to "call", call_hand_player_hand_path(current_user.player_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-success ms-2' %>
+                <%= render "raise", min:@poker_table.table_hands.last.current_call_amount, max:current_user.players.last.stack  %>
+              </div>
 
-      <%# I'm an active player and it's my turn %>
-    <% end %>
-  <% end %>
-  <%= link_to "Exit the table", leave_player_path(current_user.players.last), data: { turbo_method: :patch, turbo_confirm: "Sure?" } %>
-<%# I'm not a player %>
-<% else %>
-  <%# I'm not a player but with enough cash %>
-  <% if current_user.balance >= @poker_table.small_blind * 100 %>
-    <% @poker_table.max_players.times do |index| %>
-      <% if @players.where(position: (index + 1)).empty? %>
-        <li><%= link_to "Join the seat #{index + 1}", poker_table_players_path(@poker_table, position: (index + 1)), data: { turbo_method: :post } %></li>
+            <%# I'm a player but not my turn or folded %>
+            <% else %>
+              <div class="d-flex" style="height: 200px; right: 1rem; bottom: 1rem; position: absolute;">
+                <%= image_tag "cards/#{current_user.player_hands.last.player_card1}.svg", class: "me-n5" %>
+                <%= image_tag "cards/#{current_user.player_hands.last.player_card2}.svg", class: "ms-n2"  %>
+              </div>
+              <span class="h4">Wait for end of turn</span>
+            <% end %>
+            <%# I'm a player and flop %>
+            <% if TableHand::STATUSES.index(@table_hand.status) == 0 %>
+            <%# <% raise %>
+              <%= render "winner", winnerhand: @poker_table.table_hands.last.player_hands.find_by(winner: true) %>
+            <% else %>
+              <div class="d-flex justify-content-center" style="height: 200px">
+                <% if TableHand::STATUSES.index(@table_hand.status) >= 2 %>
+                  <%= image_tag "cards/#{@poker_table.table_hands.last.table_card1}.svg" %>
+                  <%= image_tag "cards/#{@poker_table.table_hands.last.table_card2}.svg" %>
+                  <%= image_tag "cards/#{@poker_table.table_hands.last.table_card3}.svg" %>
+                <% end %>
+                <% if TableHand::STATUSES.index(@table_hand.status) >= 3 %>
+                  <%= image_tag "cards/#{@poker_table.table_hands.last.table_card4}.svg" %>
+                <% end %>
+                <% if TableHand::STATUSES.index(@table_hand.status) >= 4 %>
+                  <%= image_tag "cards/#{@poker_table.table_hands.last.table_card5}.svg" %>
+                <% end %>
+              </div>
+            <% end %>
+        <%# I'm a player but folded or not in this round %>
+        <% else %>
+          <span>Wait for start of turn</span>
+        <% end %>
+
+        <%# I'm an active player and it's my turn %>
       <% end %>
     <% end %>
-  <%# I'm not a player and not enough cash %>
+    <div class="p-3 text-center fixed-bottom">
+      <%= link_to "Exit the table", leave_player_path(current_user.players.last), data: { turbo_method: :patch, turbo_confirm: "Sure?" }, class: 'btn btn-outline-danger' %>
+    </div>
+  <%# I'm not a player %>
   <% else %>
-    <span>You don't have the balance to join this table</span>
+    <%# I'm not a player but with enough cash %>
+    <div class="text-center">
+      <% if current_user.balance >= @poker_table.small_blind * 100 %>
+        <% @poker_table.max_players.times do |index| %>
+          <% if @players.where(position: (index + 1)).empty? %>
+            <%= link_to "Join the seat #{index + 1}", poker_table_players_path(@poker_table, position: (index + 1)), data: { turbo_method: :post }, class: 'btn btn-success mb-3' %>
+          <% end %>
+        <% end %>
+      <%# I'm not a player and not enough cash %>
+      <% else %>
+        <span class="h4">You don't have the balance to join this table</span>
+      <% end %>
+    </div>
+    <div class="p-3 fixed-bottom"><%= link_to "Go back to list", poker_tables_path, class: 'btn btn-outline-secondary' %></div>
   <% end %>
-  <%= link_to "Go back to list", poker_tables_path %>
-<% end %>
+</div>
