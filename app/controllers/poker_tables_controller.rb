@@ -2,7 +2,18 @@ class PokerTablesController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index]
 
   def index
-    @poker_tables = PokerTable.all
+    if params[:max_players].present?
+      @poker_tables = PokerTable.where(max_players: params[:max_players])
+      @max_players = params[:max_players]
+    elsif params[:small_blind].present?
+      @poker_tables = PokerTable.where(small_blind: params[:small_blind])
+      big_blind = params[:small_blind].to_i * 2
+      @small_blind = "#{params[:small_blind]}-#{big_blind}"
+    else
+      @poker_tables = PokerTable.all
+      @max_players = ""
+      @small_blind = ""
+    end
     @poker_table = PokerTable.new
   end
 

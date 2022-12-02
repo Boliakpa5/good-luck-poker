@@ -235,6 +235,7 @@ class PlayerHandsController < ApplicationController
     if !array_of_ones.tally[1].nil? && array_of_ones.tally[1] >= 5
       index = array_of_ones.rindex(1)
       return sorted_number_array[index + 1]
+      # !!!!! acutellement true if not consecutive!!!!!!!
     end
     return nil
   end
