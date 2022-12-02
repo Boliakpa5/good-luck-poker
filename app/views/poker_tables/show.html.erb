@@ -5,7 +5,7 @@
   <%# Players list %>
   <ul class="list-inline mb-3">
     <% @players.each do |player| %>
-      <li class="list-inline-item border-right"><strong><%= player.position  %>. <%= player.user.nickname  %></strong> - <span class="text-muted">stack: <%= player.stack %></span>
+      <li class="list-inline-item"><strong><%= player.position  %>. <%= player.user.nickname  %></strong> - <span class="text-muted">stack: <%= player.stack %></span>
       </li>
     <% end %>
   </ul>
@@ -29,10 +29,12 @@
       <% else %>
         <%# I'm a player and game has started %>
         <% if @poker_table.table_hands.last.status = "preflop" && !current_user.players.last.player_hands.empty? %>
-          <%= "Position to play: #{@poker_table.table_hands.last.current_player_position}" %>
-          <%= "Amount bet: #{current_user.players.last.player_hands.last.bet_amount}" %>
-          <%= "Amount to call: #{@poker_table.table_hands.last.current_call_amount - current_user.players.last.player_hands.last.bet_amount}"  %>
-          <%= "Pot: #{@poker_table.table_hands.last.pot}" %>
+          <div class="list-inline mb-3">
+            <li class="list-inline-item">Position to play: <strong><%= @poker_table.table_hands.last.current_player_position %></strong></li>
+            <li class="list-inline-item">Amount bet: <strong><%= current_user.players.last.player_hands.last.bet_amount %></strong></li>
+            <li class="list-inline-item">Amount to call: <strong><%= @poker_table.table_hands.last.current_call_amount - current_user.players.last.player_hands.last.bet_amount %></strong></li>
+            <li class="list-inline-item">Pot: <strong><%= @poker_table.table_hands.last.pot %></strong></li>
+          </div>
             <%# I'm a player and it's my turn and i'm not folded %>
             <% if @poker_table.table_hands.last.current_player_position == current_user.players.last.position && current_user.players.last.player_hands.last.folded == false %>
               <div class="d-flex" style="height: 200px; right: 1rem; bottom: 1rem; position: absolute;">
