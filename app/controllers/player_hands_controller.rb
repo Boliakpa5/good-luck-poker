@@ -176,7 +176,7 @@ class PlayerHandsController < ApplicationController
       # Needed for double pairs
       hash = numbers_array.tally
       # Royal Flush
-      if color_array.tally.max.last >= 5 && suited(numbers_array) == 14
+      if color_array.tally.values.max >= 5 && suited(numbers_array) == 14
         playerhand.combination = [9]
       # Straight Flush
       elsif color_array.tally.max.last >= 5 && suited(numbers_array)
@@ -188,7 +188,7 @@ class PlayerHandsController < ApplicationController
       elsif numbers_array.tally.max.last == 3 && numbers_array.tally.value?(2)
         playerhand.combination = [6, numbers_array.tally.max.first]
       # Flush
-      elsif color_array.tally.max.last >= 5
+      elsif color_array.tally.values.max >= 5
         playerhand.combination = [5, numbers_array.max]
         # !!!!!! Prend la plus haute, indépendemment de la couleur!!!!!!
       # Straight
