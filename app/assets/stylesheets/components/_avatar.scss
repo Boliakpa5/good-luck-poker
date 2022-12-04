@@ -5,14 +5,26 @@
   border-radius: 50%;
   border: white 2px solid;
 }
+.avatar-overlay {
+  position: relative;
+  &:after {
+    content: '';
+    position: absolute;
+    left:0; top:0;
+    width:100%; height:100%;
+    border-radius: 50%;
+    background: linear-gradient(180deg, rgba(6, 32, 16, 0) 50%, $green-dark 100%);
+  }
+}
+
 .avatar-large {
-  height: 110px;
-  width: 110px;
+  height: 6.8rem;
+  width: 6.8rem;
   object-fit: cover;
   border-radius: 50%;
   border: double 6px transparent;
   border-radius: 50%;
-  background-image: linear-gradient(white, white), linear-gradient(#256337, #153D22);
+  background-image: linear-gradient($green-dark, $green-dark), linear-gradient(#256337, $green-dark);
   background-origin: border-box;
   background-clip: content-box, border-box;
   display: inline-block;
@@ -20,8 +32,15 @@
 }
 
 .avatar-select {
-  border: 4px dashed #09DB6A;
-  box-shadow: 0px 0px 6px #09DB6A;
-  padding: 16px;
+  width: fit-content;
+  margin: 0 auto;
+  border: 4px solid transparent;
+  padding: 1rem;
   border-radius: 50%;
+  margin: -1.25rem 0;
+}
+
+.player-active {
+  border: 4px dashed #09DB6A;
+  filter: drop-shadow(0px 0px 6px #09DB6A);
 }
