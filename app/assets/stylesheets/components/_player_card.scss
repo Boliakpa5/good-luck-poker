@@ -1,14 +1,7 @@
 .player-card {
   display: inline-block;
   position: relative;
-
-  &:after {
-    content: asset_url('coin-player.svg');
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: -40px;
-  }
+  text-align: center;
 
   .player-card-info {
     background: linear-gradient(0deg, rgba(37, 99, 55, 0.6) 0%, rgba(21, 61, 34, 0.6) 100%);
@@ -19,9 +12,11 @@
     padding: 0.3rem 2rem;
     display: inline-block;
     margin-top: -1.2rem;
+    max-width: 200px;
+    overflow-wrap: break-word;
     h2 {
       font-size: 1.125rem;
-      color: $grey-medium;
+      color: $gray-medium;
       margin-bottom: 0;
       font-family: 'Jost', "Helvetica";
     }
@@ -33,22 +28,45 @@
 }
 .player-card-top {
   margin-top: -35px;
+  margin-bottom: -38px;
+
+  &:after {
+    content: asset_url('coin-small-blind.svg');
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -30px;
+  }
 }
 .player-card-right {
   transform: translateX(calc(50% - 28px));
   margin-top: -18px;
-  &:before {
-    content: asset_url('coin-player.svg');
+  &:after {
+    content: url('coin-small-blind.svg');
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: -40px;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }
 .player-card-left {
   transform: translateX(calc(-50% + 28px));
   margin-top: -18px;
+  &:after {
+    content: url('coin-small-blind.svg');
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }
 .player-card-bottom {
-  margin-bottom: -36px
+  margin-bottom: -71px;
+  &:after {
+    content: url('coin-small-blind.svg');
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }

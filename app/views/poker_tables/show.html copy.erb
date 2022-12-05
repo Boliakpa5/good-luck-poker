@@ -115,13 +115,9 @@
 </div>
 <div class="exit-table">
   <% if @players.include?(current_user.players.last) %>
-    <%= link_to leave_player_path(current_user.players.last), data: { turbo_method: :patch, turbo_confirm: "You'll flop this game, are you sure?" }, class: 'btn btn-outline-light' do %>
-      <i class="fa-regular fa-circle-xmark"></i> Leave table
-    <% end %>
+    <%= link_to "Leave table", leave_player_path(current_user.players.last), data: { turbo_method: :patch, turbo_confirm: "You'll flop this game, are you sure?" } %>
   <% else %>
-    <%= link_to poker_tables_path, class: 'btn btn-outline-light' do %>
-      <i class="fa-solid fa-arrow-left"></i> Go back to list
-    <% end %>
+    <%= link_to "Go back to list", poker_tables_path %>
   <% end %>
 </div>
 
@@ -147,7 +143,7 @@
       <%= link_to "Start game", table_hands_path(poker_table_id: @poker_table.id), data: { turbo_method: :post } %>
     <% else %>
       <%# I'm a player and game has started %>
-      <% if @poker_table.table_hands.last.status = "preflop" && !current_user.players.last.player_hands.empty? %>
+      <% if @poker_table.table_hands.last.status == "preflop" && !current_user.players.last.player_hands.empty? %>
         <%= "Position to play: #{@poker_table.table_hands.last.current_player_position}"  %>
         <%= "Amount bet: #{current_user.players.last.player_hands.last.bet_amount}"  %>
         <%= "Amount to call: #{@poker_table.table_hands.last.current_call_amount - current_user.players.last.player_hands.last.bet_amount}"  %>
@@ -193,12 +189,21 @@
       <%# I'm an active player and it's my turn %>
     <% end %>
   <% end %>
+  <%= link_to "Exit the table", leave_player_path(current_user.players.last), data: { turbo_method: :patch, turbo_confirm: "Sure?" } %>
 <%# I'm not a player %>
 <% else %>
   <%# I'm not a player but with enough cash %>
   <% if current_user.balance >= @poker_table.small_blind * 100 %>
+    <% @poker_table.max_players.times do |index| %>
+      <% if @players.where(position: (index + 1)).empty? %>
+        <div class="join-seat">
+          <%= link_to "Join seat", poker_table_players_path(@poker_table, position: (index + 1)), data: { turbo_method: :post }, class: 'stretched-link' %>
+        </div>
+      <% end %>
+    <% end %>
   <%# I'm not a player and not enough cash %>
   <% else %>
     <span>You don't have the balance to join this table</span>
   <% end %>
+  <%= link_to "Go back to list", poker_tables_path %>
 <% end %>
