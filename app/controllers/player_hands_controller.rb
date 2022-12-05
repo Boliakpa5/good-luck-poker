@@ -204,6 +204,7 @@ class PlayerHandsController < ApplicationController
       # Double Pair
       elsif !hash.values.count(2).nil? && hash.values.count(2) >= 2
         playerhand.combination = [2, hash.keys[hash.values.rindex(2)], hash.keys[hash.values.index(2)], hash.keys[hash.values.rindex(1)]]
+        # !!!!! Va prendre la plus petite paire des 3 au lieu de la deuxieme au cas ou il y a plus que 2 paires !!!!!
       # Pair
       elsif hash.values.tally[2] == 1
         double_array = []
