@@ -4,7 +4,7 @@
       <%= image_tag "logo-good-luck-poker.svg", alt: "logo good luck poker" %>
     <% end %>
     <% if user_signed_in? %>
-    <div><%= current_user.luck_ratio  %></div>
+    <div><%= current_user.luck_ratio %></div>
     <% end %>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -16,7 +16,7 @@
           <li class="nav-item active">
             <%= current_user.balance %>
           </li>
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown ms-3">
             <% if current_user.photo.attached? %>
               <%= cl_image_tag current_user.photo.key, alt: "Picture of #{current_user.nickname}", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
             <% else %>

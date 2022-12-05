@@ -172,8 +172,7 @@
   <% end %>
 </div>
 <% if !@poker_table.table_hands.empty? && TableHand::STATUSES.index(@table_hand.status) == 0 %>
-<%# <% raise %>
   <%= render "winner", winnerhands: @poker_table.table_hands.last.player_hands.where(winner: true) %>
 <% end %>
 
-<%= @poker_table.table_hands.empty? ? '' : @poker_table.table_hands.last.status %>
+<%#= @poker_table.table_hands.empty? ? '' : @poker_table.table_hands.last.status %>
