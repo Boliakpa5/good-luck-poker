@@ -189,8 +189,12 @@ class PlayerHandsController < ApplicationController
         playerhand.combination = [6, numbers_array.tally.key(3)]
       # Flush
       elsif color_array.tally.values.max >= 5
-        playerhand.combination = [5, numbers_array.max]
-        # !!!!!! Prend la plus haute, indépendemment de la couleur!!!!!!
+        color_number_array = []
+        card_array.each do |card|
+          color_number_array << card.chop.to_i if card.last == color_array.tally.key(5) || color_array.tally.key(6) || color_array.tally.key(7)
+        end
+        color_number_array.sort!
+        playerhand.combination = [5, color_number_array.max]
       # Straight
       elsif suited(numbers_array)
         playerhand.combination = [4, suited(numbers_array)]
@@ -198,16 +202,27 @@ class PlayerHandsController < ApplicationController
       elsif numbers_array.tally.values.max == 3
         playerhand.combination = [3, numbers_array.tally.key(3)]
       # Double Pair
-      elsif !hash.values.tally[2].nil? && hash.values.tally[2] >= 2
-        playerhand.combination = [2, hash.keys[hash.values.rindex(2)]]
-        # !!!!!!Ne fais pas la différence sur la derniere carte!!!!!!
+      elsif !hash.values.count(2).nil? && hash.values.count(2) >= 2
+        playerhand.combination = [2, hash.keys[hash.values.rindex(2)], hash.keys[hash.values.index(2)], hash.keys[hash.values.rindex(1)]]
       # Pair
       elsif hash.values.tally[2] == 1
-        playerhand.combination = [1, hash.keys[hash.values.rindex(2)]]
-        # !!!!!!Ne fais pas la différence sur les trois dernieres carte!!!!!!
+        double_array = []
+        card_array.each do |card|
+          double_array << card.chop.to_i
+        end
+        double_array.delete(hash.keys[hash.values.rindex(2)])
+        last_cards = double_array.sort!.reverse.first(3)
+        combination = [1, hash.keys[hash.values.rindex(2)], last_cards].flatten
+        playerhand.combination = combination
       # High Card
       else
-        playerhand.combination = [0, numbers_array.reverse.first(5).join(" ")]
+        single_array = []
+        card_array.each do |card|
+          single_array << card.chop.to_i
+        end
+        last_cards = single_array.sort!.reverse.first(5)
+        combination = [0, last_cards].flatten
+        playerhand.combination = combination
       end
       player.save
       playerhand.save
@@ -223,6 +238,7 @@ class PlayerHandsController < ApplicationController
       comparative_array << player.player_hands.last.combination
     end
     winningcombination = comparative_array.max
+    # raise
     if comparative_array.count(comparative_array.max) >= 2
       @players.each do |player|
         winners << player if player.player_hands.last.combination == winningcombination
