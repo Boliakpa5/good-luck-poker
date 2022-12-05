@@ -40,7 +40,7 @@
           <%= render 'seat_top', players: @players, poker_table: @poker_table, position: 2 %>
           <%= render 'seat_top', players: @players, poker_table: @poker_table, position: 3 %>
         </div>
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between">
           <%= render 'seat_left', players: @players, poker_table: @poker_table, position: 1 %>
           <%= render 'seat_right', players: @players, poker_table: @poker_table, position: 4 %>
         </div>
@@ -52,7 +52,7 @@
           <%= render 'seat_top', players: @players, poker_table: @poker_table, position: 2 %>
           <%= render 'seat_top', players: @players, poker_table: @poker_table, position: 3 %>
         </div>
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between">
           <%= render 'seat_left', players: @players, poker_table: @poker_table, position: 1 %>
           <%= render 'seat_right', players: @players, poker_table: @poker_table, position: 4 %>
         </div>
@@ -66,7 +66,7 @@
           <%= render 'seat_top', players: @players, poker_table: @poker_table, position: 3 %>
           <%= render 'seat_top', players: @players, poker_table: @poker_table, position: 4 %>
         </div>
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between">
           <%= render 'seat_left', players: @players, poker_table: @poker_table, position: 1 %>
           <%= render 'seat_right', players: @players, poker_table: @poker_table, position: 5 %>
         </div>
@@ -80,7 +80,7 @@
           <%= render 'seat_top', players: @players, poker_table: @poker_table, position: 3 %>
           <%= render 'seat_top', players: @players, poker_table: @poker_table, position: 4 %>
         </div>
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between">
           <%= render 'seat_left', players: @players, poker_table: @poker_table, position: 1 %>
           <%= render 'seat_right', players: @players, poker_table: @poker_table, position: 5 %>
         </div>
@@ -96,7 +96,7 @@
           <%= render 'seat_top', players: @players, poker_table: @poker_table, position: 4 %>
           <%= render 'seat_top', players: @players, poker_table: @poker_table, position: 5 %>
         </div>
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between">
           <%= render 'seat_left', players: @players, poker_table: @poker_table, position: 1 %>
           <%= render 'seat_right', players: @players, poker_table: @poker_table, position: 6 %>
         </div>
@@ -166,7 +166,7 @@
 <%= @poker_table.table_hands.empty? ? '' : @poker_table.table_hands.last.status %>
 
       <%# I'm a player and game has started %>
-<% if !@poker_table.table_hands.empty? && @poker_table.table_hands.last.status == "preflop" && !current_user.players.last.player_hands.empty? %>
+<% if !@poker_table.table_hands.empty? && @poker_table.table_hands.last.status = "preflop" && !current_user.players.last.player_hands.empty? %>
   <%= "Position to play: #{@poker_table.table_hands.last.current_player_position}"  %>
   <%= "Amount bet: #{current_user.players.last.player_hands.last.bet_amount}"  %>
   <%= "Counter: #{@poker_table.table_hands.last.counter}"  %>
