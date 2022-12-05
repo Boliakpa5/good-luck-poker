@@ -8,7 +8,7 @@ Temps réel
 si qqun rejoint durant une partie, ça fait crash
 empêcher de joindre une deuxième table
 
-Bouton pour reset la thune
+
 cartes de l'adversaire à la fin de la partie
 si tous le monde fold, on fait quand même le process
 
