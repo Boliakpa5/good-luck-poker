@@ -1,0 +1,51 @@
+.table-cards-overlay {
+  text-align: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50px;
+  right: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 1.3rem;
+}
+.game-status{
+  p {
+    color: $green-medium;
+    margin: 0;
+  }
+  #pot {
+    margin: 0;
+    color: $yellow;
+    font-size: 1.2rem;
+  }
+}
+
+.table-card {
+  height: 120px;
+  margin: 0.6rem 0.5rem;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.player-cards {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  &:hover #player-card1 {
+    transform-origin: left bottom;
+    transform: rotate(-8deg);
+  }
+  &:hover #player-card2 {
+    transform-origin: right bottom;
+    transform: rotate(8deg);
+  }
+  .player-card {
+    height: 150px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.5s ease;
+  }
+  #player-card2{
+    margin-left: -60px;
+  }
+}
