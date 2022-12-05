@@ -11,6 +11,8 @@ class TableHandsController < ApplicationController
       if player.stack <= (@poker_table.small_blind * 2)
         player.active = false
         player.save
+        current_user.balance += @player.stack
+        current_user.save
       end
     end
     @players = @poker_table.players.active
@@ -48,41 +50,6 @@ class TableHandsController < ApplicationController
     second_player_hand.save
     # redering the table
     redirect_to poker_table_path(@poker_table)
-  end
-
-  # calcul le score de la main d'un player actif ou non
-  def player_hand_score(player)
-    score = player.final_hand.score[0]
-    score = score.map { |i| i.to_s }
-    score = score.map do |num|
-      if num.to_i < 10
-        "0" + num
-      else
-        num
-      end
-    end
-    score[0] = score[0] + "."
-    score = score.join()
-    score = score.to_f
-    return score
-  end
-
-  # indique si le player win et return true or false
-  def player_win?(player)
-    if player.active == false
-      return false
-    else
-      end_game_results = []
-      @poker_table.players.active.each do |joueur|
-        end_game_results << joueur.player_hand_score
-      end
-      player.player_hand_score == end_game_results.max()
-    end
-  end
-
-  # indique le type de main (full house, flush, straight, etc..)
-  def hand_type(hand)
-    hand.hand_rating
   end
 
   private
