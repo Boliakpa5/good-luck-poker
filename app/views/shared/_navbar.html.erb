@@ -3,7 +3,9 @@
     <%= link_to root_path, class: "navbar-brand" do %>
       <%= image_tag "logo-good-luck-poker.svg", alt: "logo good luck poker" %>
     <% end %>
-
+    <% if user_signed_in? %>
+    <div><%= current_user.luck_ratio  %></div>
+    <% end %>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
