@@ -1,13 +1,13 @@
-.exit-table {
+.player-dashboard {
   position: absolute;
   bottom: 2rem;
   left: 2rem;
+  right: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
 .player-controls {
-  position: absolute;
-  bottom: 2rem;
-  left: 0;
-  right: 0;
   text-align: center;
 }
