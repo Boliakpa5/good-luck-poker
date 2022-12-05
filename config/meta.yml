@@ -1,0 +1,5 @@
+meta_name: "Good Luck Poker"
+meta_title: "Good Luck Poker - Trust your skill, not your luck"
+meta_description: "Play poker with you luck ratio in mind, you can't blame the cards anymore!"
+meta_image: "GL_logo_white_on_black.png" # should exist in `app/assets/images/`
+twitter_account: "@Ninjao10"   # required for Twitter Cards
