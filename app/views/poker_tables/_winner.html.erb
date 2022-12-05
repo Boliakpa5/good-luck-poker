@@ -1,10 +1,10 @@
 <% winnerhands.each do |winnerhand| %>
   <% unless winnerhand.combination.nil? %>
-    <%  case winnerhand.combination.last  %>
-      <%  when 11 then trad = winnerhand.combination.last.to_s.gsub("11", "Jacks")  %>
-      <%  when 12 then trad = winnerhand.combination.last.to_s.gsub("12", "Queens")  %>
-      <%  when 13 then trad = winnerhand.combination.last.to_s.gsub("13", "Kings")  %>
-      <%  when 14 then trad = winnerhand.combination.last.to_s.gsub("14", "Aces")  %>
+    <%  case winnerhand.combination[1]  %>
+      <%  when 11 then trad = winnerhand.combination[1].to_s.gsub("11", "Jacks")  %>
+      <%  when 12 then trad = winnerhand.combination[1].to_s.gsub("12", "Queens")  %>
+      <%  when 13 then trad = winnerhand.combination[1].to_s.gsub("13", "Kings")  %>
+      <%  when 14 then trad = winnerhand.combination[1].to_s.gsub("14", "Aces")  %>
     <% end %>
     <% case winnerhand.combination.first %>
     <% when 0 then combo = "High Card #{winnerhand.combination}"%>

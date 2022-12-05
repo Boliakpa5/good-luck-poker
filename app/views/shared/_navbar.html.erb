@@ -21,6 +21,7 @@
               <%= image_tag "https://avatars.dicebear.com/api/micah/#{current_user.nickname}.svg?background=%231A8A47", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
             <% end %>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <%= link_to "Reset balance", reset_path, data: {turbo_method: :post, turbo_confirm: "Are you sure? (YOU WILL LOSE BALANCE IF >500)" }, class: "dropdown-item" %>
               <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item text-danger" %>
             </div>
           </li>

@@ -154,7 +154,7 @@
 </div>
 <% if TableHand::STATUSES.index(@table_hand.status) == 0 %>
 <%# <% raise %>
-  <%= render "winner", winnerhand: @poker_table.table_hands.last.player_hands.find_by(winner: true) %>
+  <%= render "winner", winnerhands: @poker_table.table_hands.last.player_hands.where(winner: true) %>
 <% end %>
 
 
