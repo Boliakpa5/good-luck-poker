@@ -23,7 +23,7 @@ cartes s'affichent à la fin de la partie
 statut fold
 display bulle avec choix des joueurs
 winner screen
-
+forms
 
 ++
 cover meta image
