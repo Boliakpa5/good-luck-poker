@@ -1,0 +1,13 @@
+<div class="avatar-select">
+  <div class="avatar-overlay">
+    <% if player.user.photo.attached? %>
+      <%= cl_image_tag player.user.photo.key, alt: "Picture of #{player.user.nickname}", class: "avatar-large"%>
+    <% else %>
+      <%= image_tag "https://avatars.dicebear.com/api/micah/#{player.user.nickname}.svg?background=%231A8A47", class: "avatar-large" %>
+    <% end %>
+  </div>
+</div>
+<div class="player-display-info">
+  <h2><%= player.user.nickname %></h2>
+  <p><%= player.stack %> coins</p>
+</div>
