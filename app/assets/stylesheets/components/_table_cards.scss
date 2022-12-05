@@ -29,9 +29,6 @@
 }
 
 .player-cards {
-  position: absolute;
-  bottom: 2rem;
-  right: 2rem;
   &:hover #player-card1 {
     transform-origin: left bottom;
     transform: rotate(-8deg);
