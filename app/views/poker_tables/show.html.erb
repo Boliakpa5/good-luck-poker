@@ -3,7 +3,7 @@
     <div class="table-cards-overlay">
       <div class="game-status">
         <% if @players.count < 2 %>
-          <h3 class="h4">Waiting for a second player to join...</h3>
+          <h3 class="h4">Waiting for <%= pluralize((2 - @players.count), 'more player') %> to start...</h3>
         <% else %>
           <% unless @poker_table.table_hands.empty? %>
             <% if @players.include?(current_user.players.last) && @players.count > 1 && @poker_table.table_hands.last.status = 'preflop' && !current_user.players.last.player_hands.empty? %>
@@ -109,7 +109,9 @@
 </div>
 <div class="player-cards">
   <% unless @poker_table.table_hands.empty? %>
-    <% if @poker_table.table_hands.last.current_player_position == current_user.players.last.position && current_user.players.last.player_hands.last.folded == false %>
+    <% if @players.include?(current_user.players.last) && @players.count > 1 && @poker_table.table_hands.last.status = "preflop" && !current_user.players.last.player_hands.empty? %>
+      <%= image_tag "cards/#{current_user.player_hands.last.player_card1}.svg", class: 'player-card', id: 'player-card1' %>
+      <%= image_tag "cards/#{current_user.player_hands.last.player_card2}.svg", class: 'player-card', id: 'player-card2' %>
     <% end %>
   <% end %>
 </div>
@@ -134,7 +136,6 @@
 <% if @players.include?(current_user.players.last) %>
   <%# The game hasn't started but not enough players to start %>
   <% if @players.count < 2 %>
-    <span>Can't start the game, 2 players minimum</span>
   <%# The game hasn't started and there are enough players %>
   <% else %>
     <%# The game hasn't started, it'll be the first game ever and I'm player 1 %>
@@ -172,18 +173,6 @@
           <% if TableHand::STATUSES.index(@table_hand.status) == 0 %>
           <%# <% raise %>
             <%= render "winner", winnerhand: @poker_table.table_hands.last.player_hands.find_by(winner: true) %>
-          <% else %>
-            <% if TableHand::STATUSES.index(@table_hand.status) >= 2 %>
-              <%= image_tag "cards/#{@poker_table.table_hands.last.table_card1}.svg" %>
-              <%= image_tag "cards/#{@poker_table.table_hands.last.table_card2}.svg" %>
-              <%= image_tag "cards/#{@poker_table.table_hands.last.table_card3}.svg" %>
-            <% end %>
-            <% if TableHand::STATUSES.index(@table_hand.status) >= 3 %>
-              <%= image_tag "cards/#{@poker_table.table_hands.last.table_card4}.svg" %>
-            <% end %>
-            <% if TableHand::STATUSES.index(@table_hand.status) >= 4 %>
-              <%= image_tag "cards/#{@poker_table.table_hands.last.table_card5}.svg" %>
-            <% end %>
           <% end %>
       <%# I'm a player but folded or not in this round %>
       <% else %>
