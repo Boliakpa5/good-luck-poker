@@ -61,12 +61,4 @@ class TableHandsController < ApplicationController
   def set_table_hand
     @table_hand = current_user.players.last.poker_table.table_hand.last
   end
-
-  def final_hand
-    final_hand = []
-    final_hand << player_hand.player_card1
-    final_hand << player_hand.player_card2
-    final_hand << player_hand.table_hand
-    final_hand.flatten!
-  end
 end
