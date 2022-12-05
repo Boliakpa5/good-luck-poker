@@ -182,11 +182,11 @@ class PlayerHandsController < ApplicationController
       elsif color_array.tally.values.max >= 5 && suited(numbers_array)
         playerhand.combination = [8, suited(numbers_array)]
       # Four of a Kind
-      elsif numbers_array.tally.max.last == 4
-        playerhand.combination = [7, numbers_array.tally.max.first]
+      elsif numbers_array.tally.values.max == 4
+        playerhand.combination = [7, numbers_array.tally.key(4)]
       # Full House
-      elsif numbers_array.tally.max.last == 3 && numbers_array.tally.value?(2)
-        playerhand.combination = [6, numbers_array.tally.max.first]
+      elsif numbers_array.tally.values.max == 3 && numbers_array.tally.value?(2)
+        playerhand.combination = [6, numbers_array.tally.key(3)]
       # Flush
       elsif color_array.tally.values.max >= 5
         playerhand.combination = [5, numbers_array.max]
@@ -195,8 +195,8 @@ class PlayerHandsController < ApplicationController
       elsif suited(numbers_array)
         playerhand.combination = [4, suited(numbers_array)]
       # Three of a kind
-      elsif numbers_array.tally.max.last == 3
-        playerhand.combination = [3, numbers_array.tally.max.first]
+      elsif numbers_array.tally.values.max == 3
+        playerhand.combination = [3, numbers_array.tally.key(3)]
       # Double Pair
       elsif !hash.values.tally[2].nil? && hash.values.tally[2] >= 2
         playerhand.combination = [2, hash.keys[hash.values.rindex(2)]]
@@ -218,40 +218,42 @@ class PlayerHandsController < ApplicationController
 
   def getwinner
     comparative_array = []
+    winners = []
     @players.each do |player|
       comparative_array << player.player_hands.last.combination
     end
     winningcombination = comparative_array.max
-    @players.each do |player|
-      return player if player.player_hands.last.combination == winningcombination
+    if comparative_array.count(comparative_array.max) >= 2
+      @players.each do |player|
+        winners << player if player.player_hands.last.combination == winningcombination
+      end
+      return winners
+    else
+      @players.each do |player|
+        return player if player.player_hands.last.combination == winningcombination
+      end
     end
   end
 
   def suited(sorted_number_array)
     array_of_ones = []
-    sorted_number_array.each_cons(5) do |pack|
+    aces = sorted_number_array.count(14)
+    aces.times { sorted_number_array << 1 } if aces >= 1
+    sorted_number_array.sort.uniq.each_cons(5) do |pack|
       pack.each_cons(2) do |pair|
         array_of_ones << (pair.last - pair.first)
       end
     end
-    first_array_of_ones = []
-    second_array_of_ones = []
-    third_array_of_ones = []
-    first_array_of_ones << array_of_ones.first(4)
-    second_array_of_ones << array_of_ones.first(5).last(4)
-    third_array_of_ones << array_of_ones.last(4)
-    first_array_of_ones = first_array_of_ones.reduce
-    second_array_of_ones = second_array_of_ones.reduce
-    third_array_of_ones = third_array_of_ones.reduce
-    if !first_array_of_ones.tally[1].nil? && first_array_of_ones.tally[1] >= 4
-      index = first_array_of_ones.rindex(1)
-      return sorted_number_array[index + 1]
-    elsif !second_array_of_ones.tally[1].nil? && second_array_of_ones.tally[1] >= 4
-      index = second_array_of_ones.rindex(1)
-      return sorted_number_array[index + 2]
-    elsif !third_array_of_ones.tally[1].nil? && third_array_of_ones.tally[1] >= 4
-      index = third_array_of_ones.rindex(1)
+    max = array_of_ones.count
+    if max >= 4 && !array_of_ones[max - 4, 4].tally[1].nil? && array_of_ones[max - 4, 4].tally[1] >= 4
+      index = array_of_ones[max - 4, 4].rindex(1)
       return sorted_number_array[index + 3]
+    elsif max >= 8 &&  !array_of_ones[max - 8, 4].tally[1].nil? && array_of_ones[max - 8, 4].tally[1] >= 4
+      index = array_of_ones[max - 8, 4].rindex(1)
+      return sorted_number_array[index + 2]
+    elsif max >= 12 && !array_of_ones[max - 12, 4].tally[1].nil? && array_of_ones[max - 12, 4].tally[1] >= 4
+      index = array_of_ones[max - 12, 4].rindex(1)
+      return sorted_number_array[index + 1]
     end
     return nil
   end
@@ -259,11 +261,21 @@ class PlayerHandsController < ApplicationController
   def endgame(winner)
     @table_hand.status = TableHand::STATUSES[0]
     @table_hand.save
-    winnerhand = winner.player_hands.last
-    winnerhand.winner = true
-    winnerhand.save
-    winner.stack += @table_hand.pot
-    winner.save
+    if winner.instance_of?(Array)
+      winner.each do |i|
+        winnerhand = i.player_hands.last
+        winnerhand.winner = true
+        winnerhand.save
+        i.stack += (@table_hand.pot / winner.count)
+        i.save
+      end
+    else
+      winnerhand = winner.player_hands.last
+      winnerhand.winner = true
+      winnerhand.save
+      winner.stack += @table_hand.pot
+      winner.save
+    end
     redirect_to poker_table_path(@poker_table)
   end
 end
