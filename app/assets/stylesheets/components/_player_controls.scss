@@ -1,0 +1,35 @@
+.player-dashboard {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+}
+
+.game-controls {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.player-cards {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  &:hover #player-card1 {
+    transform-origin: left bottom;
+    transform: rotate(-8deg);
+  }
+  &:hover #player-card2 {
+    transform-origin: right bottom;
+    transform: rotate(8deg);
+  }
+  .player-card {
+    height: 150px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.5s ease;
+  }
+  #player-card2{
+    margin-left: -60px;
+  }
+}
