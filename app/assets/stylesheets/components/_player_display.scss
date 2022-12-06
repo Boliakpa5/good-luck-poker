@@ -18,7 +18,7 @@
       font-size: 1.125rem;
       color: $gray-medium;
       margin-bottom: 0;
-      font-family: 'Jost', "Helvetica";
+      font-family: $body-font;
     }
     p {
       color: $green-pop;
@@ -96,4 +96,9 @@
     left: 50%;
     transform: translateX(-50%);
   }
+}
+.player-folded:after {
+  content: 'fold';
+  background: linear-gradient(rgba(21, 61, 34, 0.9), rgba(21, 61, 34, 0.9)), linear-gradient(180deg, rgba(6, 32, 16, 0) 50%, $green-dark 100%);
+  ;
 }
