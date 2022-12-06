@@ -39,73 +39,73 @@
             <%# Rendering the seats %>
             <% if poker_table.max_players == 5 %>
               <div class="d-flex justify-content-evenly">
-                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 2 %>
-                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 3 %>
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 2 %>
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 3 %>
               </div>
               <div class="d-flex justify-content-between">
-                <%= render 'poker_tables/seat_left', players: players, poker_table: poker_table, position: 1 %>
-                <%= render 'poker_tables/seat_right', players: players, poker_table: poker_table, position: 4 %>
+                <%= render 'poker_tables/seat_left', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 1 %>
+                <%= render 'poker_tables/seat_right', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 4 %>
               </div>
               <div class="d-flex justify-content-around">
-                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, position: 5 %>
+                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 5 %>
               </div>
             <% elsif poker_table.max_players == 6 %>
               <div class="d-flex justify-content-evenly">
-                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 2 %>
-                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 3 %>
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 2 %>
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 3 %>
               </div>
               <div class="d-flex justify-content-between">
-                <%= render 'poker_tables/seat_left', players: players, poker_table: poker_table, position: 1 %>
-                <%= render 'poker_tables/seat_right', players: players, poker_table: poker_table, position: 4 %>
+                <%= render 'poker_tables/seat_left', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 1 %>
+                <%= render 'poker_tables/seat_right', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 4 %>
               </div>
               <div class="d-flex justify-content-evenly">
-                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, position: 6 %>
-                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, position: 5 %>
+                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 6 %>
+                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 5 %>
               </div>
             <% elsif poker_table.max_players == 7 %>
               <div class="d-flex justify-content-evenly">
-                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 2 %>
-                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 3 %>
-                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 4 %>
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 2 %>
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 3 %>
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 4 %>
               </div>
               <div class="d-flex justify-content-between">
-                <%= render 'poker_tables/seat_left', players: players, poker_table: poker_table, position: 1 %>
-                <%= render 'poker_tables/seat_right', players: players, poker_table: poker_table, position: 5 %>
+                <%= render 'poker_tables/seat_left', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 1 %>
+                <%= render 'poker_tables/seat_right', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 5 %>
               </div>
               <div class="d-flex justify-content-evenly">
-                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, position: 7 %>
-                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, position: 6 %>
+                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 7 %>
+                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 6 %>
               </div>
             <% elsif poker_table.max_players == 8 %>
               <div class="d-flex justify-content-evenly">
-                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 2 %>
-                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 3 %>
-                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 4 %>
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 2 %>
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 3 %>
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 4 %>
               </div>
               <div class="d-flex justify-content-between">
-                <%= render 'poker_tables/seat_left', players: players, poker_table: poker_table, position: 1 %>
-                <%= render 'poker_tables/seat_right', players: players, poker_table: poker_table, position: 5 %>
+                <%= render 'poker_tables/seat_left', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 1 %>
+                <%= render 'poker_tables/seat_right', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 5 %>
               </div>
               <div class="d-flex justify-content-evenly">
-                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, position: 8 %>
-                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, position: 7 %>
-                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, position: 6 %>
+                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 8 %>
+                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 7 %>
+                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 6 %>
               </div>
             <% elsif poker_table.max_players == 9 %>
               <div class="d-flex justify-content-evenly">
-                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 2 %>
-                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 3 %>
-                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 4 %>
-                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 5 %>
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 2 %>
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 3 %>
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 4 %>
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 5 %>
               </div>
               <div class="d-flex justify-content-between">
-                <%= render 'poker_tables/seat_left', players: players, poker_table: poker_table, position: 1 %>
-                <%= render 'poker_tables/seat_right', players: players, poker_table: poker_table, position: 6 %>
+                <%= render 'poker_tables/seat_left', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 1 %>
+                <%= render 'poker_tables/seat_right', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 6 %>
               </div>
               <div class="d-flex justify-content-evenly">
-                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, position: 9 %>
-                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, position: 8 %>
-                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, position: 7 %>
+                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 9 %>
+                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 8 %>
+                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, player: player, table_hand: table_hand, position: 7 %>
               </div>
             <% end %>
           </div>

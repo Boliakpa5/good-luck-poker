@@ -15,8 +15,7 @@ class PlayersController < ApplicationController
       @positions = @players.map(&:position).sort
       @table_hand = @poker_table.table_hands.last
       # @html = get_html(@poker_table, @player, @players)
-      @players.drop(1).each do |player|
-
+      @players.each do |player|
         @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: player})
         @payload = {
           event: 'player_seated',
@@ -28,18 +27,17 @@ class PlayersController < ApplicationController
           @payload
         )
       end
-      head :ok
     end
-    redirect_to poker_table_path(@poker_table) if @current_player.user == current_user
+    redirect_to poker_table_path(@poker_table)
   end
 
   def leave
-    poker_table = current_user.players.active.last.poker_table
-    current_table_hand = poker_table.table_hands.last
+    @poker_table = current_user.players.active.last.poker_table
+    current_table_hand = @poker_table.table_hands.last
     @player = current_user.players.active.last
     @player.active = false
     @player.save
-    if poker_table.players.active.count <= 1 && !current_table_hand.nil?
+    if @poker_table.players.active.count <= 1 && !current_table_hand.nil?
       current_table_hand.status = "end"
       current_table_hand.save
     end
@@ -50,7 +48,23 @@ class PlayersController < ApplicationController
     end
     current_user.balance += @player.stack
     current_user.save
-    redirect_to poker_tables_path(poker_table)
+    if current_user.save
+      @players = @poker_table.players.active
+      @positions = @players.map(&:position).sort
+      @table_hand = @poker_table.table_hands.last
+      @players.each do |player|
+        @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: player})
+        @payload = {
+          event: 'player_leaving',
+          html: @html
+        }
+        PlayerChannel.broadcast_to(
+          player,
+          @payload
+        )
+      end
+    end
+    redirect_to poker_table_path(@poker_table)
   end
 
   # private
