@@ -70,6 +70,20 @@ class PlayerHandsController < ApplicationController
         next_player
         return
       end
+      if @table_hand.save
+        @positions = @players.map(&:position).sort
+        @players.each do |player|
+          @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: player})
+          @payload = {
+            event: 'player_leaving',
+            html: @html
+          }
+          PlayerChannel.broadcast_to(
+            player,
+            @payload
+          )
+        end
+      end
       redirect_to poker_table_path(@poker_table)
     end
   end
@@ -98,6 +112,20 @@ class PlayerHandsController < ApplicationController
       next_player_without_render
     end
     @table_hand.save
+    if @table_hand.save
+      @positions = @players.map(&:position).sort
+      @players.each do |player|
+        @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: player})
+        @payload = {
+          event: 'player_leaving',
+          html: @html
+        }
+        PlayerChannel.broadcast_to(
+          player,
+          @payload
+        )
+      end
+    end
     redirect_to poker_table_path(@poker_table)
   end
 
@@ -114,6 +142,20 @@ class PlayerHandsController < ApplicationController
       @table_hand.current_player_position = @table_hand.first_player_position
     end
     @table_hand.save
+    if @table_hand.save
+      @positions = @players.map(&:position).sort
+      @players.each do |player|
+        @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: player})
+        @payload = {
+          event: 'player_leaving',
+          html: @html
+        }
+        PlayerChannel.broadcast_to(
+          player,
+          @payload
+        )
+      end
+    end
     redirect_to poker_table_path(@poker_table)
   end
 
@@ -130,6 +172,20 @@ class PlayerHandsController < ApplicationController
       @table_hand.current_player_position = @table_hand.first_player_position
     end
     @table_hand.save
+    if @table_hand.save
+      @positions = @players.map(&:position).sort
+      @players.each do |player|
+        @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: player})
+        @payload = {
+          event: 'player_leaving',
+          html: @html
+        }
+        PlayerChannel.broadcast_to(
+          player,
+          @payload
+        )
+      end
+    end
     redirect_to poker_table_path(@poker_table)
   end
 
@@ -230,6 +286,21 @@ class PlayerHandsController < ApplicationController
     end
     winner = getwinner
     endgame(winner)
+    if @table_hand.save
+      @positions = @players.map(&:position).sort
+      @players.each do |player|
+        @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: player})
+        @payload = {
+          event: 'player_leaving',
+          html: @html
+        }
+        PlayerChannel.broadcast_to(
+          player,
+          @payload
+        )
+      end
+      head :ok
+    end
   end
 
   def getwinner

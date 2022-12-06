@@ -25,7 +25,7 @@
 <% end %>
 
 <% winnerhands.each do |winnerhand| %>
-  <% if winnerhand.player.user == current_user %>
+  <% if winnerhand.player == player %>
     <h1>Congratulations <%= winnerhand.player.user.nickname  %>!</h1>
     <h2>You won with: <%= winnerhand.combination %></h2>
   <% else %>
@@ -35,6 +35,6 @@
 <% end %>
 
 
-<% if current_user.players.active.last == winnerhands.last.player%>
+<% if player == winnerhands.last.player%>
   <%= link_to "Restart", table_hands_path(poker_table_id: @poker_table.id), data: { turbo_method: :post } %>
 <% end %>

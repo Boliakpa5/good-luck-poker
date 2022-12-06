@@ -132,7 +132,7 @@
               <div class="d-flex justify-content-center">
                 <%= link_to "fold", fold_hand_player_hand_path(player.player_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-success ms-1' %>
                 <%= link_to "call", call_hand_player_hand_path(player.player_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-success' %>
-                <%= render "raise", min: poker_table.table_hands.last.current_call_amount, max: player.stack %>
+                <%= render "poker_tables/raise", min: poker_table.table_hands.last.current_call_amount, max: player.stack %>
               </div>
             <%# I'm a player but not my turn or folded %>
             <% else %>
@@ -180,7 +180,7 @@
     </div>
   </div>
   <% if players.include?(player) && !poker_table.table_hands.empty? && TableHand::STATUSES.index(table_hand.status) == 0 %>
-    <%= render "winner", winnerhands: poker_table.table_hands.last.player_hands.where(winner: true) %>
+    <%= render "poker_tables/winner", winnerhands: poker_table.table_hands.last.player_hands.where(winner: true), player: player %>
   <% end %>
   <%= poker_table.table_hands.empty? ? '' : poker_table.table_hands.last.status %>
 </div>

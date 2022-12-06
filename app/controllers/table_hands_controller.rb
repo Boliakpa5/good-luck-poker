@@ -50,6 +50,20 @@ class TableHandsController < ApplicationController
     second_player_hand.bet_amount += (@poker_table.small_blind * 2)
     second_player_hand.save
     # redering the table
+    if second_player_hand.save
+      @positions = @players.map(&:position).sort
+      @players.each do |player|
+        @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: player})
+        @payload = {
+          event: 'player_leaving',
+          html: @html
+        }
+        PlayerChannel.broadcast_to(
+          player,
+          @payload
+        )
+      end
+    end
     redirect_to poker_table_path(@poker_table)
   end
 
