@@ -15,19 +15,17 @@ class PlayersController < ApplicationController
       @positions = @players.map(&:position).sort
       @table_hand = @poker_table.table_hands.last
       # @html = get_html(@poker_table, @player, @players)
-      @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand})
+      @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, user: current_user})
       @payload = {
         event: 'player_seated',
         position: @player.position,
         html: @html
       }
       PlayerChannel.broadcast_to(
-        @poker_table,
+        current_user,
         @payload
       )
       head :ok
-    else
-      render 'views/players/create', status: :unprocessable_entity
     end
   end
 
