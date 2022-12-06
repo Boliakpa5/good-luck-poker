@@ -62,18 +62,15 @@ class ApplicationController < ActionController::Base
     royal_mean = royal_counter / hand_counter.to_f
 
     # ratios
-    pair_moy = 42.2569027611
-    double_moy = 4.7539015606
-    three_moy = 2.1128451381
-    straight_moy = 0.3924646782
-    flush_moy = 0.1965401545
-    full_moy = 0.144057623
-    four_moy = 0.0240096038
-    straight_flush_moy = 0.0013851695
-    royal_moy = 0.0001539077
-
-    # ecarts a la moyenne au carré
-    pair_sigma = ((pair_mean - pair_moy).abs)**2
+    pair_ratio = (pair_mean - 0.422569027611) + 1
+    double_ratio = (double_mean - 0.047539015606) + 1
+    three_ratio = (three_mean - 0.021128451381) + 1
+    straight_ratio = (straight_mean - 0.003924646782) + 1
+    flush_ratio = (flush_mean - 0.001965401545) + 1
+    full_ratio = (full_mean - 0.00144057623) + 1
+    four_ratio = (four_mean - 0.000240096038) + 1
+    straight_flush_ratio = (straight_flush_mean - 0.000013851695) + 1
+    royal_ratio = (royal_mean - 0.000001539077) + 1
 
     # main ratio
     main_ratio = (pair_ratio + double_ratio + three_ratio + straight_ratio + flush_ratio + full_ratio + four_ratio + straight_flush_ratio + royal_ratio) / 9.to_f
