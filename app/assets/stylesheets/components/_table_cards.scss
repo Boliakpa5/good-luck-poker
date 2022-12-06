@@ -27,22 +27,3 @@
   margin: 0.6rem 0.5rem;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
 }
-
-.player-cards {
-  &:hover #player-card1 {
-    transform-origin: left bottom;
-    transform: rotate(-8deg);
-  }
-  &:hover #player-card2 {
-    transform-origin: right bottom;
-    transform: rotate(8deg);
-  }
-  .player-card {
-    height: 150px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-    transition: all 0.5s ease;
-  }
-  #player-card2{
-    margin-left: -60px;
-  }
-}
