@@ -111,10 +111,10 @@
 </div>
 <div class="player-dashboard">
   <div>
-    <% unless @players.exclude?(current_user.players.active.last) && @poker_table.table_hands.empty? && @poker_table.table_hands.last.status == "end" && current_user.player_hands.find_by(table_hand: @table_hand).nil? %>
+    <% unless @poker_table.table_hands.empty? || @players.exclude?(current_user.players.active.last) || @poker_table.table_hands.last.status == "end" || current_user.player_hands.find_by(table_hand: @table_hand).nil? || current_user.players.active.last.player_hands.empty? %>
       <div class="debug-info">
         <p class="mb-0"><small>Position to play: <%= @poker_table.table_hands.last.current_player_position %></small></p>
-        <p class="mb-0"><small>Amount bet: <%= current_user.players.active.last.player_hands.last.bet_amount %></small></p>
+        <p class="mb-0"><small>Amount bet: <%= current_user.players.active.last.player_hands.last.bet_amount.nil? %></small></p>
         <p class="mb-0"><small>Counter: <%= @poker_table.table_hands.last.counter %></small></p>
       </div>
     <% end %>
@@ -171,16 +171,14 @@
     <% end %>
   </div>
   <div class="player-cards">
-    <% unless @poker_table.table_hands.empty? %>
-      <% unless current_user.player_hands.find_by(table_hand: @table_hand).nil? %>
-        <%= image_tag "cards/#{current_user.player_hands.last.player_card1}.svg", class: 'player-card', id: 'player-card1' %>
-        <%= image_tag "cards/#{current_user.player_hands.last.player_card2}.svg", class: 'player-card', id: 'player-card2' %>
-      <% end %>
+    <% unless @poker_table.table_hands.empty? || @poker_table.table_hands.last.status == "end" || current_user.player_hands.find_by(table_hand: @table_hand).nil? %>
+      <%= image_tag "cards/#{current_user.player_hands.last.player_card1}.svg", class: 'player-card', id: 'player-card1' %>
+      <%= image_tag "cards/#{current_user.player_hands.last.player_card2}.svg", class: 'player-card', id: 'player-card2' %>
     <% end %>
   </div>
 </div>
-<% if !@poker_table.table_hands.empty? && TableHand::STATUSES.index(@table_hand.status) == 0 %>
+<% if @players.include?(current_user.players.active.last) && !@poker_table.table_hands.empty? && TableHand::STATUSES.index(@table_hand.status) == 0 %>
   <%= render "winner", winnerhands: @poker_table.table_hands.last.player_hands.where(winner: true) %>
 <% end %>
 
-<%#= @poker_table.table_hands.empty? ? '' : @poker_table.table_hands.last.status %>
+<%= @poker_table.table_hands.empty? ? '' : @poker_table.table_hands.last.status %>

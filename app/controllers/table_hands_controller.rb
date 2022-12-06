@@ -59,6 +59,6 @@ class TableHandsController < ApplicationController
   end
 
   def set_table_hand
-    @table_hand = current_user.players.last.poker_table.table_hand.last
+    @table_hand = current_user.players.active.last.poker_table.table_hand.last
   end
 end
