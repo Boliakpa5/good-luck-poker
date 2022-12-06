@@ -1,5 +1,5 @@
 <% if players.find_by(position: position).nil? %>
-  <% if players.exclude?(player) && User.find_by(players: player).balance >= poker_table.small_blind * 100 %>
+  <% if players.exclude?(player) && player.user.balance >= poker_table.small_blind * 100 %>
     <div class="join-seat seat-bottom">
       <%= link_to "Join seat", poker_table_players_path(poker_table, position: position), data: { turbo_method: :post }, class: 'stretched-link' %>
     </div>
@@ -9,7 +9,13 @@
     </div>
   <% end %>
 <% else %>
-  <div class="player-display player-display-bottom">
-    <%= render 'poker_tables/player', player: players.find_by(position: position) %>
+  <div class="player-display player-display-bottom <% if !table_hand.nil? && table_hand.status != 'end' %>
+    <% if player.position == table_hand.first_player_position %>
+      first-player-bottom
+    <% elsif player.position == table_hand.positions[(table_hand.positions.index(table_hand.first_player_position) + 1) % players.count] %>
+      second-player-bottom
+    <% end %>
+  <% end %>">
+    <%= render 'poker_tables/player', player: players.find_by(position: position), table_hand: table_hand %>
   </div>
 <% end %>
