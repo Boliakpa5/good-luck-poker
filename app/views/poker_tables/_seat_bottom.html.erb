@@ -1,5 +1,5 @@
 <% if players.find_by(position: position).nil? %>
-  <% if players.exclude?(current_user.players.last) && current_user.balance >= poker_table.small_blind * 100 %>
+  <% if players.exclude?(current_user.players.active.last) && current_user.balance >= poker_table.small_blind * 100 %>
     <div class="join-seat seat-bottom">
       <%= link_to "Join seat", poker_table_players_path(poker_table, position: position), data: { turbo_method: :post }, class: 'stretched-link' %>
     </div>

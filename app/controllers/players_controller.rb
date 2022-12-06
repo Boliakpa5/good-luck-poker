@@ -17,12 +17,12 @@ class PlayersController < ApplicationController
   end
 
   def leave
-    current_table_hand = current_user.players.last.poker_table.table_hands.last
-    if current_user.players.last.poker_table.players.active.count == 1 && !current_table_hand.nil?
+    current_table_hand = current_user.players.active.last.poker_table.table_hands.last
+    if current_user.players.active.last.poker_table.players.active.count == 1 && !current_table_hand.nil?
       current_table_hand.status = "end"
       current_table_hand.save
     end
-    @player = current_user.players.last
+    @player = current_user.players.active.last
     player_hand = @player.player_hands.last
     unless player_hand.nil?
       player_hand.folded = true

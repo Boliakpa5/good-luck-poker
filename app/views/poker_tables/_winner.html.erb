@@ -35,6 +35,6 @@
 <% end %>
 
 
-<% if current_user.players.last == winnerhands.last.player%>
+<% if current_user.players.active.last == winnerhands.last.player%>
   <%= link_to "Restart", table_hands_path(poker_table_id: @poker_table.id), data: { turbo_method: :post } %>
 <% end %>
