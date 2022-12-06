@@ -9,7 +9,7 @@
     </div>
   <% end %>
 <% else %>
-  <div class="player-display player-display-left">
-    <%= render 'poker_tables/player', player: players.find_by(position: position) %>
+  <div class="player-display player-display-left"> <%= 'first-player-left' if  %>
+    <%= render 'poker_tables/player', player: players.find_by(position: position), table_hand: table_hand %>
   </div>
 <% end %>

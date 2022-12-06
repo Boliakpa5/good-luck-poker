@@ -29,76 +29,89 @@
 .player-display-top {
   margin-top: -35px;
   margin-bottom: -38px;
-  &:after {
-    content: asset_url('coin-small-blind.svg');
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: -30px;
-  }
-  &:before {
-    content: asset_url('coin-big-blind.svg');
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: -30px;
-  }
 }
+.player-display-top.first-player-top:after {
+  content: asset_url('coin-small-blind.svg');
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -30px;
+}
+.player-display-top.second-player-top:before {
+  content: asset_url('coin-big-blind.svg');
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -30px;
+}
+
 .player-display-right {
   transform: translateX(calc(50% - 28px));
   margin-top: -18px;
-  &:after {
-    content: url('coin-small-blind.svg');
-    position: absolute;
-    left: -10px;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  &:before {
-    content: url('coin-big-blind.svg');
-    position: absolute;
-    left: -10px;
-    top: 50%;
-    transform: translateY(-50%) rotate(90deg);
-  }
 }
+
+.player-display-right.first-player-right:after {
+  content: url('coin-small-blind.svg');
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.player-display-right.second-player-right:before {
+  content: url('coin-big-blind.svg');
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+}
+
 .player-display-left {
   transform: translateX(calc(-50% + 28px));
   margin-top: -18px;
-  &:after {
-    content: url('coin-small-blind.svg');
-    position: absolute;
-    right: -10px;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  &:before {
-    content: url('coin-big-blind.svg');
-    position: absolute;
-    right: -10px;
-    top: 50%;
-    transform: translateY(-50%) rotate(90deg);
-  }
 }
+
+.player-display-left.first-player-left:after {
+  content: url('coin-small-blind.svg');
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.player-display-left.second-player-left:before {
+  content: url('coin-big-blind.svg');
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+}
+
+
 .player-display-bottom {
   margin-bottom: -71px;
-  &:after {
-    content: url('coin-small-blind.svg');
-    position: absolute;
-    top: -24px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  &:before {
-    content: url('coin-big-blind.svg');
-    position: absolute;
-    top: -24px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
 }
+
+.player-display-bottom.first-player-bottom:after {
+  content: url('coin-small-blind.svg');
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.player-display-bottom.second-player-bottom:before {
+  content: url('coin-big-blind.svg');
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .player-folded:after {
   content: 'fold';
   background: linear-gradient(rgba(21, 61, 34, 0.9), rgba(21, 61, 34, 0.9)), linear-gradient(180deg, rgba(6, 32, 16, 0) 50%, $green-dark 100%);
   ;
+}
+
+.player-active { // To put on avatar select
+  border: 4px dashed #09DB6A;
+  filter: drop-shadow(0px 0px 6px #09DB6A);
 }

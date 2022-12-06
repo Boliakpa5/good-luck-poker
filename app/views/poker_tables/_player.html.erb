@@ -1,4 +1,4 @@
-<div class="avatar-select">
+<div class="avatar-select <%= 'player-active' if player.position == table_hand.current_player_position %>">
   <div class="avatar-overlay">
     <% if player.user.photo.attached? %>
       <%= cl_image_tag player.user.photo.key, alt: "Picture of #{player.user.nickname}", class: "avatar-large"%>
