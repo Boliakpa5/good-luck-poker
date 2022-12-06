@@ -10,6 +10,6 @@
   <% end %>
 <% else %>
   <div class="player-display player-display-left">
-    <%= render 'player', player: players.find_by(position: position) %>
+    <%= render 'poker_tables/player', player: players.find_by(position: position) %>
   </div>
 <% end %>

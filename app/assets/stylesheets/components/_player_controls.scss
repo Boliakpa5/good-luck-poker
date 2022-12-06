@@ -2,6 +2,7 @@
   position: absolute;
   bottom: 2rem;
   left: 2rem;
+  width: max-content;
 }
 
 .game-controls {
@@ -16,6 +17,7 @@
   position: absolute;
   bottom: 2rem;
   right: 2rem;
+  width: max-content;
   &:hover #player-card1 {
     transform-origin: left bottom;
     transform: rotate(-8deg);
