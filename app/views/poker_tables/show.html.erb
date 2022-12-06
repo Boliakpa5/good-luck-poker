@@ -1,1 +1,9 @@
-<%= render 'show', poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, user: current_user %>
+<% if current_user.players.active.empty? %>
+  <% @player = Player.create(user: current_user) %>
+<%  else %>
+  <% @player = current_user.players.active.first %>
+<% end %>
+
+<div data-controller="player-subscription" data-player-subscription-player-id-value="<%= @player.id %>">
+  <%= render 'show', poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: @player %>
+</div>
