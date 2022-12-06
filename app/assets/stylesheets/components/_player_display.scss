@@ -30,14 +30,14 @@
   margin-top: -35px;
   margin-bottom: -38px;
 }
-.player-display-top.first-player-top:after {
+.first-player-top:after {
   content: asset_url('coin-small-blind.svg');
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   bottom: -30px;
 }
-.player-display-top.second-player-top:before {
+.second-player-top:before {
   content: asset_url('coin-big-blind.svg');
   position: absolute;
   left: 50%;
@@ -50,18 +50,18 @@
   margin-top: -18px;
 }
 
-.player-display-right.first-player-right:after {
+.first-player-right:after {
   content: url('coin-small-blind.svg');
   position: absolute;
-  left: -10px;
-  top: 50%;
+  left: -16px;
+  bottom: 1px;
   transform: translateY(-50%);
 }
-.player-display-right.second-player-right:before {
+.second-player-right:before {
   content: url('coin-big-blind.svg');
   position: absolute;
-  left: -10px;
-  top: 50%;
+  left: -16px;
+  bottom: 1px;
   transform: translateY(-50%) rotate(90deg);
 }
 
@@ -70,18 +70,18 @@
   margin-top: -18px;
 }
 
-.player-display-left.first-player-left:after {
+.first-player-left:after {
   content: url('coin-small-blind.svg');
   position: absolute;
-  right: -10px;
-  top: 50%;
+  right: -16px;
+  bottom: 1px;
   transform: translateY(-50%);
 }
-.player-display-left.second-player-left:before {
+.second-player-left:before {
   content: url('coin-big-blind.svg');
   position: absolute;
-  right: -10px;
-  top: 50%;
+  right: -16px;
+  bottom: 1px;
   transform: translateY(-50%) rotate(90deg);
 }
 
@@ -90,14 +90,14 @@
   margin-bottom: -71px;
 }
 
-.player-display-bottom.first-player-bottom:after {
+.first-player-bottom:after {
   content: url('coin-small-blind.svg');
   position: absolute;
   top: -24px;
   left: 50%;
   transform: translateX(-50%);
 }
-.player-display-bottom.second-player-bottom:before {
+.second-player-bottom:before {
   content: url('coin-big-blind.svg');
   position: absolute;
   top: -24px;
