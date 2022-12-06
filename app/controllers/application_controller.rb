@@ -35,8 +35,9 @@ class ApplicationController < ActionController::Base
     players = Player.where(user: current_user)
     # All time counter
     players.each do |player|
-      player.player_hands.where(folded: false).where.not(combination: nil).each do |player_hand|
+      player.player_hands.where.not(combination: nil).each do |player_hand|
         hand_counter += 1
+        # high_counter += 1 if player_hand.combination.first == 0
         pair_counter += 1 if player_hand.combination.first == 1
         double_counter += 1 if player_hand.combination.first == 2
         three_counter += 1 if player_hand.combination.first == 3
@@ -49,7 +50,8 @@ class ApplicationController < ActionController::Base
       end
     end
     # anti first time crash
-    hand_counter = 1 if hand_counter.zero?
+    return current_user.update(luck_ratio: 1) if hand_counter.zero?
+
     # means
     pair_mean = pair_counter / hand_counter.to_f
     double_mean = double_counter / hand_counter.to_f
@@ -73,7 +75,7 @@ class ApplicationController < ActionController::Base
     royal_ratio = (royal_mean - 0.000001539077) + 1
 
     # main ratio
-    main_ratio = (pair_ratio + double_ratio + three_ratio + straight_ratio + flush_ratio + full_ratio + four_ratio + straight_flush_ratio + royal_ratio) / 9.to_f
+    main_ratio = ((pair_ratio * 10) + (double_ratio *5) + three_ratio + straight_ratio + flush_ratio + full_ratio + four_ratio + straight_flush_ratio + royal_ratio) / 24.to_f
 
     # saving
     current_user.update(luck_ratio: main_ratio)

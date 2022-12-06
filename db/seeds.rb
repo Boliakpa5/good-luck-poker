@@ -16,4 +16,11 @@ puts 'Creating users...'
 User.create(email: "c2cheffontaines@gmail.com", password:"coucou", nickname: "LuckyChris", balance: 50000)
 User.create(email: "francoispaillon@hotmail.fr", password: "coucou", nickname: "Francois", balance: 50000)
 User.create(email: "etienne.klepal@gmail.com", password: "coucou", nickname: "Etienne", balance: 50000)
+etienne = User.last
+puts 'Creating players...'
+Player.create(user: etienne, poker_table: PokerTable.last, stack:100, position: 1)
+puts 'Creating table hands...'
+TableHand.create(poker_table: PokerTable.last, first_player_position: 1, current_player_position: 3, current_call_amount: 0, status: "end")
+puts 'Creating player hands...'
+30.times { PlayerHand.create(player: Player.last, player_card1: "2S", player_card2: "7H", table_hand: TableHand.last, combination: [0,14,10,8,7,3]) }
 puts 'Done'
