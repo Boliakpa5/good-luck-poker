@@ -1,0 +1,186 @@
+<div class="container pt-3" data-controller="player-subscription" data-player-subscription-player-id-value="<%= player.id %>">
+  <div class="row justify-content-center">
+    <div class="col-md-11 col-lg-9">
+      <div class="poker-table">
+          <div class="table-cards-overlay">
+            <div class="game-status">
+              <% if players.count < 2 %>
+                <h3 class="h4"><%= pluralize((2 - players.count), 'more player') %> needed to start...</h3>
+              <% else %>
+                <% unless poker_table.table_hands.empty? %>
+                  <% if players.include?(current_user.players.active.last) && poker_table.table_hands.last.status = 'preflop' && !current_user.players.active.last.player_hands.empty? %>
+                    <p>Amount to call: <%= poker_table.table_hands.last.current_call_amount - current_user.players.active.last.player_hands.last.bet_amount %>
+                    </p>
+                  <% end %>
+                  <div class="table-hand">
+                    <% unless poker_table.table_hands.last.status == "end" %>
+                      <% if TableHand::STATUSES.index(table_hand.status) >= 2 %>
+                        <%= image_tag "cards/#{poker_table.table_hands.last.table_card1}.svg", class: 'table-card' %>
+                        <%= image_tag "cards/#{poker_table.table_hands.last.table_card2}.svg", class: 'table-card' %>
+                        <%= image_tag "cards/#{poker_table.table_hands.last.table_card3}.svg", class: 'table-card' %>
+                      <% end %>
+                      <% if TableHand::STATUSES.index(table_hand.status) >= 3 %>
+                        <%= image_tag "cards/#{poker_table.table_hands.last.table_card4}.svg", class: 'table-card' %>
+                      <% end %>
+                      <% if TableHand::STATUSES.index(table_hand.status) >= 4 %>
+                        <%= image_tag "cards/#{poker_table.table_hands.last.table_card5}.svg", class: 'table-card' %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                  <% if players.include?(current_user.players.active.last) && players.count > 1 && poker_table.table_hands.last.status = 'preflop' && !current_user.players.active.last.player_hands.empty? %>
+                    <h3 id="pot"><i class="fa-solid fa-coins"></i> Pot: <%= poker_table.table_hands.last.pot %>
+                    </h3>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+          <div class="poker-table-overlay">
+            <%# Rendering the seats %>
+            <% if poker_table.max_players == 5 %>
+              <div class="d-flex justify-content-evenly">
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 2 %>
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 3 %>
+              </div>
+              <div class="d-flex justify-content-between">
+                <%= render 'poker_tables/seat_left', players: players, poker_table: poker_table, position: 1 %>
+                <%= render 'poker_tables/seat_right', players: players, poker_table: poker_table, position: 4 %>
+              </div>
+              <div class="d-flex justify-content-around">
+                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, position: 5 %>
+              </div>
+            <% elsif poker_table.max_players == 6 %>
+              <div class="d-flex justify-content-evenly">
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 2 %>
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 3 %>
+              </div>
+              <div class="d-flex justify-content-between">
+                <%= render 'poker_tables/seat_left', players: players, poker_table: poker_table, position: 1 %>
+                <%= render 'poker_tables/seat_right', players: players, poker_table: poker_table, position: 4 %>
+              </div>
+              <div class="d-flex justify-content-evenly">
+                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, position: 6 %>
+                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, position: 5 %>
+              </div>
+            <% elsif poker_table.max_players == 7 %>
+              <div class="d-flex justify-content-evenly">
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 2 %>
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 3 %>
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 4 %>
+              </div>
+              <div class="d-flex justify-content-between">
+                <%= render 'poker_tables/seat_left', players: players, poker_table: poker_table, position: 1 %>
+                <%= render 'poker_tables/seat_right', players: players, poker_table: poker_table, position: 5 %>
+              </div>
+              <div class="d-flex justify-content-evenly">
+                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, position: 7 %>
+                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, position: 6 %>
+              </div>
+            <% elsif poker_table.max_players == 8 %>
+              <div class="d-flex justify-content-evenly">
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 2 %>
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 3 %>
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 4 %>
+              </div>
+              <div class="d-flex justify-content-between">
+                <%= render 'poker_tables/seat_left', players: players, poker_table: poker_table, position: 1 %>
+                <%= render 'poker_tables/seat_right', players: players, poker_table: poker_table, position: 5 %>
+              </div>
+              <div class="d-flex justify-content-evenly">
+                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, position: 8 %>
+                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, position: 7 %>
+                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, position: 6 %>
+              </div>
+            <% elsif poker_table.max_players == 9 %>
+              <div class="d-flex justify-content-evenly">
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 2 %>
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 3 %>
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 4 %>
+                <%= render 'poker_tables/seat_top', players: players, poker_table: poker_table, position: 5 %>
+              </div>
+              <div class="d-flex justify-content-between">
+                <%= render 'poker_tables/seat_left', players: players, poker_table: poker_table, position: 1 %>
+                <%= render 'poker_tables/seat_right', players: players, poker_table: poker_table, position: 6 %>
+              </div>
+              <div class="d-flex justify-content-evenly">
+                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, position: 9 %>
+                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, position: 8 %>
+                <%= render 'poker_tables/seat_bottom', players: players, poker_table: poker_table, position: 7 %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="game-controls">
+        <% if players.include?(current_user.players.active.last) && players.count > 1 %>
+          <%# The game hasn't started, it'll be the first game ever and I'm player 1 %>
+          <% if poker_table.table_hands.empty? && current_user.players.active.last == players.first %>
+            <%= link_to "Start game", table_hands_path(poker_table_id: poker_table.id), data: { turbo_method: :post }, class: 'btn btn-danger' %>
+          <%# ... I'm not player 1 %>
+          <% elsif poker_table.table_hands.empty? %>
+            <span>Waiting for player <%= players.first.position %> to start game...</span>
+          <%# The game hasn't started but some games already took place and I'm player 1 %>
+          <% elsif poker_table.table_hands.last.status == "end" && positions.index(current_user.players.active.last.position) == (poker_table.table_hands.last.positions.index(poker_table.table_hands.last.first_player_position) + 1) % positions.count %>
+            <%= link_to "Start game", table_hands_path(poker_table_id: poker_table.id), data: { turbo_method: :post }, class: 'btn btn-danger' %>
+          <%# ... I'm not player 1 %>
+          <% elsif poker_table.table_hands.last.status == "end" %>
+            <span>Waiting for player <%= positions[(poker_table.table_hands.last.positions.index(poker_table.table_hands.last.first_player_position) + 1) % positions.count] %> to start game...</span>
+          <%# There is a table hand, last table hand is not done, and I have a hand matching this table hand %>
+          <% elsif poker_table.table_hands.last.status != "end" && !current_user.player_hands.find_by(table_hand: table_hand).nil? %>
+            <%# it's my turn and i'm not folded %>
+            <% if poker_table.table_hands.last.current_player_position == current_user.players.active.last.position && current_user.players.active.last.player_hands.last.folded == false %>
+              <div class="d-flex justify-content-center">
+                <%= link_to "fold", fold_hand_player_hand_path(current_user.player_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-success ms-1' %>
+                <%= link_to "call", call_hand_player_hand_path(current_user.player_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-success' %>
+                <%= render "raise", min: poker_table.table_hands.last.current_call_amount, max: current_user.players.active.last.stack %>
+              </div>
+            <%# I'm a player but not my turn or folded %>
+            <% else %>
+              <span>Wait for end of turn</span>
+            <% end %>
+          <%# I'm a player but folded or not in this round %>
+          <% else %>
+            <span>Wait for game to finish</span>
+          <% end %>
+        <% elsif players.include?(current_user.players.active.last) %>
+          <span>Waiting for more players</span>
+        <% elsif players.exclude?(current_user.players.active.last) && current_user.balance < poker_table.small_blind * 100 %>
+            <%# I'm not a player and not enough cash %>
+          <span>You don't have the balance to join this table</span>
+        <% else %>
+          <span>You can join this table</span>
+        <% end %>
+      </div>
+      <div class="player-dashboard">
+        <% unless poker_table.table_hands.empty? || players.exclude?(current_user.players.active.last) || poker_table.table_hands.last.status == "end" || current_user.player_hands.find_by(table_hand: table_hand).nil? || current_user.players.active.last.player_hands.empty? %>
+          <div class="debug-info mb-3">
+            <p class="mb-0"><small>Position to play: <%= poker_table.table_hands.last.current_player_position %></small></p>
+            <p class="mb-0"><small>Amount bet: <%= current_user.players.active.last.player_hands.last.bet_amount.nil? %></small></p>
+            <p class="mb-0"><small>Counter: <%= poker_table.table_hands.last.counter %></small></p>
+          </div>
+        <% end %>
+        <div class="exit-table">
+          <% if players.include?(current_user.players.active.last) %>
+            <%= link_to leave_player_path(current_user.players.active.last), data: { turbo_method: :patch, turbo_confirm: "Are you sure?" }, class: 'btn btn-outline-light' do %>
+              <i class="fa-regular fa-circle-xmark"></i> Leave table
+            <% end %>
+          <% else %>
+            <%= link_to poker_tables_path, class: 'btn btn-outline-light' do %>
+              <i class="fa-solid fa-arrow-left"></i> Go back to list
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="player-cards">
+        <% unless table_hand.nil? || table_hand.status == "end" || current_user.player_hands.find_by(table_hand: table_hand).nil? %>
+          <%= image_tag "cards/#{current_user.player_hands.last.player_card1}.svg", class: 'player-card', id: 'player-card1' %>
+          <%= image_tag "cards/#{current_user.player_hands.last.player_card2}.svg", class: 'player-card', id: 'player-card2' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <% if players.include?(current_user.players.active.last) && !poker_table.table_hands.empty? && TableHand::STATUSES.index(table_hand.status) == 0 %>
+    <%= render "winner", winnerhands: poker_table.table_hands.last.player_hands.where(winner: true) %>
+  <% end %>
+  <%= poker_table.table_hands.empty? ? '' : poker_table.table_hands.last.status %>
+</div>
