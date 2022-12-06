@@ -1,4 +1,4 @@
-<div class="container pt-3" data-controller="player-subscription" data-player-subscription-user-id-value="<%= user.id %>">
+<div class="container pt-3">
   <div class="row justify-content-center">
     <div class="col-md-11 col-lg-9">
       <div class="poker-table">
@@ -8,8 +8,8 @@
                 <h3 class="h4"><%= pluralize((2 - players.count), 'more player') %> needed to start...</h3>
               <% else %>
                 <% unless poker_table.table_hands.empty? %>
-                  <% if players.include?(current_user.players.active.last) && poker_table.table_hands.last.status = 'preflop' && !current_user.players.active.last.player_hands.empty? %>
-                    <p>Amount to call: <%= poker_table.table_hands.last.current_call_amount - current_user.players.active.last.player_hands.last.bet_amount %>
+                  <% if players.include?(player) && poker_table.table_hands.last.status = 'preflop' && !player.player_hands.empty? %>
+                    <p>Amount to call: <%= poker_table.table_hands.last.current_call_amount - player.player_hands.last.bet_amount %>
                     </p>
                   <% end %>
                   <div class="table-hand">
@@ -27,7 +27,7 @@
                       <% end %>
                     <% end %>
                   </div>
-                  <% if players.include?(current_user.players.active.last) && players.count > 1 && poker_table.table_hands.last.status = 'preflop' && !current_user.players.active.last.player_hands.empty? %>
+                  <% if players.include?(player) && players.count > 1 && poker_table.table_hands.last.status = 'preflop' && !player.player_hands.empty? %>
                     <h3 id="pot"><i class="fa-solid fa-coins"></i> Pot: <%= poker_table.table_hands.last.pot %>
                     </h3>
                   <% end %>
@@ -112,27 +112,27 @@
         </div>
       </div>
       <div class="game-controls">
-        <% if players.include?(current_user.players.active.last) && players.count > 1 %>
+        <% if players.include?(player) && players.count > 1 %>
           <%# The game hasn't started, it'll be the first game ever and I'm player 1 %>
-          <% if poker_table.table_hands.empty? && current_user.players.active.last == players.first %>
+          <% if poker_table.table_hands.empty? && player == players.first %>
             <%= link_to "Start game", table_hands_path(poker_table_id: poker_table.id), data: { turbo_method: :post }, class: 'btn btn-danger' %>
           <%# ... I'm not player 1 %>
           <% elsif poker_table.table_hands.empty? %>
             <span>Waiting for player <%= players.first.position %> to start game...</span>
           <%# The game hasn't started but some games already took place and I'm player 1 %>
-          <% elsif poker_table.table_hands.last.status == "end" && positions.index(current_user.players.active.last.position) == (poker_table.table_hands.last.positions.index(poker_table.table_hands.last.first_player_position) + 1) % positions.count %>
+          <% elsif poker_table.table_hands.last.status == "end" && positions.index(player.position) == (poker_table.table_hands.last.positions.index(poker_table.table_hands.last.first_player_position) + 1) % positions.count %>
             <%= link_to "Start game", table_hands_path(poker_table_id: poker_table.id), data: { turbo_method: :post }, class: 'btn btn-danger' %>
           <%# ... I'm not player 1 %>
           <% elsif poker_table.table_hands.last.status == "end" %>
             <span>Waiting for player <%= positions[(poker_table.table_hands.last.positions.index(poker_table.table_hands.last.first_player_position) + 1) % positions.count] %> to start game...</span>
           <%# There is a table hand, last table hand is not done, and I have a hand matching this table hand %>
-          <% elsif poker_table.table_hands.last.status != "end" && !current_user.player_hands.find_by(table_hand: table_hand).nil? %>
+          <% elsif poker_table.table_hands.last.status != "end" && !player.player_hands.find_by(table_hand: table_hand).nil? %>
             <%# it's my turn and i'm not folded %>
-            <% if poker_table.table_hands.last.current_player_position == current_user.players.active.last.position && current_user.players.active.last.player_hands.last.folded == false %>
+            <% if poker_table.table_hands.last.current_player_position == player.position && player.player_hands.last.folded == false %>
               <div class="d-flex justify-content-center">
-                <%= link_to "fold", fold_hand_player_hand_path(current_user.player_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-success ms-1' %>
-                <%= link_to "call", call_hand_player_hand_path(current_user.player_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-success' %>
-                <%= render "raise", min: poker_table.table_hands.last.current_call_amount, max: current_user.players.active.last.stack %>
+                <%= link_to "fold", fold_hand_player_hand_path(player.player_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-success ms-1' %>
+                <%= link_to "call", call_hand_player_hand_path(player.player_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-success' %>
+                <%= render "raise", min: poker_table.table_hands.last.current_call_amount, max: player.stack %>
               </div>
             <%# I'm a player but not my turn or folded %>
             <% else %>
@@ -142,9 +142,9 @@
           <% else %>
             <span>Wait for game to finish</span>
           <% end %>
-        <% elsif players.include?(current_user.players.active.last) %>
+        <% elsif players.include?(player) %>
           <span>Waiting for more players</span>
-        <% elsif players.exclude?(current_user.players.active.last) && current_user.balance < poker_table.small_blind * 100 %>
+        <% elsif players.exclude?(player) && User.find_by(players: player).balance < poker_table.small_blind * 100 %>
             <%# I'm not a player and not enough cash %>
           <span>You don't have the balance to join this table</span>
         <% else %>
@@ -152,16 +152,16 @@
         <% end %>
       </div>
       <div class="player-dashboard">
-        <% unless poker_table.table_hands.empty? || players.exclude?(current_user.players.active.last) || poker_table.table_hands.last.status == "end" || current_user.player_hands.find_by(table_hand: table_hand).nil? || current_user.players.active.last.player_hands.empty? %>
+        <% unless poker_table.table_hands.empty? || players.exclude?(player) || poker_table.table_hands.last.status == "end" || player.player_hands.find_by(table_hand: table_hand).nil? || player.player_hands.empty? %>
           <div class="debug-info mb-3">
             <p class="mb-0"><small>Position to play: <%= poker_table.table_hands.last.current_player_position %></small></p>
-            <p class="mb-0"><small>Amount bet: <%= current_user.players.active.last.player_hands.last.bet_amount.nil? %></small></p>
+            <p class="mb-0"><small>Amount bet: <%= player.player_hands.last.bet_amount.nil? %></small></p>
             <p class="mb-0"><small>Counter: <%= poker_table.table_hands.last.counter %></small></p>
           </div>
         <% end %>
         <div class="exit-table">
-          <% if players.include?(current_user.players.active.last) %>
-            <%= link_to leave_player_path(current_user.players.active.last), data: { turbo_method: :patch, turbo_confirm: "Are you sure?" }, class: 'btn btn-outline-light' do %>
+          <% if players.include?(player) %>
+            <%= link_to leave_player_path(player), data: { turbo_method: :patch, turbo_confirm: "Are you sure?" }, class: 'btn btn-outline-light' do %>
               <i class="fa-regular fa-circle-xmark"></i> Leave table
             <% end %>
           <% else %>
@@ -172,14 +172,14 @@
         </div>
       </div>
       <div class="player-cards">
-        <% unless table_hand.nil? || table_hand.status == "end" || current_user.player_hands.find_by(table_hand: table_hand).nil? %>
-          <%= image_tag "cards/#{current_user.player_hands.last.player_card1}.svg", class: 'player-card', id: 'player-card1' %>
-          <%= image_tag "cards/#{current_user.player_hands.last.player_card2}.svg", class: 'player-card', id: 'player-card2' %>
+        <% unless table_hand.nil? || table_hand.status == "end" || player.player_hands.find_by(table_hand: table_hand).nil? %>
+          <%= image_tag "cards/#{player.player_hands.last.player_card1}.svg", class: 'player-card', id: 'player-card1' %>
+          <%= image_tag "cards/#{player.player_hands.last.player_card2}.svg", class: 'player-card', id: 'player-card2' %>
         <% end %>
       </div>
     </div>
   </div>
-  <% if players.include?(current_user.players.active.last) && !poker_table.table_hands.empty? && TableHand::STATUSES.index(table_hand.status) == 0 %>
+  <% if players.include?(player) && !poker_table.table_hands.empty? && TableHand::STATUSES.index(table_hand.status) == 0 %>
     <%= render "winner", winnerhands: poker_table.table_hands.last.player_hands.where(winner: true) %>
   <% end %>
   <%= poker_table.table_hands.empty? ? '' : poker_table.table_hands.last.status %>

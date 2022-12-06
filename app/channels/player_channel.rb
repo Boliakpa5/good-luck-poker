@@ -1,8 +1,8 @@
 class PlayerChannel < ApplicationCable::Channel
   def subscribed
     # stream_from "some_channel"
-    user = current_user
-    stream_for user
+    player = Player.find(params[:id])
+    stream_for player
   end
 
   def unsubscribed

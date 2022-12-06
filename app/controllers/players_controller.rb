@@ -1,32 +1,36 @@
 class PlayersController < ApplicationController
   def create
     @poker_table = PokerTable.find(params[:poker_table_id])
-    @player = Player.new
+    @current_player = Player.new
     current_user.balance -= 100 * @poker_table.small_blind
     current_user.save
-    @player.stack = 100 * @poker_table.small_blind
-    @player.user = current_user
-    @player.poker_table = @poker_table
-    @player.position = params[:position]
-    @player.active = true
-    if @player.save
+    @current_player.stack = 100 * @poker_table.small_blind
+    @current_player.user = current_user
+    @current_player.poker_table = @poker_table
+    @current_player.position = params[:position]
+    @current_player.active = true
+    if @current_player.save
       # redirect_to poker_table_path(@poker_table)
       @players = @poker_table.players.active
       @positions = @players.map(&:position).sort
       @table_hand = @poker_table.table_hands.last
       # @html = get_html(@poker_table, @player, @players)
-      @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, user: current_user})
-      @payload = {
-        event: 'player_seated',
-        position: @player.position,
-        html: @html
-      }
-      PlayerChannel.broadcast_to(
-        current_user,
-        @payload
-      )
+      @players.drop(1).each do |player|
+
+        @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: player})
+        @payload = {
+          event: 'player_seated',
+          position: @current_player.position,
+          html: @html
+        }
+        PlayerChannel.broadcast_to(
+          player,
+          @payload
+        )
+      end
       head :ok
     end
+    redirect_to poker_table_path(@poker_table) if @current_player.user == current_user
   end
 
   def leave
