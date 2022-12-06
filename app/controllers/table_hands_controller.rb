@@ -4,6 +4,7 @@ class TableHandsController < ApplicationController
   before_action :set_table_hand, only: [:flop, :turn, :river]
 
   def create
+    refresh_luck_ratio
     # .dup pour copier la constante sans la modifier
     @cards = TableHand::CARDS.dup
     @players = @poker_table.players.active
