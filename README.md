@@ -2,14 +2,13 @@ Rails app generated with [lewagon/rails-templates](https://github.com/lewagon/ra
 # TODO
 ## Back
 +++
-Luck ratio
-Temps réel
 ++
+LES LEAVE
+broadcast à un user non assi
 si qqun rejoint durant une partie, ça fait crash
 empêcher de joindre une deuxième table
+corriger les all-in
 
-
-cartes de l'adversaire à la fin de la partie
 si tous le monde fold, on fait quand même le process
 
 -
@@ -19,11 +18,11 @@ mettre un timer qui fold si je fais rien
 +++ show
 montrer main adversaire
 cartes s'affichent à la fin de la partie
+cartes de l'adversaire à la fin de la partie
+boutons
+breakpoint
 
 statut fold
 display bulle avec choix des joueurs
 winner screen
 forms
-
-++
-cover meta image

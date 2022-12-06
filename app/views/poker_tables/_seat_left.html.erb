@@ -10,9 +10,9 @@
   <% end %>
 <% else %>
   <div class="player-display player-display-left <% if !table_hand.nil? && table_hand.status != 'end' %>
-    <% if player.position == table_hand.first_player_position %>
+    <% if players.find_by(position: position).position == table_hand.first_player_position %>
       first-player-left
-    <% elsif player.position == table_hand.positions[(table_hand.positions.index(table_hand.first_player_position) + 1) % players.count] %>
+    <% elsif players.find_by(position: position).position == table_hand.positions[(table_hand.positions.index(table_hand.first_player_position) + 1) % players.count] %>
       second-player-left
     <% end %>
   <% end %>">
