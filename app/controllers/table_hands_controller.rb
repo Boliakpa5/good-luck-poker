@@ -14,6 +14,11 @@ class TableHandsController < ApplicationController
         current_user.balance += player.stack
         current_user.save
       end
+      if @players.count < 2
+        # current_user.players.last.active = false
+        redirect_to poker_table_path(@poker_table)
+        return
+      end
     end
     @players = @poker_table.players.active
     @table_hand = TableHand.new
