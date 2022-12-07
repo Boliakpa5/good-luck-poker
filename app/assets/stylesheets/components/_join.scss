@@ -17,6 +17,23 @@
     margin-bottom: 0;
   }
 }
+.available-seat,
+.join-seat {
+  transform: scale(0.6);
+}
+
+@include media-breakpoint-up(md) {
+  .available-seat,
+  .join-seat {
+    transform: scale(0.8);
+  }
+}
+@include media-breakpoint-up(lg) {
+  .available-seat,
+  .join-seat {
+    transform: scale(1);
+  }
+}
 
 .join-seat {
   border: 3px dashed $gray-dark;
@@ -45,13 +62,17 @@
 }
 .seat-top {
   margin-top: -38px;
+  transform-origin: center;
 }
 .seat-left {
   margin-left: -26px;
+  transform-origin: left;
 }
 .seat-right {
   margin-right: -26px;
+  transform-origin: right;
 }
 .seat-bottom {
   margin-bottom: -36px;
+  transform-origin: bottom;
 }
