@@ -14,15 +14,15 @@
                   <% end %>
                   <div class="table-hand">
                     <% unless poker_table.table_hands.last.status == "end" %>
-                      <% if TableHand::STATUSES.index(table_hand.status) >= 2 %>
+                      <% if TableHand::STATUSES.index(table_hand.status) >= 2 || TableHand::STATUSES.index(table_hand.status) == 0 %>
                         <%= image_tag "cards/#{poker_table.table_hands.last.table_card1}.svg", class: 'table-card' %>
                         <%= image_tag "cards/#{poker_table.table_hands.last.table_card2}.svg", class: 'table-card' %>
                         <%= image_tag "cards/#{poker_table.table_hands.last.table_card3}.svg", class: 'table-card' %>
                       <% end %>
-                      <% if TableHand::STATUSES.index(table_hand.status) >= 3 %>
+                      <% if TableHand::STATUSES.index(table_hand.status) >= 3 || TableHand::STATUSES.index(table_hand.status) == 0 %>
                         <%= image_tag "cards/#{poker_table.table_hands.last.table_card4}.svg", class: 'table-card' %>
                       <% end %>
-                      <% if TableHand::STATUSES.index(table_hand.status) >= 4 %>
+                      <% if TableHand::STATUSES.index(table_hand.status) >= 4 || TableHand::STATUSES.index(table_hand.status) == 0 %>
                         <%= image_tag "cards/#{poker_table.table_hands.last.table_card5}.svg", class: 'table-card' %>
                       <% end %>
                     <% end %>
@@ -154,6 +154,7 @@
       <div class="player-dashboard">
         <% unless poker_table.table_hands.empty? || players.exclude?(player) || poker_table.table_hands.last.status == "end" || player.player_hands.find_by(table_hand: table_hand).nil? || player.player_hands.empty? %>
           <div class="debug-info mb-3">
+            <p class="mb-0"><small>Game status: <%= poker_table.table_hands.empty? ? 'nil' : poker_table.table_hands.last.status %></small></p>
             <p class="mb-0"><small>Position to play: <%= poker_table.table_hands.last.current_player_position %></small></p>
             <p class="mb-0"><small>Amount bet: <%= player.player_hands.last.bet_amount.nil? %></small></p>
             <p class="mb-0"><small>Counter: <%= poker_table.table_hands.last.counter %></small></p>
@@ -179,8 +180,7 @@
       </div>
     </div>
   </div>
-  <% if players.include?(player) && !poker_table.table_hands.empty? && TableHand::STATUSES.index(table_hand.status) == 0 %>
-    <%= render "poker_tables/winner", winnerhands: poker_table.table_hands.last.player_hands.where(winner: true), player: player %>
-  <% end %>
-  <%= poker_table.table_hands.empty? ? '' : poker_table.table_hands.last.status %>
 </div>
+<% if players.include?(player) && !poker_table.table_hands.empty? && TableHand::STATUSES.index(table_hand.status) == 0 %>
+  <%= render "poker_tables/winner", winnerhands: poker_table.table_hands.last.player_hands.where(winner: true), player: player %>
+<% end %>
