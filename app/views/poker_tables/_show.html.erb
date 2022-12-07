@@ -131,7 +131,8 @@
             <% if poker_table.table_hands.last.current_player_position == player.position && player.player_hands.last.folded == false %>
               <div class="d-flex justify-content-center">
                 <%= link_to "fold", fold_hand_player_hand_path(player.player_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-action' %>
-                <%= link_to "call", call_hand_player_hand_path(player.player_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-action ms-2' %>
+                <% poker_table.table_hands.last.current_call_amount.zero? ? action_name = "check" : action_name = "call" %>
+                <%= link_to action_name, call_hand_player_hand_path(player.player_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-action ms-2' %>
                 <%= render "poker_tables/raise", min: poker_table.table_hands.last.current_call_amount, max: player.stack , player: player%>
               </div>
             <%# I'm a player but not my turn or folded %>
