@@ -27,23 +27,42 @@
     <% end %>
 
     <% winnerhands.each do |winnerhand| %>
-      <% if winnerhand.player == player %>
-        <h1>Congratulations <%= winnerhand.player.user.nickname  %>!</h1>
-        <h2>You won with: <%= winnerhand.combination %></h2>
-        <div>
-          <%= image_tag "cards/#{winnerhand.player_card1}.svg", class: 'player-card', id: 'player-card1' %>
-          <%= image_tag "cards/#{winnerhand.player_card2}.svg", class: 'player-card', id: 'player-card2' %>
+      <div class="winner-avatar">
+        <div class="avatar-overlay">
+          <% if winnerhand.player.user.photo.attached? %>
+            <%= cl_image_tag winnerhand.user.photo.key, alt: "Picture of #{winnerhand.user.nickname}", class: "avatar-large"%>
+          <% else %>
+            <%= image_tag "https://avatars.dicebear.com/api/micah/#{winnerhand.player.user.nickname}.svg?background=%231A8A47", class: "avatar-large" %>
+          <% end %>
         </div>
-
+      </div>
+      <% if winnerhand.player == player %>
+        <p class="h2">Congratulations!</p>
+        <%# <h2>You won with: <%= winnerhand.combination</h2> %>
+        <h2 class="h1 text-info">You won, <%= winnerhand.player.user.nickname %>!</h2>
       <% else %>
-        <h1>Too bad... </h1>
-        <h2><%= winnerhand.player.user.nickname  %> won with: <%= winnerhand.combination %></h2>
+        <p class="h2">Too bad...</p>
+        <h2 class="h1 text-black"><%= winnerhand.player.user.nickname  %> won</h2>
       <% end %>
+        <h3 class="pot"><i class="fa-solid fa-coins"></i> <%= winnerhand.table_hand.pot %> coins</h3>
+        <div class="winner-cards">
+          <%= image_tag "cards/#{winnerhand.player_card1}.svg", class: 'winner-card', id: 'winner-card1' %>
+          <%= image_tag "cards/#{winnerhand.player_card2}.svg", class: 'winner-card', id: 'winner-card2' %>
+        </div>
+        <div class="table-hand-recap">
+          <%= image_tag "cards/#{winnerhand.table_hand.table_card1}.svg", class: 'table-card' %>
+          <%= image_tag "cards/#{winnerhand.table_hand.table_card2}.svg", class: 'table-card' %>
+          <%= image_tag "cards/#{winnerhand.table_hand.table_card3}.svg", class: 'table-card' %>
+          <%= image_tag "cards/#{winnerhand.table_hand.table_card4}.svg", class: 'table-card' %>
+          <%= image_tag "cards/#{winnerhand.table_hand.table_card5}.svg", class: 'table-card' %>
+        </div>
     <% end %>
 
 
     <% if player == winnerhands.last.player%>
       <%= link_to "Restart", table_hands_path(poker_table_id: @poker_table.id), data: { turbo_method: :post }, class: 'btn btn-danger' %>
+    <% else %>
+      <p class="mb-0 text-primary">Waiting for <%= winnerhands.last.player.user.nickname %> to restart the game...</p>
     <% end %>
   </div>
 </div>

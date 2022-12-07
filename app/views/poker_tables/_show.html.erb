@@ -28,7 +28,7 @@
                     <% end %>
                   </div>
                   <% if players.include?(player) && players.count > 1 && poker_table.table_hands.last.status = 'preflop' && !player.player_hands.empty? %>
-                    <h3 id="pot"><i class="fa-solid fa-coins"></i> Pot: <%= poker_table.table_hands.last.pot %>
+                    <h3 class="pot"><i class="fa-solid fa-coins"></i> Pot: <%= poker_table.table_hands.last.pot %>
                     </h3>
                   <% end %>
                 <% end %>
