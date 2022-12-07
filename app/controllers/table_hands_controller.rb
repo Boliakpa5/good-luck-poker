@@ -14,17 +14,17 @@ class TableHandsController < ApplicationController
         current_user.balance += player.stack
         current_user.save
       end
-      if @players.count < 2
-        @player.active = false
-        @player.save
-        @table_hand.status = "end"
-        @table_hand.save
-        # raise
-        # redirect_to poker_table_path(@poker_table)
-        return redirect_to poker_table_path(@poker_table)
-      end
     end
     @players = @poker_table.players.active
+    if @players.count < 2
+      @player.active = false
+      @player.save
+      @table_hand.status = "end"
+      @table_hand.save
+      # raise
+      # redirect_to poker_table_path(@poker_table)
+      return redirect_to poker_table_path(@poker_table)
+    end
     @table_hand = TableHand.new
     @table_hand.poker_table = @poker_table
     @table_hand.current_call_amount = 2 * @table_hand.poker_table.small_blind
@@ -61,7 +61,7 @@ class TableHandsController < ApplicationController
     if second_player_hand.save
       @positions = @players.map(&:position).sort
       @players.each do |player|
-        @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: player})
+        @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: player.reload})
         @payload = {
           event: 'game_start',
           player_id: player.id,
