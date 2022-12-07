@@ -1,7 +1,6 @@
 class TableHandsController < ApplicationController
   # STATUSES = %w[preflop flop turn river end]
-  before_action :set_poker_table, only: [:create, :flop, :turn, :river]
-  before_action :set_table_hand, only: [:flop, :turn, :river]
+  before_action :set_things, only: [:create]
 
   def create
     refresh_luck_ratio
@@ -49,13 +48,14 @@ class TableHandsController < ApplicationController
     second_player_hand = second_player.player_hands.last
     second_player_hand.bet_amount += (@poker_table.small_blind * 2)
     second_player_hand.save
-    # redering the table
+    # rendering the table
     if second_player_hand.save
       @positions = @players.map(&:position).sort
       @players.each do |player|
         @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: player})
         @payload = {
-          event: 'player_leaving',
+          event: 'game_start',
+          player_id: player.id,
           html: @html
         }
         PlayerChannel.broadcast_to(
@@ -63,17 +63,15 @@ class TableHandsController < ApplicationController
           @payload
         )
       end
+      head :ok
     end
-    redirect_to poker_table_path(@poker_table)
+    # redirect_to poker_table_path(@poker_table)
   end
 
   private
 
-  def set_poker_table
+  def set_things
     @poker_table = PokerTable.find(params[:poker_table_id])
-  end
-
-  def set_table_hand
-    @table_hand = current_user.players.active.last.poker_table.table_hand.last
+    @table_hand = @poker_table.table_hands.last
   end
 end
