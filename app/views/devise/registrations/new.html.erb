@@ -1,27 +1,42 @@
-<h2>Sign up</h2>
+<div class="form-cards fixed-bottom"></div>
+<div class="container pt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+      <h2>Sign up</h2>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), data: { turbo: :false }) do |f| %>
-  <%= f.error_notification %>
+      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), data: { turbo: :false }) do |f| %>
+        <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <%= f.input :nickname,
-                required: true %>
-    <%= f.input :email,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "email" }%>
-    <%= f.input :password,
-                required: true,
-                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                required: true,
-                input_html: { autocomplete: "new-password" } %>
+        <div class="form-inputs">
+          <%= f.input :nickname,
+                      required: true, placeholder: 'lucky_seven' %>
+          <%= f.input :email,
+                      required: true,
+                      autofocus: true,
+                      input_html: { autocomplete: "email" }, placeholder: 'example@mail.com' %>
+          <div class="row">
+            <div class="col-md-6">
+              <%= f.input :password,
+                          required: true,
+                          hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+                          input_html: { autocomplete: "new-password" }, placeholder: '••••••••' %>
+            </div>
+            <div class="col-md-6">
+              <%= f.input :password_confirmation,
+                          required: true,
+                          input_html: { autocomplete: "new-password" } %>
+            </div>
+            <%= f.input :photo, as: :file, label: "Show us your lucky face" %>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-end">
+          <%= render "devise/shared/links" %>
+          <div class="form-actions">
+            <%= f.button :submit, "Sign up", class: 'btn btn-action ms-3' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>
