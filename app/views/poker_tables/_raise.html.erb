@@ -16,8 +16,8 @@
             class="raise__range ms-2"
             data-raise-target="range"
             data-action="input->raise#updateValue"
-            value=<%= min %>
-            min=<%= min %>
+            value=<%= min.zero? ? (player.poker_table.small_blind * 2) : min %>
+            min=<%= min.zero? ? (player.poker_table.small_blind * 2) : min %>
             max=<%= max %>
             step="1">
     </form>

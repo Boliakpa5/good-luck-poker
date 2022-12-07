@@ -84,11 +84,11 @@ class PlayerHandsController < ApplicationController
     if @unfolded_hands.count == 1
       prepare_cards
       set_pot
-      @table_hand.table_card1 = pick_a_card if @table_hand.table_card1.nil?
-      @table_hand.table_card2 = pick_a_card if @table_hand.table_card2.nil?
-      @table_hand.table_card3 = pick_a_card if @table_hand.table_card3.nil?
-      @table_hand.table_card4 = pick_a_card if @table_hand.table_card4.nil?
-      @table_hand.table_card5 = pick_a_card if @table_hand.table_card5.nil?
+      # @table_hand.table_card1 = pick_a_card if @table_hand.table_card1.nil?
+      # @table_hand.table_card2 = pick_a_card if @table_hand.table_card2.nil?
+      # @table_hand.table_card3 = pick_a_card if @table_hand.table_card3.nil?
+      # @table_hand.table_card4 = pick_a_card if @table_hand.table_card4.nil?
+      # @table_hand.table_card5 = pick_a_card if @table_hand.table_card5.nil?
       endgame(@unfolded_hands.first.player)
       return
     end
@@ -290,6 +290,7 @@ class PlayerHandsController < ApplicationController
       # Straight Flush
       elsif color_array.tally.values.max >= 5 && suited(numbers_array)
         playerhand.combination = [8, suited(numbers_array)]
+        # !!!!! peut etre une suite et flush séparé ex: 3H, 4H, 5H, 6H, 7H, 8S, 13S, couleur oui max suite 8 !!!!!!
       # Four of a Kind
       elsif numbers_array.tally.values.max == 4
         playerhand.combination = [7, numbers_array.tally.key(4)]
