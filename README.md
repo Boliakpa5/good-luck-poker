@@ -13,16 +13,12 @@ si tous le monde fold, on fait quand même le process
 
 -
 mettre un timer qui fold si je fais rien
+si player actif à une table => leave si log out
 
 ## Front
 +++ show
-montrer main adversaire
-cartes s'affichent à la fin de la partie
-cartes de l'adversaire à la fin de la partie
 boutons
 breakpoint
 
-statut fold
 display bulle avec choix des joueurs
-winner screen
 forms

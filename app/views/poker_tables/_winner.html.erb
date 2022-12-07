@@ -50,11 +50,26 @@
           <%= image_tag "cards/#{winnerhand.player_card2}.svg", class: 'winner-card', id: 'winner-card2' %>
         </div>
         <div class="table-hand-recap">
-          <%= image_tag "cards/#{winnerhand.table_hand.table_card1}.svg", class: 'table-card' %>
-          <%= image_tag "cards/#{winnerhand.table_hand.table_card2}.svg", class: 'table-card' %>
-          <%= image_tag "cards/#{winnerhand.table_hand.table_card3}.svg", class: 'table-card' %>
-          <%= image_tag "cards/#{winnerhand.table_hand.table_card4}.svg", class: 'table-card' %>
-          <%= image_tag "cards/#{winnerhand.table_hand.table_card5}.svg", class: 'table-card' %>
+
+          <% unless winnerhand.table_hand.table_card1.nil? %>
+            <%= image_tag "cards/#{winnerhand.table_hand.table_card1}.svg", class: 'table-card' %>
+            <%= image_tag "cards/#{winnerhand.table_hand.table_card2}.svg", class: 'table-card' %>
+            <%= image_tag "cards/#{winnerhand.table_hand.table_card3}.svg", class: 'table-card' %>
+          <% else %>
+            <%= image_tag "cards/1B.svg", class: 'table-card' %>
+            <%= image_tag "cards/1B.svg", class: 'table-card' %>
+            <%= image_tag "cards/1B.svg", class: 'table-card' %>
+          <% end %>
+          <% unless winnerhand.table_hand.table_card4.nil? %>
+            <%= image_tag "cards/#{winnerhand.table_hand.table_card4}.svg", class: 'table-card' %>
+          <% else %>
+            <%= image_tag "cards/1B.svg", class: 'table-card' %>
+          <% end %>
+          <% unless winnerhand.table_hand.table_card5.nil? %>
+            <%= image_tag "cards/#{winnerhand.table_hand.table_card5}.svg", class: 'table-card' %>
+          <% else %>
+            <%= image_tag "cards/1B.svg", class: 'table-card' %>
+          <% end %>
         </div>
     <% end %>
 
