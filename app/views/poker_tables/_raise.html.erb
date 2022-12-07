@@ -2,7 +2,8 @@
   <div class="range-slider" data-controller="raise">
     <div class="mb-2">
       <%= link_to "fold", fold_hand_player_hand_path(player.player_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-action' %>
-      <%= link_to "call", call_hand_player_hand_path(player.player_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-action ms-2' %>
+      <% poker_table.table_hands.last.current_call_amount.zero? ? action_name = "check" : action_name = "call" %>
+      <%= link_to action_name, call_hand_player_hand_path(player.player_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-action ms-2 call-action' %>
       <%= link_to "raise", raise_hand_player_hand_path(player.player_hands.last.id), raise_amount: "", data: { raise_target: "sender", turbo_method: :patch }, class: "btn btn-action ms-2" %>
     </div>
     <form class="d-flex justify-content-between">

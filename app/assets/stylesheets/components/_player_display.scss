@@ -61,7 +61,7 @@
   content: url('coin-big-blind.svg');
   position: absolute;
   left: -23px;
-  bottom: 4px;
+  bottom: 3px;
   transform: translateY(-50%) rotate(90deg);
 }
 
@@ -81,7 +81,7 @@
   content: url('coin-big-blind.svg');
   position: absolute;
   right: -23px;
-  bottom: 4px;
+  bottom: 3px;
   transform: translateY(-50%) rotate(90deg);
 }
 
@@ -140,6 +140,11 @@
   }
 }
 @include media-breakpoint-up(lg) {
+  .player-container {
+    transform: scale(0.9);
+  }
+}
+@include media-breakpoint-up(xl) {
   .player-container {
     transform: scale(1);
   }
