@@ -15,9 +15,13 @@ class TableHandsController < ApplicationController
         current_user.save
       end
       if @players.count < 2
-        # current_user.players.last.active = false
-        redirect_to poker_table_path(@poker_table)
-        return
+        @player.active = false
+        @player.save
+        @table_hand.status = "end"
+        @table_hand.save
+        # raise
+        # redirect_to poker_table_path(@poker_table)
+        return redirect_to poker_table_path(@poker_table)
       end
     end
     @players = @poker_table.players.active
@@ -78,5 +82,6 @@ class TableHandsController < ApplicationController
   def set_things
     @poker_table = PokerTable.find(params[:poker_table_id])
     @table_hand = @poker_table.table_hands.last
+    @player = @poker_table.players.find_by(user: current_user)
   end
 end
