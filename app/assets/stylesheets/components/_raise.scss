@@ -1,11 +1,8 @@
-.raisecontainer {
-  width: 20rem;
-}
 
 $track-w: 20em;
 $track-h: .25em;
 $thumb-d: 1.5em;
-$track-c: #ccc;
+$track-c: $gray-medium;
 $dist: $track-w - $thumb-d;
 
 @mixin track() {
@@ -24,22 +21,25 @@ $dist: $track-w - $thumb-d;
 	border: none;
 	width: $thumb-d; height: $thumb-d;
 	border-radius: 50%;
-	background: #f90;
+	background: linear-gradient(180deg, $red 0%, #CB390B 100%);
   cursor: pointer;
   position: relative;
   z-index: 2;
 }
 
 .range-slider {
-  display: flex;
-  flex-wrap: wrap;
-	align-items: center;
 	position: relative;
   width: 100%;
-
+  .raise__range {
+    flex-grow: 1;
+    background: none;
+  }
+  .raise__value {
+    width: 2rem;
+    font-weight: 700;
+  }
   input[type="range"] {
     &, &::-webkit-slider-thumb { -webkit-appearance: none }
-    flex: 1 1 100%;
     margin: 0;
     padding: 0;
 

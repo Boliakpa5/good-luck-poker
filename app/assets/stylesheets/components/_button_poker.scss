@@ -1,11 +1,15 @@
 .btn-action {
-  background: linear-gradient(180deg, $red 0%, #CB390B 100%);
+  background: linear-gradient(#CB390B 0%, transparent 50%) $red;
   border: 1px solid $red;
-  box-shadow: 0px 6px 6px 1px rgba(6, 32, 16, 0.25), 0px 0px 7px #FF2E00;
+  box-shadow: 0px 6px 6px 1px rgba(6, 32, 16, 0.25);
   border-radius: 3px;
   font-family: $headers-font;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  transition: all 0.3s ease;
   &:hover {
-    background: linear-gradient(0deg, $red 0%, #CB390B 100%);
+    background-color: #CB390B;
+    box-shadow: 0px 6px 6px 1px rgba(6, 32, 16, 0.25), 0px 0px 7px #FF2E00;
   }
 }
 

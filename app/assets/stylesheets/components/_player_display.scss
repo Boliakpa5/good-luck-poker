@@ -35,14 +35,14 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: -20px;
+  bottom: -26px;
 }
 .second-player-top:before {
   content: asset_url('coin-big-blind.svg');
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: -20px;
+  bottom: -26px;
 }
 
 .player-display-right {
@@ -114,4 +114,33 @@
 .player-active { // To put on avatar select
   border: 4px dashed #09DB6A;
   filter: drop-shadow(0px 0px 6px #09DB6A);
+}
+
+
+.player-container-top {
+  transform: scale(0.6);
+  transform-origin: top;
+}
+.player-container-left {
+  transform: scale(0.6);
+  transform-origin: left;
+}
+.player-container-right {
+  transform: scale(0.6);
+  transform-origin: right;
+}
+.player-container-bottom {
+  transform: scale(0.6);
+  transform-origin: bottom;
+}
+
+@include media-breakpoint-up(md) {
+  .player-container {
+    transform: scale(0.8);
+  }
+}
+@include media-breakpoint-up(lg) {
+  .player-container {
+    transform: scale(1);
+  }
 }
