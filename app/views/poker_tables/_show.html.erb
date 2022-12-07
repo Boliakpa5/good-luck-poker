@@ -5,24 +5,24 @@
           <div class="table-cards-overlay">
             <div class="game-status">
               <% if players.count < 2 %>
-                <h3 class="h4"><%= pluralize((2 - players.count), 'more player') %> needed to start...</h3>
+                <h3 class="h4 mb-0"><%= pluralize((2 - players.count), 'more player') %> needed to start...</h3>
               <% else %>
                 <% unless poker_table.table_hands.empty? %>
-                  <% if players.include?(player) && poker_table.table_hands.last.status = 'preflop' && !player.player_hands.empty? %>
+                  <% if players.include?(player) && TableHand::STATUSES.index(table_hand.status) >= 1 && !player.player_hands.empty? %>
                     <p>Amount to call: <%= poker_table.table_hands.last.current_call_amount - player.player_hands.last.bet_amount %>
                     </p>
                   <% end %>
                   <div class="table-hand">
                     <% unless poker_table.table_hands.last.status == "end" %>
-                      <% if TableHand::STATUSES.index(table_hand.status) >= 2 || TableHand::STATUSES.index(table_hand.status) == 0 %>
+                      <% if TableHand::STATUSES.index(table_hand.status) >= 2 %>
                         <%= image_tag "cards/#{poker_table.table_hands.last.table_card1}.svg", class: 'table-card' %>
                         <%= image_tag "cards/#{poker_table.table_hands.last.table_card2}.svg", class: 'table-card' %>
                         <%= image_tag "cards/#{poker_table.table_hands.last.table_card3}.svg", class: 'table-card' %>
                       <% end %>
-                      <% if TableHand::STATUSES.index(table_hand.status) >= 3 || TableHand::STATUSES.index(table_hand.status) == 0 %>
+                      <% if TableHand::STATUSES.index(table_hand.status) >= 3 %>
                         <%= image_tag "cards/#{poker_table.table_hands.last.table_card4}.svg", class: 'table-card' %>
                       <% end %>
-                      <% if TableHand::STATUSES.index(table_hand.status) >= 4 || TableHand::STATUSES.index(table_hand.status) == 0 %>
+                      <% if TableHand::STATUSES.index(table_hand.status) >= 4 %>
                         <%= image_tag "cards/#{poker_table.table_hands.last.table_card5}.svg", class: 'table-card' %>
                       <% end %>
                     <% end %>
@@ -130,25 +130,25 @@
             <%# it's my turn and i'm not folded %>
             <% if poker_table.table_hands.last.current_player_position == player.position && player.player_hands.last.folded == false %>
               <div class="d-flex justify-content-center">
-                <%= link_to "fold", fold_hand_player_hand_path(player.player_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-success ms-1' %>
-                <%= link_to "call", call_hand_player_hand_path(player.player_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-success' %>
+                <%= link_to "fold", fold_hand_player_hand_path(player.player_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-action' %>
+                <%= link_to "call", call_hand_player_hand_path(player.player_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-action ms-2' %>
                 <%= render "poker_tables/raise", min: poker_table.table_hands.last.current_call_amount, max: player.stack , player: player%>
               </div>
             <%# I'm a player but not my turn or folded %>
             <% else %>
-              <span>Wait for end of turn</span>
+              <span class="text-primary">Wait for end of turn</span>
             <% end %>
           <%# I'm a player but folded or not in this round %>
           <% else %>
-            <span>Wait for game to finish</span>
+            <span class="text-primary">Wait for game to finish</span>
           <% end %>
         <% elsif players.include?(player) %>
           <span>Waiting for more players</span>
         <% elsif players.exclude?(player) && User.find_by(players: player).balance < poker_table.small_blind * 100 %>
             <%# I'm not a player and not enough cash %>
-          <span>You don't have the balance to join this table</span>
+          <span class="text-danger">You don't have the balance to join this table</span>
         <% else %>
-          <span>You can join this table</span>
+          <span class="text-primary">You can join this table</span>
         <% end %>
       </div>
       <div class="player-dashboard">
@@ -167,12 +167,12 @@
                 <%# <i class="fa-regular fa-circle-xmark"></i> Leave table %>
               <%# end %>
             <%# else %>
-              <%= link_to leave_player_path(player), data: { turbo_method: :patch, turbo_confirm: "Are you sure?" }, class: 'btn btn-outline-light' do %>
+              <%= link_to leave_player_path(player), data: { turbo_method: :patch, turbo_confirm: "Are you sure?" }, class: 'btn btn-leave' do %>
                 <i class="fa-regular fa-circle-xmark"></i> Leave table
               <% end %>
             <%# end %>
           <% else %>
-            <%= link_to poker_tables_path, class: 'btn btn-outline-light' do %>
+            <%= link_to poker_tables_path, class: 'btn btn-leave' do %>
               <i class="fa-solid fa-arrow-left"></i> Go back to list
             <% end %>
           <% end %>

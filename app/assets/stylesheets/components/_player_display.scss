@@ -35,14 +35,14 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: -30px;
+  bottom: -20px;
 }
 .second-player-top:before {
   content: asset_url('coin-big-blind.svg');
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: -30px;
+  bottom: -20px;
 }
 
 .player-display-right {
@@ -60,8 +60,8 @@
 .second-player-right:before {
   content: url('coin-big-blind.svg');
   position: absolute;
-  left: -16px;
-  bottom: 1px;
+  left: -23px;
+  bottom: 4px;
   transform: translateY(-50%) rotate(90deg);
 }
 
@@ -80,8 +80,8 @@
 .second-player-left:before {
   content: url('coin-big-blind.svg');
   position: absolute;
-  right: -16px;
-  bottom: 1px;
+  right: -23px;
+  bottom: 4px;
   transform: translateY(-50%) rotate(90deg);
 }
 
@@ -93,14 +93,14 @@
 .first-player-bottom:after {
   content: url('coin-small-blind.svg');
   position: absolute;
-  top: -24px;
+  top: -27px;
   left: 50%;
   transform: translateX(-50%);
 }
 .second-player-bottom:before {
   content: url('coin-big-blind.svg');
   position: absolute;
-  top: -24px;
+  top: -27px;
   left: 50%;
   transform: translateX(-50%);
 }
