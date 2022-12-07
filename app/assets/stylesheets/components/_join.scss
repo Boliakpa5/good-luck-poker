@@ -31,6 +31,12 @@
 @include media-breakpoint-up(lg) {
   .available-seat,
   .join-seat {
+    transform: scale(0.9);
+  }
+}
+@include media-breakpoint-up(xl) {
+  .available-seat,
+  .join-seat {
     transform: scale(1);
   }
 }
