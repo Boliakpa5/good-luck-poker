@@ -1,0 +1,62 @@
+.winner-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(6, 32, 16, 0.85);
+}
+.winner-info {
+  position: relative;
+  text-align: center;
+  padding: 4rem 4rem 2em;
+  max-width: 600px;
+  background: linear-gradient(0deg, rgba(37, 99, 55, 0.85) 0%, rgba(21, 61, 34, 0.85) 100%);
+  border: 1px solid $green-dark;
+  box-shadow: 0px 0px 10px rgba(6, 32, 16, 0.5);
+  backdrop-filter: blur(8px);
+  border-radius: 36px;
+
+  .winner-avatar {
+    position: absolute;
+    top: -54px;
+    left: 50%;
+    transform: translateX(-50%)
+  }
+
+  .pot {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+
+  .winner-cards {
+    width: max-content;
+    margin: 1rem auto;
+    .winner-card {
+      height: 130px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+      transition: all 0.5s ease;
+    }
+    &:hover #winner-card1 {
+      transform-origin: left bottom;
+      transform: rotate(-8deg);
+    }
+    &:hover #winner-card2 {
+      transform-origin: right bottom;
+      transform: rotate(8deg);
+    }
+    #winner-card2{
+      margin-left: -60px;
+    }
+  }
+}
+.table-hand-recap .table-card {
+  height: 100px;
+  margin: 0 0.1rem;
+}
+.table-hand-recap {
+  margin-bottom: 1rem;
+}
