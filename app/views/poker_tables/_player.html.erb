@@ -1,5 +1,5 @@
 <div class="avatar-select <%= 'player-active' if !table_hand.nil? && table_hand.status != 'end' && player.position == table_hand.current_player_position %>">
-  <div class="avatar-overlay <%= 'player-folded' if !table_hand.nil? && table_hand.status != 'end' && !player.player_hands.where(table_hand: table_hand).nil? && player.player_hands.find_by(table_hand: table_hand).folded == true %>">
+  <div class="avatar-overlay <%= 'player-folded' if !table_hand.nil? && table_hand.status != 'end' && !player.player_hands.where(table_hand: table_hand).empty? && player.player_hands.find_by(table_hand: table_hand).folded == true %>">
     <% if player.user.photo.attached? %>
       <%= cl_image_tag player.user.photo.key, alt: "Picture of #{player.user.nickname}", class: "avatar-large"%>
     <% else %>

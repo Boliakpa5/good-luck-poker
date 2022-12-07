@@ -161,9 +161,15 @@
         <% end %>
         <div class="exit-table">
           <% if players.include?(player) %>
-            <%= link_to leave_player_path(player), data: { turbo_method: :patch, turbo_confirm: "Are you sure?" }, class: 'btn btn-outline-light' do %>
-              <i class="fa-regular fa-circle-xmark"></i> Leave table
-            <% end %>
+            <%# if !table_hand.nil? %>
+                <%#= link_to table_hand_leave_path(table_hand), data: { turbo_method: :patch, turbo_confirm: "Are you sure?" }, class: 'btn btn-outline-light' do %>
+                <%# <i class="fa-regular fa-circle-xmark"></i> Leave table %>
+              <%# end %>
+            <%# else %>
+              <%= link_to leave_player_path(player), data: { turbo_method: :patch, turbo_confirm: "Are you sure?" }, class: 'btn btn-outline-light' do %>
+                <i class="fa-regular fa-circle-xmark"></i> Leave table
+              <% end %>
+            <%# end %>
           <% else %>
             <%= link_to poker_tables_path, class: 'btn btn-outline-light' do %>
               <i class="fa-solid fa-arrow-left"></i> Go back to list

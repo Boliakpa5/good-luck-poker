@@ -37,7 +37,10 @@ class PlayersController < ApplicationController
     @player = current_user.players.active.last
     @player.active = false
     @player.save
-    if @poker_table.players.active.count <= 1 && !current_table_hand.nil?
+    # if current_table_hand.current_player_position == @player.position
+    #   next_player_without_render
+    # end
+    if @poker_table.players.active.count.zero? && !current_table_hand.nil?
       current_table_hand.status = "end"
       current_table_hand.save
     end
@@ -66,4 +69,19 @@ class PlayersController < ApplicationController
     end
     redirect_to poker_table_path(@poker_table)
   end
+
+  # private
+
+  # def next_player_without_render
+  #   @poker_table = current_user.players.active.last.poker_table
+  #   @table_hand = @poker_table.table_hands.last
+  #   positions = @table_hand.positions
+  #   index_of_next_player = (positions.index(@table_hand.current_player_position) + 1) % positions.count
+  #   @table_hand.current_player_position = positions[index_of_next_player]
+  #   @table_hand.counter += 1
+  #   @table_hand.save
+  #   if @poker_table.players.active.find_by(position: @table_hand.current_player_position).player_hands.last.folded == true || @poker_table.players.active.find_by(position: @table_hand.current_player_position).stack <= 0
+  #     next_player_without_render
+  #   end
+  # end
 end

@@ -12,7 +12,7 @@ class TableHandsController < ApplicationController
       if player.stack <= (@poker_table.small_blind * 2)
         player.active = false
         player.save
-        current_user.balance += @player.stack
+        current_user.balance += player.stack
         current_user.save
       end
     end

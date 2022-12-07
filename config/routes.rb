@@ -25,5 +25,6 @@ Rails.application.routes.draw do
     patch :flop
     patch :turn
     patch :river
+    patch :leave
   end
 end

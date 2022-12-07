@@ -28,6 +28,37 @@ class PlayerHandsController < ApplicationController
     next_player
   end
 
+  def leave
+    unless @hand.nil?
+      @hand.folded = true
+      @hand.save
+    end
+    @player.active = false
+    @player.save
+    current_user.balance += @player.stack
+    current_user.save
+    if @poker_table.players.active.count.zero? && !@table_hand.nil?
+      @table_hand.status = "end"
+      @table_hand.save
+    end
+    next_player_without_render if @table_hand.current_player_position == @player.position
+    if current_user.save
+      @positions = @players.map(&:position).sort
+      @players.each do |player|
+        @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: player})
+        @payload = {
+          event: 'player_leaving',
+          html: @html
+        }
+        PlayerChannel.broadcast_to(
+          player,
+          @payload
+        )
+      end
+    end
+    redirect_to poker_table_path(@poker_table)
+  end
+
   private
 
   def set_current_things
@@ -66,7 +97,7 @@ class PlayerHandsController < ApplicationController
       index_of_next_player = (positions.index(@table_hand.current_player_position) + 1) % positions.count
       @table_hand.current_player_position = positions[index_of_next_player]
       @table_hand.save
-      if @poker_table.players.active.find_by(position: @table_hand.current_player_position).player_hands.last.folded == true  || @poker_table.players.active.find_by(position: @table_hand.current_player_position).stack <= 0
+      if @players.find_by(position: @table_hand.current_player_position).nil? || @players.find_by(position: @table_hand.current_player_position).player_hands.last.folded == true || @poker_table.players.active.find_by(position: @table_hand.current_player_position).stack <= 0
         next_player
         return
       end
@@ -94,7 +125,16 @@ class PlayerHandsController < ApplicationController
     @table_hand.current_player_position = positions[index_of_next_player]
     @table_hand.counter += 1
     @table_hand.save
-    if @poker_table.players.active.find_by(position: @table_hand.current_player_position).player_hands.last.folded == true || @poker_table.players.active.find_by(position: @table_hand.current_player_position).stack <= 0
+    if @table_hand.counter >= positions.count
+      prepare_cards
+      case @table_hand.status
+      when 'preflop' then flop
+      when 'flop' then turn
+      when 'turn' then river
+      when 'river' then calculatewinner
+      end
+    end
+    if @players.find_by(position: @table_hand.current_player_position).nil? || @players.find_by(position: @table_hand.current_player_position).player_hands.last.folded == true || @players.find_by(position: @table_hand.current_player_position).stack <= 0
       next_player_without_render
     end
   end
@@ -108,7 +148,7 @@ class PlayerHandsController < ApplicationController
     # @table_hand.current_call_amount = 0
     @table_hand.counter = 0
     @table_hand.current_player_position = @table_hand.first_player_position
-    if @poker_table.players.active.find_by(position: @table_hand.current_player_position).player_hands.last.folded == true || @poker_table.players.active.find_by(position: @table_hand.current_player_position).stack <= 0
+    if @players.find_by(position: @table_hand.current_player_position).nil? || @players.find_by(position: @table_hand.current_player_position).player_hands.last.folded == true || @players.find_by(position: @table_hand.current_player_position).stack <= 0
       next_player_without_render
     end
     @table_hand.save
@@ -135,7 +175,7 @@ class PlayerHandsController < ApplicationController
     @table_hand.status = TableHand::STATUSES[3]
     # @table_hand.current_call_amount = 0
     @table_hand.counter = 0
-    if @poker_table.players.active.find_by(position: @table_hand.first_player_position).player_hands.last.folded == true || @poker_table.players.active.find_by(position: @table_hand.current_player_position).stack <= 0
+    if @players.find_by(position: @table_hand.current_player_position).nil? || @players.find_by(position: @table_hand.current_player_position).player_hands.last.folded == true || @players.find_by(position: @table_hand.current_player_position).stack <= 0
       @table_hand.current_player_position = @table_hand.first_player_position
       next_player_without_render
     else
@@ -165,7 +205,7 @@ class PlayerHandsController < ApplicationController
     @table_hand.status = TableHand::STATUSES[4]
     # @table_hand.current_call_amount = 0
     @table_hand.counter = 0
-    if @poker_table.players.active.find_by(position: @table_hand.first_player_position).player_hands.last.folded == true || @poker_table.players.active.find_by(position: @table_hand.current_player_position).stack <= 0
+    if @players.find_by(position: @table_hand.current_player_position).nil? || @players.find_by(position: @table_hand.current_player_position).player_hands.last.folded == true || @players.find_by(position: @table_hand.current_player_position).stack <= 0
       @table_hand.current_player_position = @table_hand.first_player_position
       next_player_without_render
     else
@@ -286,21 +326,6 @@ class PlayerHandsController < ApplicationController
     end
     winner = getwinner
     endgame(winner)
-    if @table_hand.save
-      @positions = @players.map(&:position).sort
-      @players.each do |player|
-        @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: player})
-        @payload = {
-          event: 'player_leaving',
-          html: @html
-        }
-        PlayerChannel.broadcast_to(
-          player,
-          @payload
-        )
-      end
-      head :ok
-    end
   end
 
   def getwinner
@@ -363,6 +388,20 @@ class PlayerHandsController < ApplicationController
       winnerhand.save
       winner.stack += @table_hand.pot
       winner.save
+    end
+    if @table_hand.save
+      @positions = @players.map(&:position).sort
+      @players.each do |player|
+        @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: player})
+        @payload = {
+          event: 'player_leaving',
+          html: @html
+        }
+        PlayerChannel.broadcast_to(
+          player,
+          @payload
+        )
+      end
     end
     redirect_to poker_table_path(@poker_table)
   end
