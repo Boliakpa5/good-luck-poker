@@ -144,7 +144,7 @@
           <span>Waiting for more players</span>
         <% elsif players.exclude?(player) && !player.user.players.active.empty? %>
           <span>You are already playing on <%= link_to player.user.players.active.first.poker_table.name, poker_tables_path(player.user.players.active.first.poker_table) %></span>
-        <% elsif players.exclude?(player) && User.find_by(players: player).balance < poker_table.small_blind * 100 %>
+        <% elsif players.exclude?(player) && player.user.balance < poker_table.small_blind * 100 %>
             <%# I'm not a player and not enough cash %>
           <span class="text-danger">You don't have the balance to join this table</span>
         <% else %>
@@ -153,7 +153,7 @@
       </div>
       <div class="player-dashboard">
         <% unless poker_table.table_hands.empty? || players.exclude?(player) || poker_table.table_hands.last.status == "end" || player.player_hands.find_by(table_hand: table_hand).nil? || player.player_hands.empty? %>
-          <div class="debug-info mb-3">
+          <div class="debug-info mb-3 d-none">
             <p class="mb-0"><small>Game status: <%= poker_table.table_hands.empty? ? 'nil' : poker_table.table_hands.last.status %></small></p>
             <p class="mb-0"><small>Position to play: <%= poker_table.table_hands.last.current_player_position %></small></p>
             <p class="mb-0"><small>Amount bet: <%= player.player_hands.last.bet_amount.nil? %></small></p>
