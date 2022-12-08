@@ -284,13 +284,20 @@ class PlayerHandsController < ApplicationController
       numbers_array.sort!
       # Needed for double pairs
       hash = numbers_array.tally
+      # Needed for flushes
+      if color_array.tally.values.max >= 5
+        color_number_array = []
+        card_array.each do |card|
+          color_number_array << card.chop.to_i if card.last == color_array.tally.key(5) || color_array.tally.key(6) || color_array.tally.key(7)
+        end
+        color_number_array.sort!
+      end
       # Royal Flush
-      if color_array.tally.values.max >= 5 && suited(numbers_array) == 14
+      if color_array.tally.values.max >= 5 && suited(color_number_array) == 14
         playerhand.combination = [9]
       # Straight Flush
-      elsif color_array.tally.values.max >= 5 && suited(numbers_array)
-        playerhand.combination = [8, suited(numbers_array)]
-        # !!!!! peut etre une suite et flush séparé ex: 3H, 4H, 5H, 6H, 7H, 8S, 13S, couleur oui max suite 8 !!!!!!
+      elsif color_array.tally.values.max >= 5 && suited(color_number_array.reject { |i| i == 1 })
+        playerhand.combination = [8, suited(color_number_array.reject { |i| i == 1 })]
       # Four of a Kind
       elsif numbers_array.tally.values.max == 4
         playerhand.combination = [7, numbers_array.tally.key(4)]
@@ -299,11 +306,6 @@ class PlayerHandsController < ApplicationController
         playerhand.combination = [6, numbers_array.tally.key(3)]
       # Flush
       elsif color_array.tally.values.max >= 5
-        color_number_array = []
-        card_array.each do |card|
-          color_number_array << card.chop.to_i if card.last == color_array.tally.key(5) || color_array.tally.key(6) || color_array.tally.key(7)
-        end
-        color_number_array.sort!
         playerhand.combination = [5, color_number_array.max]
       # Straight
       elsif suited(numbers_array)
