@@ -3,9 +3,14 @@ class PlayerHandsController < ApplicationController
 
   def call_hand
     call_amount = @table_hand.current_call_amount - @hand.bet_amount
-    @player.stack -= call_amount
+    if @player.stack >= call_amount
+      @player.stack -= call_amount
+      @hand.bet_amount += call_amount
+    else
+      @hand.bet_amount += @player.stack
+      @player.stack = 0
+    end
     @player.save
-    @hand.bet_amount += call_amount
     @hand.save
     next_player
   end

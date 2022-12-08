@@ -2,7 +2,9 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="raise"
 export default class extends Controller {
-  static value
+  static values = {
+    max: Number
+  }
   static get targets() {
     return ['range', 'value', 'sender']
   }
@@ -18,7 +20,14 @@ export default class extends Controller {
   updateValue(event) {
     this.valueTarget.innerHTML = event.currentTarget.value;
     this.senderTarget.href = `${this.url}?raise_amount=${event.currentTarget.value}`;
-    console.log(this.senderTarget.href)
+    console.log(event.currentTarget.value)
+    console.log(this.maxValue)
+
+    if (event.currentTarget.value == this.maxValue) {
+      this.senderTarget.innerText = "all-in"
+    } else {
+      this.senderTarget.innerText = "raise"
+    }
   }
 
 }

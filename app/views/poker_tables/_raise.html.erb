@@ -1,27 +1,31 @@
 <div class="raisecontainer">
-  <div class="range-slider" data-controller="raise">
+  <div class="range-slider" data-controller="raise"  data-raise-max-value=<%= max %>>
     <div class="mb-2">
       <%= link_to "fold", fold_hand_player_hand_path(player.player_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-action' %>
       <% poker_table.table_hands.last.current_call_amount.zero? ? action_name = "check" : action_name = "call" %>
       <%= link_to action_name, call_hand_player_hand_path(player.player_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-action ms-2 call-action' %>
-      <%= link_to "raise", raise_hand_player_hand_path(player.player_hands.last.id), raise_amount: "", data: { raise_target: "sender", turbo_method: :patch }, class: "btn btn-action ms-2" %>
+      <% if player.stack > poker_table.table_hands.last.current_call_amount %>
+        <%= link_to "raise", raise_hand_player_hand_path(player.player_hands.last.id), raise_amount: "", data: { raise_target: "sender", turbo_method: :patch }, class: "btn btn-action ms-2 all-in" %>
+      <% end %>
     </div>
-    <form class="d-flex justify-content-between">
-      <div class="d-flex">
-        <label for="customRange" class="form-label mb-0">Raise:&nbsp;</label>
-        <output class="raise__value"
-                data-raise-target="value">0</output>
-      </div>
-      <input type="range"
-            name="customRange"
-            class="raise__range ms-2"
-            data-raise-target="range"
-            data-action="input->raise#updateValue"
-            value=<%= min.zero? ? (player.poker_table.small_blind * 2) : min %>
-            min=<%= min.zero? ? (player.poker_table.small_blind * 2) : min %>
-            max=<%= max %>
-            step="1">
-    </form>
+    <% if player.stack > poker_table.table_hands.last.current_call_amount %>
+      <form class="d-flex justify-content-between">
+        <div class="d-flex">
+          <label for="customRange" class="form-label mb-0">Raise:&nbsp;</label>
+          <output class="raise__value"
+                  data-raise-target="value">0</output>
+        </div>
+        <input type="range"
+              name="customRange"
+              class="raise__range ms-2"
+              data-raise-target="range"
+              data-action="input->raise#updateValue"
+              value=<%= player.stack < (player.poker_table.small_blind * 2) ? player.stack : min.zero? ? (player.poker_table.small_blind * 2) : min %>
+              min=<%= player.stack < (player.poker_table.small_blind * 2) ? player.stack : min.zero? ? (player.poker_table.small_blind * 2) : min %>
+              max=<%= max %>
+              step="1">
+      </form>
+     <% end %>
   </div>
 </div>
 
