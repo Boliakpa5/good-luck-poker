@@ -415,12 +415,12 @@ class PlayerHandsController < ApplicationController
       winner.stack += @table_hand.pot
       winner.save
     end
-    @players.each do |player|
+    @players.reload.each do |player|
       if player.stack <= (@poker_table.small_blind * 2)
         player.active = false
         player.save
-        current_user.balance += player.stack
-        current_user.save
+        player.user.balance += player.stack
+        player.user.save
       end
     end
     if @table_hand.save

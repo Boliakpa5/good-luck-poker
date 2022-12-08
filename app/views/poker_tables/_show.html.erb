@@ -130,7 +130,7 @@
             <%# it's my turn and i'm not folded %>
             <% if poker_table.table_hands.last.current_player_position == player.position && player.player_hands.last.folded == false %>
               <div class="d-flex justify-content-center">
-                <%= render "poker_tables/raise", min: poker_table.table_hands.last.current_call_amount, max: player.stack , player: player, poker_table: poker_table %>
+                <%= render "poker_tables/raise", min: (poker_table.table_hands.last.current_call_amount + (poker_table.small_blind * 2)), max: player.stack , player: player, poker_table: poker_table %>
               </div>
             <%# I'm a player but not my turn or folded %>
             <% else %>
@@ -188,5 +188,5 @@
   </div>
 </div>
 <% if players.include?(player) && !poker_table.table_hands.empty? && TableHand::STATUSES.index(table_hand.status) == 0 %>
-  <%= render "poker_tables/winner", winnerhands: poker_table.table_hands.last.player_hands.where(winner: true), player: player %>
+  <%= render "poker_tables/winner", winnerhands: poker_table.table_hands.last.player_hands.where(winner: true), player: player, poker_table: poker_table %>
 <% end %>

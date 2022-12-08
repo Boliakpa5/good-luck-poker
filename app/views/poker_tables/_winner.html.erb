@@ -148,7 +148,11 @@
 
 
     <% if player == winnerhands.last.player%>
-      <%= link_to "Restart", table_hands_path(poker_table_id: @poker_table.id), data: { turbo_method: :post }, class: 'btn btn-action' %>
+      <% if poker_table.players.active.count >= 2 %>
+        <%= link_to "Restart", table_hands_path(poker_table_id: poker_table.id), data: { turbo_method: :post }, class: 'btn btn-action' %>
+      <% else %>
+        <%= link_to "Back to the table", table_hand_back_path(poker_table_id: poker_table.id, table_hand_id: poker_table.table_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-action' %>
+      <% end %>
     <% else %>
       <p class="mb-0 text-primary">Waiting for <%= winnerhands.last.player.user.nickname %> to restart the game...</p>
     <% end %>
