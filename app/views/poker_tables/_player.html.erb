@@ -10,8 +10,8 @@
 <div class="player-display-info">
   <h2><%= player.user.nickname %></h2>
   <% if !table_hand.nil? && table_hand.status != 'end' && !player.player_hands.where(table_hand: table_hand).empty? %>
-    <p><small>BET:</small> <strong class="text-success"><%= player.player_hands.find_by(table_hand: table_hand).bet_amount %></strong> / <%= player.stack %> <i class="fa-solid fa-coins"></i></p>
+    <p><small class="text-uppercase">Bet:</small> <strong class="text-success"><%= player.player_hands.find_by(table_hand: table_hand).bet_amount %></strong> / <%= player.stack %> <i class="fa-solid fa-coins"></i></p>
   <% else %>
-    <p>stack: <%= player.stack %> <i class="fa-solid fa-coins"></i></p>
+    <p><small class="text-uppercase">Stack:</small> <%= player.stack %> <i class="fa-solid fa-coins"></i></p>
   <% end %>
 </div>
