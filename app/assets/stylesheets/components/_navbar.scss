@@ -1,6 +1,10 @@
 .navbar-lewagon {
   justify-content: space-between;
 
+  .dropdown-menu-dark {
+    background-color: $green-dark;
+    border-radius: 3px;
+  }
   .nav-item,
   .nav-link {
     color: white;
