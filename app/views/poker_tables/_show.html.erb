@@ -186,6 +186,9 @@
       </div>
     </div>
   </div>
+  <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
+  Tooltip on top
+</button>
 </div>
 <% if players.include?(player) && !poker_table.table_hands.empty? && TableHand::STATUSES.index(table_hand.status) == 0 %>
   <%= render "poker_tables/winner", winnerhands: poker_table.table_hands.last.player_hands.where(winner: true), player: player %>
