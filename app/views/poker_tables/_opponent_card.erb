@@ -1,0 +1,9 @@
+<div>
+  <div class="opponent-name">
+    <%= player.user.nickname %>
+  </div>
+  <div class="opponent-cards">
+    <%= image_tag "cards/#{player.player_hands.last.player_card1}.svg", class: 'opponent-card', id: 'opponent-card1' %>
+    <%= image_tag "cards/#{player.player_hands.last.player_card2}.svg", class: 'opponent-card', id: 'opponent-card2' %>
+  </div>
+</div>

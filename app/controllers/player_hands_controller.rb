@@ -159,9 +159,17 @@ class PlayerHandsController < ApplicationController
 
   def flop
     set_pot
+    # !!!!!!!! A DECOMMENTER , UNIQUEMENT POUR PREZ
+    # @table_hand.table_card1 = pick_a_card
+    # @table_hand.table_card2 = pick_a_card
+    # @table_hand.table_card3 = pick_a_card
+    # !!!!!!!! A DECOMMENTER , UNIQUEMENT POUR PREZ
+
+
     @table_hand.table_card1 = pick_a_card
     @table_hand.table_card2 = pick_a_card
     @table_hand.table_card3 = pick_a_card
+
     @table_hand.status = TableHand::STATUSES[2]
     # @table_hand.current_call_amount = 0
     @table_hand.counter = 0
@@ -415,7 +423,7 @@ class PlayerHandsController < ApplicationController
       winner.stack += @table_hand.pot
       winner.save
     end
-    @players.reload.each do |player|
+    @players.each do |player|
       if player.stack <= (@poker_table.small_blind * 2)
         player.active = false
         player.save
@@ -425,7 +433,7 @@ class PlayerHandsController < ApplicationController
     end
     if @table_hand.save
       @positions = @players.map(&:position).sort
-      @players.each do |player|
+      @table_hand.players.each do |player|
         @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: player})
         @payload = {
           event: 'end_game',
