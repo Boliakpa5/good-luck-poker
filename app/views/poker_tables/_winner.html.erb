@@ -40,7 +40,7 @@
 
         <% if winnerhand.player == player %>
           <p class="h2">Congratulations!</p>
-          <h2 class="h1 text-info">You won, <%= winnerhand.player.user.nickname %>!</h2>
+          <h2 class="h1 text-info">You won <%= winnerhand.table_hand.pot %> coins!</h2>
         <% else %>
           <p class="h2">Too bad...</p>
           <h2 class="h1 text-black"><%= winnerhand.player.user.nickname  %> won</h2>
@@ -49,14 +49,19 @@
 
 
 
-        <h3 class="pot"><i class="fa-solid fa-coins"></i> <%= winnerhand.table_hand.pot %> coins</h3>
-        <div class="cardsandcombination d-flex align-items-center">
+        <%# <h3 class="pot"><i class="fa-solid fa-coins"></i> <%= winnerhand.table_hand.pot %>
+        <h4><%= @combo %></h4>
+        <div class="cardsandopponents d-flex justify-content-center align-items-center">
           <div class="winner-cards">
             <%= image_tag "cards/#{winnerhand.player_card1}.svg", class: 'winner-card', id: 'winner-card1' %>
             <%= image_tag "cards/#{winnerhand.player_card2}.svg", class: 'winner-card', id: 'winner-card2' %>
           </div>
-          <div class="combination">
-            <h5><%= @combo %></h5>
+          <div class="opponents justify-content-evenly ms-4 d-flex">
+            <% poker_table.table_hands.last.players.each do |opponent| %>
+              <% unless winnerhands.include?(opponent.player_hands.last) %>
+                <%= render 'poker_tables/opponent_card', player: opponent %>
+              <% end %>
+            <% end %>
           </div>
         </div>
         <div class="table-hand-recap">
