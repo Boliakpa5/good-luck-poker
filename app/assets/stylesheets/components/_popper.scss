@@ -1,11 +1,11 @@
 #tooltip {
-  background: #333;
-  color: white;
-  font-weight: bold;
+  background: $green-dark;
+  color: $gray-dark;
   padding: 4px 8px;
   font-size: 13px;
   border-radius: 4px;
   display: none;
+  z-index: 999;
 }
 #arrow,
 #arrow::before {

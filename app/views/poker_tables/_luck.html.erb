@@ -1,0 +1,25 @@
+<div class="d-flex justify-content-between">
+  <span>Luck ratio: <br><strong class="text-light"><%= '%.2f' % player.user.luck_ratio %></strong></span>
+  <span>Trend: <br><% if player.user.increasing_luck %>
+      <i class="fa-solid fa-arrow-trend-up text-success"></i>
+    <% else %>
+      <i class="fa-solid fa-arrow-trend-down text-danger"></i>
+    <% end %>
+  </span>
+  </div>
+<% if player.user.luck_ratio > 1.2 %>
+  <em>A <strong>very</strong> lucky player</em>
+  <div><i class="fa-solid fa-clover text-info"></i> <i class="fa-solid fa-clover text-info"></i> <i class="fa-solid fa-clover text-info"></i> <i class="fa-solid fa-clover text-info"></i> <i class="fa-solid fa-clover text-info"></i></div>
+<% elsif player.user.luck_ratio > 1.1 %>
+  <em>A lucky player</em>
+  <div><i class="fa-solid fa-clover text-info"></i> <i class="fa-solid fa-clover text-info"></i> <i class="fa-solid fa-clover text-info"></i> <i class="fa-solid fa-clover text-info"></i> <i class="fa-solid fa-clover"></i></div>
+<% elsif player.user.luck_ratio > 0.9 %>
+  <em>Average player luck</em>
+  <div><i class="fa-solid fa-clover text-info"></i> <i class="fa-solid fa-clover text-info"></i> <i class="fa-solid fa-clover text-info"></i> <i class="fa-solid fa-clover"></i> <i class="fa-solid fa-clover"></i></div>
+<% elsif player.user.luck_ratio > 0.8 %>
+  <em>An unlucky player</em>
+  <div><i class="fa-solid fa-clover text-info"></i> <i class="fa-solid fa-clover text-info"></i> <i class="fa-solid fa-clover"></i> <i class="fa-solid fa-clover"></i> <i class="fa-solid fa-clover"></i></div>
+<% else %>
+  <em>A <strong>very</strong> unlucky player</em>
+  <div><i class="fa-solid fa-clover text-info"></i> <i class="fa-solid fa-clover"></i> <i class="fa-solid fa-clover"></i> <i class="fa-solid fa-clover"></i> <i class="fa-solid fa-clover"></i></div>
+<% end %>
