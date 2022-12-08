@@ -159,19 +159,10 @@ class PlayerHandsController < ApplicationController
 
   def flop
     set_pot
-    # !!!!!!!! A DECOMMENTER , UNIQUEMENT POUR PREZ
-    # @table_hand.table_card1 = pick_a_card
-    # @table_hand.table_card2 = pick_a_card
-    # @table_hand.table_card3 = pick_a_card
-    # !!!!!!!! A DECOMMENTER , UNIQUEMENT POUR PREZ
-
-
     @table_hand.table_card1 = pick_a_card
     @table_hand.table_card2 = pick_a_card
     @table_hand.table_card3 = pick_a_card
-
     @table_hand.status = TableHand::STATUSES[2]
-    # @table_hand.current_call_amount = 0
     @table_hand.counter = 0
     @table_hand.current_player_position = @table_hand.first_player_position
     if @players.find_by(position: @table_hand.current_player_position).nil? || @players.find_by(position: @table_hand.current_player_position).player_hands.last.folded == true || @players.find_by(position: @table_hand.current_player_position).stack <= 0 || @players.find_by(position: @table_hand.current_player_position).active == false
