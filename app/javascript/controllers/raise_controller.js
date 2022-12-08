@@ -20,8 +20,8 @@ export default class extends Controller {
   updateValue(event) {
     this.valueTarget.innerHTML = event.currentTarget.value;
     this.senderTarget.href = `${this.url}?raise_amount=${event.currentTarget.value}`;
-    console.log(event.currentTarget.value)
-    console.log(this.maxValue)
+    // console.log(event.currentTarget.value)
+    // console.log(this.maxValue)
 
     if (event.currentTarget.value == this.maxValue) {
       this.senderTarget.innerText = "all-in"
