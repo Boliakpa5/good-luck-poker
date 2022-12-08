@@ -18,8 +18,8 @@
       <% end %>
     <% end %>" data-popper-target="element" data-action="mouseenter->popper#show mouseleave->popper#hide">
       <div id="tooltip" role="tooltip" data-popper-target="tooltip">
-         My tooltip
-         <div id="arrow" data-popper-arrow></div>
+        <%= render 'poker_tables/luck', player: players.find_by(position: position) %>
+        <div id="arrow" data-popper-arrow></div>
       </div>
       <%= render 'poker_tables/player', player: players.find_by(position: position), table_hand: table_hand %>
     </div>
