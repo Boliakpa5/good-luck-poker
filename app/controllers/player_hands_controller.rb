@@ -17,13 +17,17 @@ class PlayerHandsController < ApplicationController
 
   def raise_hand
     raise_amount = params[:raise_amount].to_i
-    @player.stack -= (raise_amount - @hand.bet_amount)
+    @player.stack -= raise_amount
     @player.save
-    @table_hand.current_call_amount = raise_amount
-    @table_hand.counter = 0
-    @table_hand.save
     @hand.bet_amount += raise_amount
     @hand.save
+    bet_amounts = []
+    @players.each do |p|
+      bet_amounts << p.player_hands.last.bet_amount
+    end
+    @table_hand.current_call_amount = bet_amounts.max
+    @table_hand.counter = 0
+    @table_hand.save
     next_player
   end
 
@@ -367,6 +371,7 @@ class PlayerHandsController < ApplicationController
         return player if player.player_hands.last.combination == winningcombination
       end
     end
+    # !!!!!!!! NE PREND PAS EN COMPTE LE ALL IN (all in a 5 peut gagenr 20k)!!!!!!!!!!!!
   end
 
   def suited(sorted_number_array)
