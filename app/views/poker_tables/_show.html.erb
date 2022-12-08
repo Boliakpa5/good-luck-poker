@@ -142,6 +142,8 @@
           <% end %>
         <% elsif players.include?(player) %>
           <span>Waiting for more players</span>
+        <% elsif players.exclude?(player) && !player.user.players.active.empty? %>
+          <span>You are already playing on <%= link_to player.user.players.active.first.poker_table.name, poker_tables_path(player.user.players.active.first.poker_table) %></span>
         <% elsif players.exclude?(player) && User.find_by(players: player).balance < poker_table.small_blind * 100 %>
             <%# I'm not a player and not enough cash %>
           <span class="text-danger">You don't have the balance to join this table</span>
