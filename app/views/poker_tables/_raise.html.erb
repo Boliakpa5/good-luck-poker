@@ -1,5 +1,5 @@
 <div class="raisecontainer">
-  <div class="range-slider" data-controller="raise" data-raise-max-value=<%= max %>>
+  <div class="range-slider" data-controller="raise" data-raise-max-value=<%= max %> data-raise-min-value=<%= min %> >
     <div class="mb-2">
       <%= link_to "fold", fold_hand_player_hand_path(player.player_hands.last.id), data: { turbo_method: :patch }, class: 'btn btn-action' %>
       <% if poker_table.table_hands.last.current_call_amount.zero? %>

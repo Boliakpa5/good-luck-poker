@@ -1,30 +1,11 @@
 class TableHandsController < ApplicationController
   # STATUSES = %w[preflop flop turn river end]
-  before_action :set_things, only: [:create]
+  before_action :set_things, only: [:create, :back]
 
   def create
     refresh_luck_ratio
     # .dup pour copier la constante sans la modifier
     @cards = TableHand::CARDS.dup
-    @players = @poker_table.players.active
-    @players.each do |player|
-      if player.stack <= (@poker_table.small_blind * 2)
-        player.active = false
-        player.save
-        current_user.balance += player.stack
-        current_user.save
-      end
-    end
-    @players = @poker_table.players.active
-    if @players.count < 2
-      @player.active = false
-      @player.save
-      @table_hand.status = "end"
-      @table_hand.save
-      # raise
-      # redirect_to poker_table_path(@poker_table)
-      return redirect_to poker_table_path(@poker_table)
-    end
     @table_hand = TableHand.new
     @table_hand.poker_table = @poker_table
     @table_hand.current_call_amount = 2 * @table_hand.poker_table.small_blind
@@ -77,11 +58,30 @@ class TableHandsController < ApplicationController
     # redirect_to poker_table_path(@poker_table)
   end
 
+  def back
+    @table_hand.update(status: "end")
+    @positions = @players.map(&:position).sort
+    @players.each do |player|
+      @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: player.reload})
+      @payload = {
+        event: 'game_start',
+        player_id: player.id,
+        html: @html
+      }
+      PlayerChannel.broadcast_to(
+        player,
+        @payload
+      )
+    end
+    head :ok
+  end
+
   private
 
   def set_things
     @poker_table = PokerTable.find(params[:poker_table_id])
     @table_hand = @poker_table.table_hands.last
+    @players = @poker_table.players.active
     @player = @poker_table.players.find_by(user: current_user)
   end
 end

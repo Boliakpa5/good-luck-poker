@@ -3,7 +3,8 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="raise"
 export default class extends Controller {
   static values = {
-    max: Number
+    max: Number,
+    min: Number
   }
   static get targets() {
     return ['range', 'value', 'sender']
@@ -15,6 +16,10 @@ export default class extends Controller {
        this.valueTarget.innerHTML = this.rangeTarget.value
       }
     this.url = this.senderTarget.href;
+
+    console.log(this.minValue)
+    this.valueTarget.innerHTML = this.minValue;
+    this.senderTarget.href = `${this.url}?raise_amount=${this.minValue}`;
   }
 
   updateValue(event) {
