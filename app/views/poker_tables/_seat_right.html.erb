@@ -9,14 +9,18 @@
     </div>
   <% end %>
 <% else %>
-  <div class="player-container player-container-right">
+  <div class="player-container player-container-right" data-controller="popper">
     <div class="player-display player-display-right <% if !table_hand.nil? && table_hand.status != 'end' %>
       <% if players.find_by(position: position).position == table_hand.first_player_position %>
         first-player-right
       <% elsif players.find_by(position: position).position == table_hand.positions[(table_hand.positions.index(table_hand.first_player_position) + 1) % players.count] %>
         second-player-right
       <% end %>
-    <% end %>">
+    <% end %>" data-popper-target="element" data-action="mouseenter->popper#show mouseleave->popper#hide">
+      <div id="tooltip" role="tooltip" data-popper-target="tooltip">
+         My tooltip
+         <div id="arrow" data-popper-arrow></div>
+      </div>
       <%= render 'poker_tables/player', player: players.find_by(position: position), table_hand: table_hand %>
     </div>
   </div>

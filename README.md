@@ -17,8 +17,8 @@ si player actif à une table => leave si log out
 
 ## Front
 +++ show
-boutons
-breakpoint
+<!-- boutons
+breakpoint -->
 
 display bulle avec choix des joueurs
-forms
+<!-- forms -->

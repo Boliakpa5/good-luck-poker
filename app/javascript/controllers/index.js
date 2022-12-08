@@ -10,5 +10,8 @@ application.register("hello", HelloController)
 import PlayerSubscriptionController from "./player_subscription_controller"
 application.register("player-subscription", PlayerSubscriptionController)
 
+import PopperController from "./popper_controller"
+application.register("popper", PopperController)
+
 import RaiseController from "./raise_controller"
 application.register("raise", RaiseController)
