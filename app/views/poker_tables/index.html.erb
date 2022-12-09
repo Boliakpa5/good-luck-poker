@@ -9,7 +9,7 @@
         <small class="text-uppercase text-primary">Filter by: </small>
         <div class="ms-2 filters">
           <div class="dropdown">
-            <button class="dropbtn">Filter Players ↓ <br><%= @max_players %></button>
+            <button class="dropbtn">Filter Players ↓ <%= @max_players %></button>
             <div class="dropdown-content">
               <%= link_to "Any", poker_tables_path %>
               <%= link_to "5", poker_tables_path(max_players: 5) %>
@@ -18,7 +18,7 @@
             </div>
           </div>
           <div class="dropdown">
-            <button class="dropbtn">Filter Blinds ↓ <br><%= @small_blind %> </button>
+            <button class="dropbtn">Filter Blinds ↓ <%= @small_blind %> </button>
             <div class="dropdown-content">
               <%= link_to "Any", poker_tables_path %>
               <%= link_to "1-2", poker_tables_path(small_blind: 1) %>
