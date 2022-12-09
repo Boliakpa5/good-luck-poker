@@ -356,7 +356,7 @@ class PlayerHandsController < ApplicationController
     comparative_array = []
     winners = []
     @players.each do |player|
-      comparative_array << player.player_hands.last.combination
+      comparative_array << player.player_hands.last.combination if player.player_hands.last.folded == false
     end
     winningcombination = comparative_array.max
     # raise
