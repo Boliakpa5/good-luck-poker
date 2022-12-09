@@ -52,7 +52,7 @@ class PlayerHandsController < ApplicationController
     end
     next_player_without_render if @table_hand.current_player_position == @player.position
     if current_user.save
-      # @positions = @players.map(&:position).sort
+      @positions = @players.map(&:position).sort
       @players.each do |player|
         @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: player})
         @payload = {
@@ -93,6 +93,7 @@ class PlayerHandsController < ApplicationController
     if @unfolded_hands.count == 1
       prepare_cards
       set_pot
+      raise
       # @table_hand.table_card1 = pick_a_card if @table_hand.table_card1.nil?
       # @table_hand.table_card2 = pick_a_card if @table_hand.table_card2.nil?
       # @table_hand.table_card3 = pick_a_card if @table_hand.table_card3.nil?
@@ -119,7 +120,7 @@ class PlayerHandsController < ApplicationController
         return
       end
       if @table_hand.save
-        # @positions = @players.map(&:position).sort
+        @positions = @players.map(&:position).sort
         @players.each do |player|
           @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: player})
           @payload = {
@@ -171,7 +172,7 @@ class PlayerHandsController < ApplicationController
     end
     @table_hand.save
     if @table_hand.save
-      # @positions = @players.map(&:position).sort
+      @positions = @players.map(&:position).sort
       @players.each do |player|
         @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: player})
         @payload = {
@@ -196,14 +197,13 @@ class PlayerHandsController < ApplicationController
     # @table_hand.current_call_amount = 0
     @table_hand.counter = 0
     if @players.reload.find_by(position: @table_hand.current_player_position).nil? || @players.reload.find_by(position: @table_hand.current_player_position).player_hands.last.folded == true || @players.find_by(position: @table_hand.current_player_position).stack <= 0 || @players.find_by(position: @table_hand.current_player_position).active == false
-      @table_hand.current_player_position = @table_hand.first_player_position
       next_player_without_render
     else
       @table_hand.current_player_position = @table_hand.first_player_position
     end
     @table_hand.save
     if @table_hand.save
-      # @positions = @players.map(&:position).sort
+      @positions = @players.map(&:position).sort
       @players.each do |player|
         @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: player})
         @payload = {
@@ -227,14 +227,13 @@ class PlayerHandsController < ApplicationController
     # @table_hand.current_call_amount = 0
     @table_hand.counter = 0
     if @players.reload.find_by(position: @table_hand.current_player_position).nil? || @players.reload.find_by(position: @table_hand.current_player_position).player_hands.last.folded == true || @players.find_by(position: @table_hand.current_player_position).stack <= 0 || @players.find_by(position: @table_hand.current_player_position).active == false
-      @table_hand.current_player_position = @table_hand.first_player_position
       next_player_without_render
     else
       @table_hand.current_player_position = @table_hand.first_player_position
     end
     @table_hand.save
     if @table_hand.save
-      # @positions = @players.map(&:position).sort
+      @positions = @players.map(&:position).sort
       @players.each do |player|
         @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: player})
         @payload = {
@@ -426,7 +425,7 @@ class PlayerHandsController < ApplicationController
     end
 
     if @table_hand.save
-      # @positions = @players.map(&:position).sort
+      @positions = @players.map(&:position).sort
       @table_hand.players.each do |player|
         @html = render_to_string(partial: 'poker_tables/show', locals: {poker_table: @poker_table, players: @players, positions: @positions, table_hand: @table_hand, player: player})
         @payload = {
