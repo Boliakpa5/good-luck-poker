@@ -1,41 +1,21 @@
 .table-item {
-  overflow: hidden;
-  background: white;
-  box-shadow: 0 0 15px rgba(6, 32, 16, 0.25);
-  width: 20rem;
   position: relative;
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(0deg, rgba(37, 99, 55, 0.85) 0%, rgba(21, 61, 34, 0.85) 100%);
+  border: 1px solid $green-dark;
+  box-shadow: 0px 0px 10px rgba(6, 32, 16, 0.5);
+  border-radius: 36px;
 }
-
-.table-item > img {
-  height: 200px;
-  width: 100%;
-  object-fit: cover;
+.table-card-item {
+  max-height: 40px;
 }
 
 .table-item h2 {
-  font-size: 16px;
-  font-weight: bold;
-  margin: 0;
+  color: white;
 }
 
 .table-item p {
-  font-size: 12px;
-  opacity: .7;
+  font-size: 14px;
   margin: 0;
-}
-
-
-.table-item .table-item-infos {
-  padding: 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  position: relative;
-}
-
-.table-item-infos .table-item-user {
-  position: absolute;
-  right: 16px;
-  top: -20px;
-  width: 40px;
 }

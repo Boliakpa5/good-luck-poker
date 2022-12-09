@@ -1,0 +1,31 @@
+<div class="table-item mb-4">
+  <div class="text-center">
+    <h2 class='h4'><%= poker_table.name %></h2>
+    <div class="poker-table mb-2">
+      <div class="poker-table-overlay justify-content-center align-items-center pb-1">
+        <div class="text-center">
+          <p><i class="fa-solid fa-user-group"></i> <span class="text-uppercase">Max players:</span> <%= poker_table.max_players %></p>
+          <div class="d-flex justify-content-center py-1">
+            <% if poker_table.players.active.count.zero? %>
+              <% TableHand::CARDS.dup.sample(5).each do |card| %>
+                <%= image_tag "cards/#{card}.svg", class: 'table-card-item px-1' %>
+              <% end %>
+            <% else %>
+              <% poker_table.players.active.each do |player| %>
+                <div class="px-1">
+                  <% if player.user.photo.attached? %>
+                    <%= cl_image_tag player.user.photo.key, alt: "Picture of #{player.user.nickname}", class: "avatar" %>
+                  <% else %>
+                    <%= image_tag "https://avatars.dicebear.com/api/micah/#{player.user.nickname}.svg?background=%231A8A47", class: "avatar" %>
+                  <% end %>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+          <p class="text-info"><i class="fa-solid fa-coins"></i> <span class="text-uppercase">Small blind:</span> <%= poker_table.small_blind %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%= link_to "Join this table", poker_table_path(poker_table), class: "btn btn-action stretched-link" %>
+</div>
