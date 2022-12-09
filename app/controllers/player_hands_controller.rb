@@ -413,8 +413,9 @@ class PlayerHandsController < ApplicationController
       winnerhand.save
       winner.stack += @table_hand.pot
       winner.save
+
     end
-    @players.each do |player|
+    @players.reload.each do |player|
       if player.stack <= (@poker_table.small_blind * 2)
         player.active = false
         player.save
@@ -422,6 +423,7 @@ class PlayerHandsController < ApplicationController
         player.user.save
       end
     end
+
     if @table_hand.save
       @positions = @players.map(&:position).sort
       @table_hand.players.each do |player|
