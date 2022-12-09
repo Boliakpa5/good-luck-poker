@@ -1,48 +1,37 @@
-<div class="indexcontainer">
-  <%# Filtres %>
-  <div class="filters pt-5">
-    <div class="dropdown">
-      <button class="dropbtn">Filter Players ↓ <br><%= @max_players %></button>
-        <div class="dropdown-content">
-          <%= link_to "Any", poker_tables_path %>
-          <%= link_to "5", poker_tables_path(max_players: 5) %>
-          <%= link_to "7", poker_tables_path(max_players: 7) %>
-          <%= link_to "9", poker_tables_path(max_players: 9) %>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <h1>It’s raining coins</h1>
+      <p>Find a table and win the pot</p>
+      <div class="d-flex">
+        <div class="filters">
+          <div class="dropdown">
+            <button class="dropbtn">Filter Players ↓ <br><%= @max_players %></button>
+            <div class="dropdown-content">
+              <%= link_to "Any", poker_tables_path %>
+              <%= link_to "5", poker_tables_path(max_players: 5) %>
+              <%= link_to "7", poker_tables_path(max_players: 7) %>
+              <%= link_to "9", poker_tables_path(max_players: 9) %>
+            </div>
+          </div>
+          <div class="dropdown">
+            <button class="dropbtn">Filter Blinds ↓ <br><%= @small_blind %> </button>
+            <div class="dropdown-content">
+              <%= link_to "Any", poker_tables_path %>
+              <%= link_to "1-2", poker_tables_path(small_blind: 1) %>
+              <%= link_to "5-10", poker_tables_path(small_blind: 5) %>
+              <%= link_to "10-20", poker_tables_path(small_blind: 10) %>
+            </div>
+          </div>
         </div>
-    </div>
-    <div class="dropdown">
-      <button class="dropbtn">Filter Blinds ↓ <br><%= @small_blind %> </button>
-        <div class="dropdown-content">
-          <%= link_to "Any", poker_tables_path %>
-          <%= link_to "1-2", poker_tables_path(small_blind: 1) %>
-          <%= link_to "5-10", poker_tables_path(small_blind: 5) %>
-          <%= link_to "10-20", poker_tables_path(small_blind: 10) %>
-        </div>
-    </div>
-    <div class="dropdown">
-      <button class="dropbtn">Filter Level ↓</button>
-        <div class="dropdown-content">
-          <a href="#">7</a>
-          <a href="#">8</a>
-          <a href="#">9</a>
-        </div>
-    </div>
-  </div>
-  <%# Titre et tables %>
-  <div class="titleandtables">
-    <div class="titlecontainer">
-      <h1 class="ml-5 mb-3">Available tables</h1>
-    </div>
-    <div class="availabletablescontainer">
-      <% @poker_tables.each do |poker_table| %>
-        <%= render "table_card", poker_table: poker_table %>
-      <% end %>
+      </div>
+      <div class="row">
+        <% @poker_tables.each do |poker_table| %>
+          <div class="col-md-6 col-xl-4">
+            <%= render "table_item", poker_table: poker_table %>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
-
- <div class="dropdown-content">
-    <a href="#">Link 1</a>
-    <a href="#">Link 2</a>
-    <a href="#">Link 3</a>
-  </div>
