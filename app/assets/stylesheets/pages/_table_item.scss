@@ -2,10 +2,9 @@
   position: relative;
   text-align: center;
   padding: 2rem;
-  background: linear-gradient(0deg, rgba(37, 99, 55, 0.85) 0%, rgba(21, 61, 34, 0.85) 100%);
+  background: linear-gradient(0deg, rgba(37, 99, 55, 1) 0%, rgba(21, 61, 34, 1) 100%);
   border: 1px solid $green-dark;
   box-shadow: 0px 0px 10px rgba(6, 32, 16, 0.5);
-  backdrop-filter: blur(8px);
   border-radius: 36px;
 }
 .table-card-item {
