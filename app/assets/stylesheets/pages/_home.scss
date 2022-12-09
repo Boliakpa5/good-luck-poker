@@ -1,5 +1,22 @@
 // Specific CSS for your home-page
 
+#maintitle {
+  font-size: 3.5rem;
+}
+
+.home-btn{
+  padding: 1rem 2.5rem;
+  width: 50%;
+}
+
+.stack-pile {
+  height: 270px;
+}
+
+#mainsubtitle {
+  font-size: 1.5rem;
+}
+
 
 $animationSpeed: 30s;
 
@@ -19,10 +36,14 @@ $animationSpeed: 30s;
 	margin: auto;
 	overflow:hidden;
 	position: relative;
-	width: 960px;
+	width: 100%;
   align-items: center;
 	display: flex;
 	justify-content: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
 	&::before,
 	&::after {
