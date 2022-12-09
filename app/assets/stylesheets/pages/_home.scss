@@ -1,7 +1,8 @@
 // Specific CSS for your home-page
 
 #maintitle {
-  font-size: 3.5rem;
+  font-size: 3rem;
+  margin-bottom: 0;
 }
 
 .home-btn{
@@ -13,7 +14,7 @@
   height: 270px;
 }
 
-#mainsubtitle {
+.mainsubtitle {
   font-size: 1.5rem;
 }
 
@@ -40,10 +41,6 @@ $animationSpeed: 30s;
   align-items: center;
 	display: flex;
 	justify-content: center;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
 
 	&::before,
 	&::after {

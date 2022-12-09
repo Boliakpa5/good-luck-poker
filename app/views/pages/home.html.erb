@@ -1,89 +1,79 @@
 <div class="container-home px-5 mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md10">
+  <div class="row justify-content-center">
+    <div class="col-md-10 mb-5">
+      <div class="container-title-and-pile d-flex justify-content-between">
+        <div class="titles justify-content-around">
+          <div class="title">
+            <h1 id="maintitle">Welcome,<br>to the house of fun</h1>
+          </div>
+          <div class="subtitle mb-4">
+            <p class="mainsubtitle mb-0">Change your life, learn to fold</p>
+          </div>
+          <%= link_to "Find a table", poker_tables_path, class: "btn btn-action btn-lg"%>
+        </div>
+        <div class="stacks">
+          <%= image_tag "pile-of-stack.svg", class: 'stack-pile' %>
+        </div>
+      </div>
 
-        <div class="container-title-and-pile d-flex justify-content-between">
-          <div class="titles d-flex flex-column justify-content-around">
-            <div class="title">
-              <h1 id="maintitle">Welcome,<br>to the house of fun</h1>
-            </div>
-              <div class="subtitle mb-2" id="mainsubtitle">
-                <span><b>Change your life, learn to fold</b></span>
-              </div>
-            <%= link_to "Find a table", poker_tables_path, class: "btn btn-action home-btn"%>
-          </div>
-          <div class="stacks">
-            <%= image_tag "pile-of-stack.svg", class: 'stack-pile' %>
-          </div>
+      <div class="bottom-part d-flex justify-content-between align-items-end mb-3">
+        <div class="subtitle mt-5">
+          <h2>Trust your skill, not your luck</h2>
+          <p class="mainsubtitle mb-0">Play poker with you luck ratio in mind, you can't blame the cards anymore</p>
         </div>
 
-        <div class="bottom-part d-flex justify-content-between">
-          <div class="subtitle mt-5">
-            <h2>Trust your skill, not your luck</h2>
-            <span><b id="mainsubtitle">Play poker with you luck ratio in mind, you can't blame the cards anymore</b></span>
-          </div>
-
-          <div id="hometooltip" class="mt-5 mr-3">
-              <div class="d-flex justify-content-between">
+        <div id="hometooltip" class="mt-5 mr-3">
+          <div class="d-flex justify-content-between">
             <span>Luck ratio: <br><strong class="text-light"><%= "1.17" %></strong></span>
             <span>Trend: <br>
                 <i class="fa-solid fa-arrow-trend-up text-success"></i>
             </span>
-            </div>
-              <em>A <strong>lucky</strong> player</em>
-              <div><i class="fa-solid fa-clover text-info"></i> <i class="fa-solid fa-clover text-info"></i> <i class="fa-solid fa-clover text-info"></i> <i class="fa-solid fa-clover text-info"></i> <i class="fa-solid fa-clover"></i></div>
           </div>
-        </div>
-        <%= image_tag "luck-line.svg", class: 'luck-line mt-1' %>
-
-      </div>
-
-
-      <div class="slider">
-        <% @loopcards = %w[2H 3H 4H 5H 6H 7H 8H 9H TH JH QH KH AH
-                  2S 3S 4S 5S 6S 7S 8S 9S TS JS QS KS AS
-                  2D 3D 4D 5D 6D 7D 8D 9D TD JD QD KD AD
-                  2C 3C 4C 5C 6C 7C 8C 9C TC JC QC KC AC] %>
-        <div class="slide-track">
-          <div class="slide">
-            <%= image_tag "cards/#{@loopcards.sample}.svg", class: 'slide-card' %>
-          </div>
-          <div class="slide">
-            <%= image_tag "cards/1B.svg", class: 'slide-card' %>
-          </div>
-          <div class="slide">
-            <%= image_tag "cards/#{@loopcards.sample}.svg", class: 'slide-card' %>
-          </div>
-          <div class="slide">
-            <%= image_tag "cards/1B.svg", class: 'slide-card' %>
-          </div>
-          <div class="slide">
-            <%= image_tag "cards/#{@loopcards.sample}.svg", class: 'slide-card' %>
-          </div>
-          <div class="slide">
-            <%= image_tag "cards/1B.svg", class: 'slide-card' %>
-          </div>
-          <div class="slide">
-            <%= image_tag "cards/#{@loopcards.sample}.svg", class: 'slide-card' %>
-          </div>
-          <div class="slide">
-            <%= image_tag "cards/1B.svg", class: 'slide-card' %>
-          </div>
-          <div class="slide">
-            <%= image_tag "cards/#{@loopcards.sample}.svg", class: 'slide-card' %>
-          </div>
-          <div class="slide">
-            <%= image_tag "cards/1B.svg", class: 'slide-card' %>
-          </div>
-
-
+          <em>A <strong>lucky</strong> player</em>
+          <div><i class="fa-solid fa-clover text-info"></i> <i class="fa-solid fa-clover text-info"></i> <i class="fa-solid fa-clover text-info"></i> <i class="fa-solid fa-clover text-info"></i> <i class="fa-solid fa-clover"></i></div>
         </div>
       </div>
-
-
-
-
-
-
-      </div>
+      <%= image_tag "luck-line.svg", class: 'luck-line mt-1 w-100' %>
+    </div>
   </div>
+</div>
+<div class="slider">
+  <% @loopcards = %w[2H 3H 4H 5H 6H 7H 8H 9H TH JH QH KH AH
+            2S 3S 4S 5S 6S 7S 8S 9S TS JS QS KS AS
+            2D 3D 4D 5D 6D 7D 8D 9D TD JD QD KD AD
+            2C 3C 4C 5C 6C 7C 8C 9C TC JC QC KC AC] %>
+  <div class="slide-track">
+    <div class="slide">
+      <%= image_tag "cards/#{@loopcards.sample}.svg", class: 'slide-card' %>
+    </div>
+    <div class="slide">
+      <%= image_tag "cards/1B.svg", class: 'slide-card' %>
+    </div>
+    <div class="slide">
+      <%= image_tag "cards/#{@loopcards.sample}.svg", class: 'slide-card' %>
+    </div>
+    <div class="slide">
+      <%= image_tag "cards/1B.svg", class: 'slide-card' %>
+    </div>
+    <div class="slide">
+      <%= image_tag "cards/#{@loopcards.sample}.svg", class: 'slide-card' %>
+    </div>
+    <div class="slide">
+      <%= image_tag "cards/1B.svg", class: 'slide-card' %>
+    </div>
+    <div class="slide">
+      <%= image_tag "cards/#{@loopcards.sample}.svg", class: 'slide-card' %>
+    </div>
+    <div class="slide">
+      <%= image_tag "cards/1B.svg", class: 'slide-card' %>
+    </div>
+    <div class="slide">
+      <%= image_tag "cards/#{@loopcards.sample}.svg", class: 'slide-card' %>
+    </div>
+    <div class="slide">
+      <%= image_tag "cards/1B.svg", class: 'slide-card' %>
+    </div>
+
+
+  </div>
+</div>

@@ -1,10 +1,13 @@
-<div class="container">
+<div class="coins-left"></div>
+<div class="coins-right"></div>
+<div class="container py-4">
   <div class="row justify-content-center">
     <div class="col-md-10">
       <h1>It’s raining coins</h1>
-      <p>Find a table and win the pot</p>
-      <div class="d-flex">
-        <div class="filters">
+      <p class="find-table-ok">Select a table and win the pot</p>
+      <div class="d-flex align-items-center mb-3">
+        <small class="text-uppercase text-primary">Filter by: </small>
+        <div class="ms-2 filters">
           <div class="dropdown">
             <button class="dropbtn">Filter Players ↓ <br><%= @max_players %></button>
             <div class="dropdown-content">
