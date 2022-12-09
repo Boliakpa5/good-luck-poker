@@ -13,7 +13,7 @@ PokerTable.create(name: "ActionTable", max_players: 9, small_blind: 5)
 PokerTable.create(name: "Tabulation", max_players: 9, small_blind: 10)
 puts 'Done!'
 puts 'Creating users...'
-User.create(email: "c2cheffontaines@gmail.com", password:"coucou", nickname: "LuckyChris", balance: 3000, increasing_luck: false)
+User.create(email: "chris@gmail.com", password:"coucou", nickname: "LuckyChris", balance: 3000, increasing_luck: false)
 User.create(email: "francoispaillon@hotmail.fr", password: "coucou", nickname: "Francois", balance: 3000)
 User.create(email: "etienne.klepal@gmail.com", password: "coucou", nickname: "Etienne", balance: 3000)
 etienne = User.last
