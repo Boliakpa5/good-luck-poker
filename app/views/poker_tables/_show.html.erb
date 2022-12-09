@@ -115,13 +115,13 @@
         <% if players.include?(player) && players.count > 1 %>
           <%# The game hasn't started, it'll be the first game ever and I'm player 1 %>
           <% if poker_table.table_hands.empty? && player == players.first %>
-            <%= link_to "Start game", table_hands_path(poker_table_id: poker_table.id), data: { turbo_method: :post }, class: 'btn btn-danger' %>
+            <%= link_to "Start game", table_hands_path(poker_table_id: poker_table.id), data: { turbo_method: :post }, class: 'btn btn-action' %>
           <%# ... I'm not player 1 %>
           <% elsif poker_table.table_hands.empty? %>
             <span>Waiting for player <%= players.first.position %> to start game...</span>
           <%# The game hasn't started but some games already took place and I'm player 1 %>
           <% elsif poker_table.table_hands.last.status == "end" && positions.index(player.position) == (poker_table.table_hands.last.positions.index(poker_table.table_hands.last.first_player_position) + 1) % positions.count %>
-            <%= link_to "Start game", table_hands_path(poker_table_id: poker_table.id), data: { turbo_method: :post }, class: 'btn btn-danger' %>
+            <%= link_to "Start game", table_hands_path(poker_table_id: poker_table.id), data: { turbo_method: :post }, class: 'btn btn-action' %>
           <%# ... I'm not player 1 %>
           <% elsif poker_table.table_hands.last.status == "end" %>
             <span>Waiting for player <%= positions[(poker_table.table_hands.last.positions.index(poker_table.table_hands.last.first_player_position) + 1) % positions.count] %> to start game...</span>
