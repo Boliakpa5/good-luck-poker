@@ -32,7 +32,7 @@ $animationSpeed: 30s;
 
 // Styling
 .slider {
-	height: 100px;
+	height: 6rem;
 	margin: auto;
 	overflow:hidden;
 	position: relative;
@@ -48,7 +48,7 @@ $animationSpeed: 30s;
 	&::before,
 	&::after {
 		content: "";
-		height: 100px;
+		height: 6rem;
 		position: absolute;
 		width: 200px;
 		z-index: 2;
@@ -72,7 +72,7 @@ $animationSpeed: 30s;
 	}
 
 	.slide {
-		height: 100px;
+		height: 6rem;
 		width: 250px;
 	}
 }
