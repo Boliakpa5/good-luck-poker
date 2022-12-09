@@ -93,7 +93,7 @@ class PlayerHandsController < ApplicationController
     if @unfolded_hands.count == 1
       prepare_cards
       set_pot
-      raise
+
       # @table_hand.table_card1 = pick_a_card if @table_hand.table_card1.nil?
       # @table_hand.table_card2 = pick_a_card if @table_hand.table_card2.nil?
       # @table_hand.table_card3 = pick_a_card if @table_hand.table_card3.nil?
@@ -399,6 +399,7 @@ class PlayerHandsController < ApplicationController
   def endgame(winner)
     @table_hand.status = TableHand::STATUSES[0]
     @table_hand.save
+    set_pot
     if winner.instance_of?(Array)
       winner.each do |i|
         winnerhand = i.player_hands.last
